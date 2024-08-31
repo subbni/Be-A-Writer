@@ -1,5 +1,8 @@
 import express from 'express';
+import connectPostgreSQL from './psql.js';
 const app = new express();
+
+connectPostgreSQL();
 
 app.set('port', process.env.PORT || 4000);
 

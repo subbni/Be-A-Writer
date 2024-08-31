@@ -1,8 +1,6 @@
 import express from 'express';
-import connectPostgreSQL from './psql.js';
+import pool from './psql.js';
 const app = new express();
-
-connectPostgreSQL();
 
 app.set('port', process.env.PORT || 4000);
 
@@ -12,4 +10,11 @@ app.get('/', (req, res) => {
 
 app.listen(app.get('port'), () => {
 	console.log(`Listening to ${app.get('port')} port ...`);
+});
+
+// 서버 종료 시 Pool 종료
+process.on('SIGINT', async () => {
+	await pool.end();
+	console.log('\nPool had ended.');
+	process.exit();
 });

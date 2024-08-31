@@ -1,12 +1,14 @@
 import express from 'express';
 import pool from './psql.js';
+import authRouter from './routes/authRouter.js';
+
 const app = new express();
 
 app.set('port', process.env.PORT || 4000);
+app.use(express.json());
 
-app.get('/', (req, res) => {
-	res.send('Hello, Express');
-});
+// 라우터 등록
+app.use('/api/auth', authRouter);
 
 app.listen(app.get('port'), () => {
 	console.log(`Listening to ${app.get('port')} port ...`);

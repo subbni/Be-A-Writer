@@ -1,4 +1,5 @@
 import MemberModel from '../models/memberModel.js';
+import AuthService from '../services/authService.js';
 
 class AuthController {
 	static async registerMember(req, res) {
@@ -8,20 +9,28 @@ class AuthController {
 			res.status(400);
 			return;
 		}
-		// check if email is already taken
-		if ((await MemberModel.findMemberByEmail(email)) !== null) {
-			res
-				.status(400)
-				.json({ error: '해당 이메일로 가입된 계정이 이미 존재합니다.' });
+		try {
+			await AuthService.registerMember({ email, password, nickname });
+			res.status(201).json({ message: '회원가입 되었습니다.' });
+		} catch (e) {
+			res.status(400).json({ message: e.message });
+		}
+	}
+
+	static async login(req, res) {
+		const { email, password } = req.body;
+		// check required fields
+		if ([email, password].includes('')) {
+			res.status(400);
 			return;
 		}
-
-		const result = await MemberModel.createMember({
-			email,
-			password,
-			nickname,
-		});
-		res.status(201).json({ message: '회원가입 되었습니다.' });
+		try {
+			const data = await AuthService.login({ email, password });
+			data.message = '로그인 되었습니다.';
+			res.status(201).json(data);
+		} catch (e) {
+			res.status(400).json({ message: e.message });
+		}
 	}
 }
 

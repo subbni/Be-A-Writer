@@ -20,8 +20,9 @@ const WhiteBox = styled.div`
 		text-align: center;
 		padding-bottom: 2rem;
 	}
-	h1 {
-		letter-spacing: 2px;
+	.logo {
+		font-family: var(--font-logo);
+		/* letter-spacing: 2px; */
 		color: var(--color-black);
 		margin: 10px;
 	}
@@ -35,7 +36,7 @@ const AuthTemplate = ({ children }) => {
 		<AuthTemplateBlock>
 			<WhiteBox>
 				<div className="logo-area">
-					<h1>Be A Writer</h1>
+					<h1 className="logo">Be A Writer</h1>
 					<span>누구나 작가가 될 수 있습니다</span>
 				</div>
 				{children}

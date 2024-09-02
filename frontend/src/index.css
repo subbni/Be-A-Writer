@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Gothic+A1&family=Noto+Sans+KR:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Goudy+Bookletter+1911&display=swap');
 
 :root {
 	--color-black: #111111;
 	--color-dark-gray: #767676;
 	--color-light-gray: #f1f1f1;
+	--font-logo: 'Goudy Bookletter 1911';
 }
 
 body {

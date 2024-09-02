@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Or from '../common/Or';
 
+// TODO : Button 컴포넌트화 하기
 const AuthFormBlock = styled.div`
 	text-align: center;
 	padding: 0 1rem;
@@ -65,27 +66,65 @@ const AuthFooter = styled.div`
 	}
 `;
 
-const AuthForm = ({ type }) => {
+const textMap = {
+	register: '회원가입',
+	login: '로그인',
+};
+
+const AuthForm = ({ type, form, onChange, onSubmit }) => {
 	return (
 		<AuthFormBlock>
-			<h3>{type}</h3>
-			<form>
-				<StyledInput placeholder="이메일" />
-				<StyledInput placeholder="비밀번호" />
-				{type === '회원가입' && <StyledInput placeholder="비밀번호 확인" />}
-				<StyledButton>확인</StyledButton>
+			<h3>{textMap[type]}</h3>
+			<form onSubmit={onSubmit}>
+				<StyledInput
+					type="email"
+					name="email"
+					placeholder="이메일"
+					onChange={onChange}
+					value={form.email}
+					required
+				/>
+				{type === 'register' && (
+					<StyledInput
+						type="text"
+						name="nickname"
+						placeholder="닉네임"
+						onChange={onChange}
+						value={form.nickname}
+						required
+					/>
+				)}
+				<StyledInput
+					type="password"
+					name="password"
+					placeholder="비밀번호"
+					onChange={onChange}
+					value={form.password}
+					required
+				/>
+				{type === 'register' && (
+					<StyledInput
+						type="password"
+						name="passwordConfirm"
+						placeholder="비밀번호 확인"
+						onChange={onChange}
+						value={form.passwordConfirm}
+						required
+					/>
+				)}
+				<StyledButton type="submit">확인</StyledButton>
 			</form>
-				<AuthFooter>
-					{type === '회원가입' ? (
-						<Link to="/login">이미 계정이 있으신가요?</Link>
-					) : (
-						<>
-							<Link to="/">비밀번호 찾기</Link>
-							<div>|</div>
-							<Link to="/register">회원가입</Link>
-						</>
-					)}
-				</AuthFooter>
+			<AuthFooter>
+				{type === 'register' ? (
+					<Link to="/login">이미 계정이 있으신가요?</Link>
+				) : (
+					<>
+						<Link to="/">비밀번호 찾기</Link>
+						<div>|</div>
+						<Link to="/register">회원가입</Link>
+					</>
+				)}
+			</AuthFooter>
 			<Or />
 		</AuthFormBlock>
 	);

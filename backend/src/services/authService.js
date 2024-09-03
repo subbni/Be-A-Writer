@@ -8,13 +8,16 @@ class AuthService {
 			throw new Error(AuthErrorMessage.DUPLICATED_EMAIL);
 		}
 
-		const result = await MemberModel.createMember({
+		await MemberModel.createMember({
 			email,
 			password,
 			nickname,
 		});
 
-		return result;
+		return {
+			email,
+			nickname,
+		};
 	}
 
 	static async login({ email, password }) {

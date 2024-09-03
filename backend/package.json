@@ -6,6 +6,7 @@
 	"type": "module",
 	"dependencies": {
 		"cookie-parser": "^1.4.6",
+		"dotenv": "^16.4.5",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-prettier": "^5.2.1",
 		"express": "^4.19.2",

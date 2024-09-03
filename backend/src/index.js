@@ -1,7 +1,10 @@
 import express from 'express';
 import pool from './psql.js';
 import authRouter from './routes/authRouter.js';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = new express();
 
 app.set('port', process.env.PORT || 4000);

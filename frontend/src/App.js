@@ -1,7 +1,13 @@
-import './App.css';
+// TODO: 전역 css 작성
+
+import Router from './Router';
 
 function App() {
-  return <div className='App'>Hello, world</div>;
+	return (
+		<>
+			<Router />
+		</>
+	);
 }
 
 export default App;

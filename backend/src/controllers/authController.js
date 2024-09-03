@@ -10,8 +10,13 @@ class AuthController {
 			return;
 		}
 		try {
-			await AuthService.registerMember({ email, password, nickname });
-			res.status(201).json({ message: '회원가입 되었습니다.' });
+			const data = await AuthService.registerMember({
+				email,
+				password,
+				nickname,
+			});
+			data.message = '회원가입 되었습니다.';
+			res.status(201).json(data);
 		} catch (e) {
 			res.status(400).json({ message: e.message });
 		}

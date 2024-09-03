@@ -66,12 +66,19 @@ const AuthFooter = styled.div`
 	}
 `;
 
+const ErrorMessage = styled.div`
+	color: red;
+	text-align: center;
+	font-size: 0.8rem;
+	margin-top: 1rem;
+`;
+
 const textMap = {
 	register: '회원가입',
 	login: '로그인',
 };
 
-const AuthForm = ({ type, form, onChange, onSubmit }) => {
+const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
 	return (
 		<AuthFormBlock>
 			<h3>{textMap[type]}</h3>
@@ -98,6 +105,7 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
 					type="password"
 					name="password"
 					placeholder="비밀번호"
+					autoComplete="off"
 					onChange={onChange}
 					value={form.password}
 					required
@@ -107,11 +115,13 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
 						type="password"
 						name="passwordConfirm"
 						placeholder="비밀번호 확인"
+						autoComplete="off"
 						onChange={onChange}
 						value={form.passwordConfirm}
 						required
 					/>
 				)}
+				{error && <ErrorMessage>{error}</ErrorMessage>}
 				<StyledButton type="submit">확인</StyledButton>
 			</form>
 			<AuthFooter>

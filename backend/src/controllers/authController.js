@@ -37,6 +37,10 @@ class AuthController {
 			res.status(400).json({ message: e.message });
 		}
 	}
+
+	static async check(req, res) {}
+
+	static async logout(req, res) {}
 }
 
 export default AuthController;

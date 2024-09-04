@@ -3,7 +3,7 @@ import pool from '../psql.js';
 class MemberRepository {
 	static async createMember({ email, password, nickname, authProvider }) {
 		const result = await pool.query(
-			'INSERT INTO member (email, password, nickname, auth_provider) VALUES ($1, $2, $3) RETURNING *',
+			'INSERT INTO member (email, password, nickname, auth_provider) VALUES ($1, $2, $3, $4) RETURNING *',
 			[email, password, nickname, authProvider],
 		);
 		return result.rows[0];

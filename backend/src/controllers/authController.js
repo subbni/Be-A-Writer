@@ -1,7 +1,11 @@
-import MemberModel from '../models/memberModel.js';
 import AuthService from '../services/authService.js';
+import * as tokenUtil from '../utils/tokenUtil.js';
 
 class AuthController {
+	/**
+	 * 회원가입
+	 * POST /api/auth/register
+	 */
 	static async registerMember(req, res) {
 		const { email, password, nickname } = req.body;
 		// check required fields
@@ -14,7 +18,7 @@ class AuthController {
 				email,
 				password,
 				nickname,
-authProvider: AuthProvider.LOCAL,
+				authProvider: AuthProvider.LOCAL,
 			});
 			data.message = '회원가입 되었습니다.';
 			return res.status(201).json(data);
@@ -23,6 +27,10 @@ authProvider: AuthProvider.LOCAL,
 		}
 	}
 
+	/**
+	 * 로그인
+	 * POST /api/auth/login
+	 */
 	static async login(req, res) {
 		const { email, password } = req.body;
 		// check required fields
@@ -33,11 +41,8 @@ authProvider: AuthProvider.LOCAL,
 		}
 		try {
 			const data = await AuthService.login({ email, password });
-			const token = AuthService.generateToken(data);
-			res.cookie('access_token', token, {
-				maxAge: 1000 * 60 * 60 * 24 * 7,
-				httpOnly: true,
-			});
+			const token = tokenUtil.generateToken(data);
+			tokenUtil.setTokenCookie(res, token);
 			data.message = '로그인 되었습니다.';
 			return res.status(201).json(data);
 		} catch (e) {
@@ -45,6 +50,10 @@ authProvider: AuthProvider.LOCAL,
 		}
 	}
 
+	/**
+	 * 로그인 검증
+	 * GET /api/auth/check
+	 */
 	static async check(req, res) {
 		const { member } = req.state;
 		if (!member) {
@@ -53,10 +62,12 @@ authProvider: AuthProvider.LOCAL,
 		return res.json(member);
 	}
 
+	/**
+	 * 로그아웃
+	 * POST /api/auth/logout
+	 */
 	static async logout(req, res) {
-		res.clearCookie('access_token', req.cookies.access_token, {
-			httpOnly: true,
-		});
+		tokenUtil.clearTokenCookie(req, res);
 		res.status(204).end(); // NO_CONTENT
 	}
 }

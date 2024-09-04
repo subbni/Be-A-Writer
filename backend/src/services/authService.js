@@ -36,20 +36,6 @@ class AuthService {
 			nickname: member.nickname,
 		};
 	}
-
-	static generateToken({ member_id, nickname }) {
-		const token = jwt.sign(
-			{
-				member_id: member_id,
-				nickname: nickname,
-			},
-			process.env.JWT_SECRET,
-			{
-				expiresIn: '7d',
-			},
-		);
-		return token;
-	}
 }
 
 export default AuthService;

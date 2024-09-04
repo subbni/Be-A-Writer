@@ -4,6 +4,7 @@ import authRouter from './routes/authRouter.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import jwtMiddleware from './lib/jwtMiddleware.js';
+import oauthRouter from './routes/oauthRouter.js';
 
 dotenv.config();
 const app = new express();
@@ -15,6 +16,7 @@ app.use(cookieParser());
 // 라우터 등록
 app.use(jwtMiddleware);
 app.use('/api/auth', authRouter);
+app.use('/api/oauth', oauthRouter);
 
 app.listen(app.get('port'), () => {
 	console.log(`Listening to ${app.get('port')} port ...`);

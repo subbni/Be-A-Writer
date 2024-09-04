@@ -1,18 +1,19 @@
 import AuthErrorMessage from '../constants/error/authErrorMessage.js';
-import MemberModel from '../models/memberModel.js';
+import MemberRepository from '../repositories/memberRepository.js';
 import jwt from 'jsonwebtoken';
 
 class AuthService {
-	static async registerMember({ email, password, nickname }) {
+	static async registerMember({ email, password, nickname, authProvider }) {
 		// check if email is already taken
-		if ((await MemberModel.findMemberByEmail(email)) !== null) {
+		if ((await MemberRepository.findMemberByEmail(email)) !== null) {
 			throw new Error(AuthErrorMessage.DUPLICATED_EMAIL);
 		}
 
-		await MemberModel.createMember({
+		await MemberRepository.createMember({
 			email,
 			password,
 			nickname,
+			authProvider,
 		});
 
 		return {
@@ -22,7 +23,7 @@ class AuthService {
 	}
 
 	static async login({ email, password }) {
-		const member = await MemberModel.findMemberByEmail(email);
+		const member = await MemberRepository.findMemberByEmail(email);
 		if (member === null) {
 			throw new Error(AuthErrorMessage.EMAIL_NOT_FOUND);
 		}

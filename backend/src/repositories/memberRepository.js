@@ -1,10 +1,10 @@
 import pool from '../psql.js';
 
-class MemberModel {
-	static async createMember({ email, password, nickname }) {
+class MemberRepository {
+	static async createMember({ email, password, nickname, authProvider }) {
 		const result = await pool.query(
-			'INSERT INTO member (email, password, nickname) VALUES ($1, $2, $3) RETURNING *',
-			[email, password, nickname],
+			'INSERT INTO member (email, password, nickname, auth_provider) VALUES ($1, $2, $3) RETURNING *',
+			[email, password, nickname, authProvider],
 		);
 		return result.rows[0];
 	}
@@ -16,4 +16,4 @@ class MemberModel {
 	}
 }
 
-export default MemberModel;
+export default MemberRepository;

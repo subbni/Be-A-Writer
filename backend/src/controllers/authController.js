@@ -14,6 +14,7 @@ class AuthController {
 				email,
 				password,
 				nickname,
+authProvider: AuthProvider.LOCAL,
 			});
 			data.message = '회원가입 되었습니다.';
 			return res.status(201).json(data);

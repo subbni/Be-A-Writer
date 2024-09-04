@@ -3,14 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
 import { check } from '../../modules/user';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
 	const [error, setError] = useState(null);
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { form, auth, authError } = useSelector(({ auth }) => ({
+	const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
 		form: auth.register,
 		auth: auth.auth,
 		authError: auth.authError,
+		user: user.user,
 	}));
 
 	const onChange = (e) => {
@@ -63,16 +66,21 @@ const RegisterForm = () => {
 			setError(null);
 		}
 		if (auth) {
+			dispatch(check());
 			window.alert('회원가입 되었습니다. 환영합니다!');
 		}
-	}, [auth, authError]);
+	}, [auth, authError, dispatch]);
 
-	// useEffect(() => {
-	// 	if (user) {
-	// 		console.log('check 성공');
-	// 		console.log(user);
-	// 	}
-	// }, [user]);
+	useEffect(() => {
+		if (user) {
+			navigate('/');
+			try {
+				localStorage.setItem('user', JSON.stringify(user));
+			} catch (e) {
+				console.log('localStorage is not working');
+			}
+		}
+	}, [user, navigate]);
 
 	return (
 		<AuthForm type="register" form={form} onChange={onChange} onSubmit={onSubmit} error={error} />

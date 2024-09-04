@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Responsive from './Responsive';
+import { Link } from 'react-router-dom';
 
 const HeaderBlock = styled.div`
 	position: fixed;
@@ -21,13 +22,24 @@ const Wrapper = styled(Responsive)`
 		letter-spacing: -2px;
 	}
 `;
-const Header = () => {
+const Header = ({ user, onLogout }) => {
 	return (
 		<>
 			<HeaderBlock>
 				<Wrapper>
-					<div className="logo">Be A Writer</div>
-					<div className="right">시작하기</div>
+					<Link to="/" className="logo">
+						Be A Writer
+					</Link>
+					{user ? (
+						<div className="right">
+							<span>{user.nickname}</span>
+							<span onClick={onLogout}>로그아웃</span>
+						</div>
+					) : (
+						<Link to="/login" className="right">
+							시작하기
+						</Link>
+					)}
 				</Wrapper>
 			</HeaderBlock>
 		</>

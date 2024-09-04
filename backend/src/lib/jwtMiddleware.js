@@ -4,7 +4,9 @@ const jwtMiddleware = async (req, res, next) => {
 	const token = req.cookies.access_token;
 	req.state = req.state || {};
 
-	if (!token) next();
+	if (!token) {
+		return next();
+	}
 
 	try {
 		// 토큰 검증

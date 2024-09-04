@@ -16,9 +16,9 @@ class AuthController {
 				nickname,
 			});
 			data.message = '회원가입 되었습니다.';
-			res.status(201).json(data);
+			return res.status(201).json(data);
 		} catch (e) {
-			res.status(400).json({ message: e.message });
+			return res.status(400).json({ message: e.message });
 		}
 	}
 
@@ -26,7 +26,9 @@ class AuthController {
 		const { email, password } = req.body;
 		// check required fields
 		if (!email || !password) {
-			res.status(400).json({ message: 'email and password are required' });
+			return res
+				.status(400)
+				.json({ message: 'email and password are required' });
 		}
 		try {
 			const data = await AuthService.login({ email, password });
@@ -36,18 +38,18 @@ class AuthController {
 				httpOnly: true,
 			});
 			data.message = '로그인 되었습니다.';
-			res.status(201).json(data);
+			return res.status(201).json(data);
 		} catch (e) {
-			res.status(400).json({ message: e.message });
+			return res.status(400).json({ message: e.message });
 		}
 	}
 
 	static async check(req, res) {
 		const { member } = req.state;
 		if (!member) {
-			res.status(401).end(); // UNAUTHORIZED
+			return res.status(401).end(); // UNAUTHORIZED
 		}
-		res.json(member);
+		return res.json(member);
 	}
 
 	static async logout(req, res) {

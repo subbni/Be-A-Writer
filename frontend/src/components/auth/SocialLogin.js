@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import google from '../../images/btn_google.svg';
 import naver from '../../images/btn_naver.svg';
 import kakao from '../../images/btn_kakao.svg';
-import { GOOGLE_AUTH_URL } from '../../constants/oauth2Urls';
+import { GOOGLE_AUTH_URL, NAVER_AUTH_URL } from '../../constants/oauth2Urls';
 
 const SocialLoginBlock = styled.div`
 	display: flex;
@@ -32,7 +32,9 @@ const SocialLogin = () => {
 				<a href={GOOGLE_AUTH_URL}>
 					<SocialLogo src={google} alt="google login" />
 				</a>
-				<SocialLogo src={naver} alt="naver login" />
+				<a href={NAVER_AUTH_URL}>
+					<SocialLogo src={naver} alt="naver login" />
+				</a>
 				<SocialLogo src={kakao} alt="kakao login" />
 			</div>
 		</SocialLoginBlock>

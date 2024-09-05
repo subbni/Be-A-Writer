@@ -7,10 +7,10 @@ class OAuthController {
 	 * GET /api/oauth/callback/:provider?code=
 	 */
 	static async socialLogin(req, res) {
-		const { code } = req.query;
-		const { provider } = req.params;
+		const userInfo = req.userInfo;
+
 		try {
-			const data = await OAuthService.processSocialLogin({ code, provider });
+			const data = await OAuthService.processSocialLogin(userInfo);
 			// 성공적으로 소셜 로그인 완료
 			// jwt 토큰 발급
 			const token = tokenUtil.generateToken(data);

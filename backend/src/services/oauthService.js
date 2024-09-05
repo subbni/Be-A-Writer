@@ -6,20 +6,14 @@ import MemberRepository from '../repositories/memberRepository.js';
 import { mapAuthProvider } from '../constants/authProvider.js';
 
 class OAuthService {
-	static async processSocialLogin({ code, provider }) {
-		const authProvider = mapAuthProvider(provider);
-		// code로 access_token 받기
-		const tokenData = await this.requestAccessToken(code);
-		// access_token로 userInfo 요청
-		const userInfo = await this.requestUserinfo(tokenData);
+	static async processSocialLogin(userInfo) {
 		// login or register 처리
 
 		//  1. 해당 이메일로 가입된 계정이 있는지 확인
 		const member = await MemberModel.findMemberByEmail(userInfo.email);
-		console.log(member);
 		// 2. 있다면 현재 요청한 플랫폼과 동일한지 확인
 		if (member !== null) {
-			if (member.auth_provider === authProvider) {
+			if (member.auth_provider === userInfo.authProvider) {
 				// 2-1. 동일하다면 로그인 처리
 				return {
 					member_id: member.member_id,
@@ -34,44 +28,25 @@ class OAuthService {
 			// 3. 없다면 회원가입 처리
 			return this.registerMember({
 				email: userInfo.email,
-				nickname: userInfo.name,
+				nickname: userInfo.nickname,
 				password: '',
-				authProvider: authProvider,
+				authProvider: userInfo.authProvider,
 			});
 		}
 	}
 
 	static async registerMember({ email, nickname, password, authProvider }) {
-		await MemberRepository.createMember({
+		const member = await MemberRepository.createMember({
 			email,
 			nickname,
 			password,
 			authProvider,
 		});
 		return {
-			email,
-			nickname,
+			member_id: member.member_id,
+			email: member.email,
+			nickname: member.nickname,
 		};
-	}
-
-	static async requestAccessToken(code) {
-		const res = await axios.post(process.env.GOOGLE_TOKEN_URL, {
-			code: code,
-			client_id: process.env.GOOGLE_CLIENT_ID,
-			client_secret: process.env.GOOGLE_CLIENT_SECRET,
-			redirect_uri: process.env.GOOGLE_REDIRECT_URI,
-			grant_type: 'authorization_code',
-		});
-		return res.data;
-	}
-
-	static async requestUserinfo(data) {
-		const res = await axios.get(process.env.GOOGLE_USERINFO_URL, {
-			headers: {
-				Authorization: `Bearer ${data.access_token}`,
-			},
-		});
-		return res.data;
 	}
 }
 

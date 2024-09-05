@@ -14,6 +14,7 @@ const jwtMiddleware = async (req, res, next) => {
 
 		req.state.member = {
 			member_id: decoded.member_id,
+			email: decoded.email,
 			nickname: decoded.nickname,
 		};
 		// TODO : 만료 기간이 기준일 미만이라면 재발급 처리

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 const AuthTemplateBlock = styled.div`
@@ -21,12 +22,13 @@ const WhiteBox = styled.div`
 		padding-bottom: 2rem;
 	}
 	.logo {
+		font-size: 45px;
 		font-family: var(--font-logo);
-		/* letter-spacing: 2px; */
+		letter-spacing: -2.5px;
 		color: var(--color-black);
 		margin: 10px;
 	}
-	span {
+	.logo-message {
 		color: var(--color-dark-gray);
 	}
 `;
@@ -36,8 +38,10 @@ const AuthTemplate = ({ children }) => {
 		<AuthTemplateBlock>
 			<WhiteBox>
 				<div className="logo-area">
-					<h1 className="logo">Be A Writer</h1>
-					<span>누구나 작가가 될 수 있습니다</span>
+					<Link to="/" className="logo">
+						Be A Writer
+					</Link>
+					<div className="logo-message">누구나 작가가 될 수 있습니다</div>
 				</div>
 				{children}
 			</WhiteBox>

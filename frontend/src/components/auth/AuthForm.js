@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Or from '../common/Or';
+import SocialLogin from './SocialLogin';
 
 // TODO : Button 컴포넌트화 하기
 const AuthFormBlock = styled.div`
@@ -136,6 +137,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
 				)}
 			</AuthFooter>
 			<Or />
+			<SocialLogin />
 		</AuthFormBlock>
 	);
 };

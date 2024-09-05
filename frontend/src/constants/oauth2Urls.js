@@ -27,3 +27,15 @@ const naverAuthUrl = () => {
 	return url;
 };
 export const NAVER_AUTH_URL = naverAuthUrl();
+
+const KAKAO_REQUEST_URL = 'https://kauth.kakao.com/oauth/authorize';
+const KAKAO_REDIRECT_URI = BACKEND_URL + process.env.REACT_APP_OAUTH2_REDIRECT_PATH + '/kakao';
+const KAKAO_CLIENT_ID = process.env.REACT_APP_KAKAO_CLIENT_ID;
+const kakaoAuthUrl = () => {
+	let url = KAKAO_REQUEST_URL;
+	url += `?client_id=${KAKAO_CLIENT_ID}`;
+	url += `&redirect_uri=${KAKAO_REDIRECT_URI}`;
+	url += `&response_type=code`;
+	return url;
+};
+export const KAKAO_AUTH_URL = kakaoAuthUrl();

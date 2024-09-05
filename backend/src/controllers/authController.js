@@ -51,7 +51,7 @@ class AuthController {
 	}
 
 	/**
-	 * 로그인 검증
+	 * 로그인 검증 : 쿠키 설정
 	 * GET /api/auth/check
 	 */
 	static async check(req, res) {
@@ -63,7 +63,7 @@ class AuthController {
 	}
 
 	/**
-	 * 로그아웃
+	 * 로그아웃 : 쿠키 무효화
 	 * POST /api/auth/logout
 	 */
 	static async logout(req, res) {

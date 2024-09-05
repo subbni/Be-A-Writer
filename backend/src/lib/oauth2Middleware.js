@@ -1,5 +1,6 @@
 import AuthProvider, { mapAuthProvider } from '../constants/authProvider.js';
 import oauth2GoogleHandler from './oauth2GoogleHandler.js';
+import oauth2KakaoHandler from './oauth2KakaoHandler.js';
 import oauth2NaverHandler from './oauth2NaverHandler.js';
 
 const oauth2Middleware = async (req, res, next) => {
@@ -14,6 +15,7 @@ const oauth2Middleware = async (req, res, next) => {
 				await oauth2NaverHandler(req, res);
 				return next();
 			case AuthProvider.KAKAO:
+				await oauth2KakaoHandler(req, res);
 				return next();
 			default:
 				throw Error('unknown provider');

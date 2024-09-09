@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import auth, { authSaga } from './auth';
+import auth, { authSaga } from './auth/auth';
 import loading from './loading';
 import { all } from 'redux-saga/effects';
 import articleEditor from './article/articleEditorReducer';

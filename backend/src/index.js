@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import jwtMiddleware from './lib/jwtMiddleware.js';
 import oauthRouter from './routes/oauthRouter.js';
+import articleRouter from './routes/articleRouter.js';
 
 dotenv.config();
 const app = new express();
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use(jwtMiddleware);
 app.use('/api/auth', authRouter);
 app.use('/api/oauth', oauthRouter);
+app.use('/api/article', articleRouter);
 
 app.listen(app.get('port'), () => {
 	console.log(`Listening to ${app.get('port')} port ...`);

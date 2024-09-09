@@ -85,7 +85,7 @@ const QuillWrapper = styled.div`
 	}
 `;
 
-const Editor = () => {
+const Editor = ({ title, subtitle, content, onChangeField, onPublish }) => {
 	const modules = {
 		toolbar: {
 			container: [
@@ -96,19 +96,36 @@ const Editor = () => {
 			],
 		},
 	};
+	const onChangeTitles = (e) => {
+		onChangeField({ key: e.target.name, value: e.target.value });
+	};
+
+	const onChangeContent = (e) => {
+		onChangeField({ key: 'content', value: e });
+	};
 
 	return (
 		<EiditorBlock>
 			<QuillWrapper>
 				<EditorHeader>
 					<TitleWrapper>
-						<TitleInput placeholder="제목을 입력하세요" />
-						<SubtitleInput placeholder="소제목을 입력하세요" />
+						<TitleInput
+							name="title"
+							value={title}
+							placeholder="제목을 입력하세요"
+							onChange={onChangeTitles}
+						/>
+						<SubtitleInput
+							name="subtitle"
+							value={subtitle}
+							placeholder="소제목을 입력하세요"
+							onChange={onChangeTitles}
+						/>
 					</TitleWrapper>
-					<StyledButton>저장</StyledButton>
+					<StyledButton onClick={onPublish}>저장</StyledButton>
 				</EditorHeader>
 
-				<ReactQuill modules={modules} placeholder="내용을 입력하세요" />
+				<ReactQuill modules={modules} placeholder="내용을 입력하세요" onChange={onChangeContent} />
 			</QuillWrapper>
 		</EiditorBlock>
 	);

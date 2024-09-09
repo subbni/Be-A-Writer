@@ -1,4 +1,4 @@
-import AuthProvider, { mapAuthProvider } from '../constants/authProvider.js';
+import AuthProvider, { mapAuthProvider } from '../../constants/authProvider.js';
 import axios from 'axios';
 
 const oauth2GoogleHandler = async (req, res) => {

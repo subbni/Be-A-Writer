@@ -1,4 +1,4 @@
-import AuthProvider, { mapAuthProvider } from '../constants/authProvider.js';
+import AuthProvider, { mapAuthProvider } from '../../constants/authProvider.js';
 import oauth2GoogleHandler from './oauth2GoogleHandler.js';
 import oauth2KakaoHandler from './oauth2KakaoHandler.js';
 import oauth2NaverHandler from './oauth2NaverHandler.js';

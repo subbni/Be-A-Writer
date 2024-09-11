@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styled, { css } from 'styled-components';
 import Responsive from '../common/Responsive';
+import user from '../../modules/user/user';
 
-const EiditorBlock = styled(Responsive)`
+const EditorBlock = styled(Responsive)`
 	padding: 10rem;
 	padding-bottom: 5rem;
+	max-width: 1300px;
 `;
 const EditorHeader = styled.div`
 	display: flex;
@@ -64,8 +66,9 @@ const StyledButton = styled.button`
 `;
 const QuillWrapper = styled.div`
 	.ql-container {
+		width: 100%;
 		border: none;
-		border-bottom: 1px solid var(--color-gray);
+		/* border-bottom: 1px solid var(--color-gray); */
 		padding: 0;
 		min-height: 320px;
 		font-size: 1rem;
@@ -75,9 +78,9 @@ const QuillWrapper = styled.div`
 		border-left: none;
 		border-right: none;
 	}
-	.ql-blank {
-		width: 100%;
+	.ql-editor {
 		min-height: 320px;
+		color: var(--color-black);
 		&::placeholder {
 			color: var(--color-light-gray);
 			text-decoration: none;
@@ -104,8 +107,22 @@ const Editor = ({ title, subtitle, content, onChangeField, onPublish }) => {
 		onChangeField({ key: 'content', value: e });
 	};
 
+	const handlePublish = () => {
+		if (checkEmptyFields()) {
+			onPublish();
+		}
+	};
+
+	const checkEmptyFields = () => {
+		if (content === '<p><br></p>' || content === '') {
+			window.alert('내용을 입력하세요.');
+			return false;
+		}
+		return true;
+	};
+
 	return (
-		<EiditorBlock>
+		<EditorBlock>
 			<QuillWrapper>
 				<EditorHeader>
 					<TitleWrapper>
@@ -122,12 +139,12 @@ const Editor = ({ title, subtitle, content, onChangeField, onPublish }) => {
 							onChange={onChangeTitles}
 						/>
 					</TitleWrapper>
-					<StyledButton onClick={onPublish}>저장</StyledButton>
+					<StyledButton onClick={handlePublish}>저장</StyledButton>
 				</EditorHeader>
 
 				<ReactQuill modules={modules} placeholder="내용을 입력하세요" onChange={onChangeContent} />
 			</QuillWrapper>
-		</EiditorBlock>
+		</EditorBlock>
 	);
 };
 

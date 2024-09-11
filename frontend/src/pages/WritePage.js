@@ -1,18 +1,10 @@
 import React from 'react';
-import Editor from '../components/write/Editor';
-import HeaderContainer from '../containers/HeaderContainer';
 import Responsive from '../components/common/Responsive';
-import Header from '../components/common/Header';
+import EditorContainer from '../containers/article/EditorContainer';
+import Layout from '../containers/common/Layout';
 
 const WritePage = () => {
-	return (
-		<>
-			<HeaderContainer />
-			<Responsive>
-				<Editor />
-			</Responsive>
-		</>
-	);
+	return <EditorContainer />;
 };
 
 export default WritePage;

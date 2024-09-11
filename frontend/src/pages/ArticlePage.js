@@ -1,8 +1,8 @@
 import React from 'react';
 import Layout from '../containers/common/Layout';
 
-const MainPage = () => {
+const ArticlePage = () => {
 	return <></>;
 };
 
-export default MainPage;
+export default ArticlePage;

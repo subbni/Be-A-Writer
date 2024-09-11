@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
-import createRequestSaga, { createRequestActionTypes } from '../services/createRequestSaga';
-import * as authAPI from '../services/api/authAPI';
+import createRequestSaga, { createRequestActionTypes } from '../../services/createRequestSaga';
+import * as authAPI from '../../services/api/authAPI';
 import { takeLatest } from 'redux-saga/effects';
 
 const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';

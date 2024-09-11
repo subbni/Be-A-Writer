@@ -7,7 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer, { rootSaga } from './modules';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import { check, tempSetUser } from './modules/user';
+import { check, tempSetUser } from './modules/user/user';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = legacy_createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)));

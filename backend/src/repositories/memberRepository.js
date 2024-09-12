@@ -9,7 +9,7 @@ class MemberRepository {
 		return result.rows[0];
 	}
 
-	static async findMemberByEmail(email) {
+	static async findByEmail(email) {
 		const query = 'SELECT * FROM member WHERE email = $1';
 		const result = await pool.query(query, [email]);
 		return result.rows.length === 0 ? null : result.rows[0];

@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 class AuthService {
 	static async registerMember({ email, password, nickname, authProvider }) {
 		// check if email is already taken
-		if ((await MemberRepository.findMemberByEmail(email)) !== null) {
+		if ((await MemberRepository.findByEmail(email)) !== null) {
 			throw new Error(AuthErrorMessage.DUPLICATED_EMAIL);
 		}
 
@@ -23,7 +23,7 @@ class AuthService {
 	}
 
 	static async login({ email, password }) {
-		const member = await MemberRepository.findMemberByEmail(email);
+		const member = await MemberRepository.findByEmail(email);
 		if (member === null) {
 			throw new Error(AuthErrorMessage.EMAIL_NOT_FOUND);
 		}

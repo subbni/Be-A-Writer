@@ -1,8 +1,8 @@
 import React from 'react';
-import Layout from '../containers/common/Layout';
+import ArticleViewerContainer from '../containers/article/ArticleViewerContainer';
 
 const ArticlePage = () => {
-	return <></>;
+	return <ArticleViewerContainer />;
 };
 
 export default ArticlePage;

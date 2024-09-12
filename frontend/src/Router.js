@@ -7,6 +7,7 @@ import OAuth2RedirectHandler from './containers/auth/OAuth2RedirectHanlder';
 import WritePage from './pages/WritePage';
 import ArticlePage from './pages/ArticlePage';
 import Layout from './containers/common/Layout';
+import MyArticlesPage from './pages/MyArticlesPage';
 
 const Router = () => {
 	return (
@@ -14,9 +15,10 @@ const Router = () => {
 			<Routes>
 				<Route element={<Layout />}>
 					<Route path="/" element={<MainPage />} />
-					<Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
-					<Route path="/write" element={<WritePage />} />
-					<Route path="/article/:id" element={<ArticlePage />} />
+					<Route path="oauth2/redirect" element={<OAuth2RedirectHandler />} />
+					<Route path="write" element={<WritePage />} />
+					<Route path="my" element={<MyArticlesPage />} />
+					<Route path="article/:articleId" element={<ArticlePage />} />
 				</Route>
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />

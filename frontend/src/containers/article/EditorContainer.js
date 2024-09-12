@@ -2,7 +2,11 @@ import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Editor from '../../components/article/Editor';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initialize, writeArticle } from '../../modules/article/articleEditorActions';
+import {
+	changeField,
+	initialize,
+	writeArticle,
+} from '../../modules/article/editor/articleEditorActions';
 
 const EditorContainer = () => {
 	const navigate = useNavigate();
@@ -33,7 +37,7 @@ const EditorContainer = () => {
 	useEffect(() => {
 		if (article) {
 			const { article_id } = article;
-			navigate(`/${article_id}`);
+			navigate(`/article/${article_id}`);
 		}
 		if (articleError) {
 			console.log(articleError);

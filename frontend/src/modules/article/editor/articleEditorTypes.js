@@ -1,4 +1,4 @@
-import { createRequestActionTypes } from '../../services/createRequestSaga';
+import { createRequestActionTypes } from '../../../services/createRequestSaga';
 
 export const INITIALIZE = 'articleEditor/INITIALIZE';
 export const CHANGE_FIELD = 'articleEditor/CHANGE_FIELD';

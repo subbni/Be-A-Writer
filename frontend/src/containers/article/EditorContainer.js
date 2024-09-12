@@ -2,7 +2,11 @@ import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Editor from '../../components/article/Editor';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initialize, writeArticle } from '../../modules/article/articleEditorActions';
+import {
+	changeField,
+	initialize,
+	writeArticle,
+} from '../../modules/article/editor/articleEditorActions';
 
 const EditorContainer = () => {
 	const navigate = useNavigate();

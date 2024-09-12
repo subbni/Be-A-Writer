@@ -37,6 +37,35 @@ class ArticleController {
 			return res.status(500).json({ message: 'Failed to retrieve articles' });
 		}
 	}
+
+	/**
+	 * GET /api/article/:id
+	 */
+	static async showArticle(req, res) {
+		console.log('시작');
+		const { articleId } = req.params;
+		try {
+			const data = await ArticleService.getArticle(articleId);
+			return res.status(200).json(data);
+		} catch (e) {
+			console.log(e.message);
+			return res.status(500).json({ message: 'Failed to retrieve articles' });
+		}
+	}
+
+	/**
+	 * GET /api/article/my
+	 */
+	static async showMemberArticles(req, res) {
+		const member_id = req.state.member.member_id;
+		try {
+			const data = await ArticleService.getMemberArticles(member_id);
+			return res.status(200).json(data);
+		} catch (e) {
+			console.log(e.message);
+			return res.status(500).json({ message: 'Failed to retrieve articles' });
+		}
+	}
 }
 
 export default ArticleController;

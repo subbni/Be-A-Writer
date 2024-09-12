@@ -14,6 +14,14 @@ class MemberRepository {
 		const result = await pool.query(query, [email]);
 		return result.rows.length === 0 ? null : result.rows[0];
 	}
+
+	static async findByMemberId(memberId) {
+		const result = await pool.query(
+			'SELECT * FROM member WHERE member_id = $1',
+			[memberId],
+		);
+		return result.rows.length === 0 ? null : result.rows[0];
+	}
 }
 
 export default MemberRepository;

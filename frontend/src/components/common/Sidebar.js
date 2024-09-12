@@ -80,7 +80,9 @@ const Sidebar = ({ isSidebarClosed, onMenuBtnClick }) => {
 						</Link>
 					</SideMenuItem>
 					<SideMenuItem>
-						<img className="btn" src={Book} alt="edit" />
+						<Link to="/my">
+							<img className="btn" src={Book} alt="edit" />
+						</Link>
 					</SideMenuItem>
 				</SideMenu>
 			</Wrapper>

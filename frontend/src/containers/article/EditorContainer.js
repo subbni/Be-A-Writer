@@ -37,7 +37,7 @@ const EditorContainer = () => {
 	useEffect(() => {
 		if (article) {
 			const { article_id } = article;
-			navigate(`/${article_id}`);
+			navigate(`/article/${article_id}`);
 		}
 		if (articleError) {
 			console.log(articleError);

@@ -6,7 +6,7 @@ import {
 	READ_MY_ARTICLES_SUCCESS,
 	UNLOAD_ARTICLE,
 	UNLOAD_ARTICLES,
-} from './readArticleTypes';
+} from './articlesTypes';
 
 const initialState = {
 	articles: null,
@@ -14,7 +14,7 @@ const initialState = {
 	error: null,
 };
 
-const article = handleActions(
+const articles = handleActions(
 	{
 		[READ_ARTICLE_SUCCESS]: (state, { payload: article }) => ({
 			...state,
@@ -38,4 +38,4 @@ const article = handleActions(
 	initialState,
 );
 
-export default article;
+export default articles;

@@ -89,6 +89,45 @@ const QuillWrapper = styled.div`
 `;
 
 const Editor = ({ title, subtitle, content, onChangeField, onPublish }) => {
+	const keyDownListenr = (event) => {
+		if (event.key === 'Enter') {
+			console.log('enter');
+			// 사용자가 엔터를 입력했을 경우
+			const selection = document.getSelection(); // caret 정보 가져오기
+			if (selection.rangeCount > 0) {
+				// 현재 caret 존재
+				const range = selection.getRangeAt(0); // Selection 이 위치한 Node 정보
+				const endNode = range.endContainer.parentElement; // Element
+				const endOffset = endNode.getBoundingClientRect().top; // 세로 위치 정보
+				const viewportHeight = window.innerHeight; // 뷰포트 정보
+				const limit = (viewportHeight * 4) / 5; // 뷰포트의 4/5 지점
+
+				if (endOffset > limit) {
+					// 현재 caret 위치가 뷰포트의 5/4지점 보다 더 아래일 경우
+					// window.scrollBy({
+					// 	// 스크롤 처리
+					// 	top: endOffset - limit,
+					// 	behavior: 'smooth',
+					// });
+					window.scrollTo({
+						top: document.body.scrollHeight, // 페이지의 전체 높이로 이동
+						behavior: 'smooth', // 부드럽게 스크롤
+					});
+				}
+			}
+		}
+	};
+
+	useEffect(() => {
+		const editor = document.querySelector('.ql-editor');
+		editor.addEventListener('keydown', keyDownListenr);
+		return () => {
+			if (editor) {
+				editor.removeEventListener('keydown', keyDownListenr);
+			}
+		};
+	}, []);
+
 	const modules = {
 		toolbar: {
 			container: [

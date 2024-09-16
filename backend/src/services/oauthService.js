@@ -36,7 +36,7 @@ class OAuthService {
 	}
 
 	static async registerMember({ email, nickname, password, authProvider }) {
-		const member = await MemberRepository.createMember({
+		const member = await MemberRepository.create({
 			email,
 			nickname,
 			password,

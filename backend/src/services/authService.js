@@ -9,7 +9,7 @@ class AuthService {
 			throw new Error(AuthErrorMessage.DUPLICATED_EMAIL);
 		}
 
-		await MemberRepository.createMember({
+		await MemberRepository.create({
 			email,
 			password,
 			nickname,

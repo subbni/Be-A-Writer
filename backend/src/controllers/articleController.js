@@ -66,6 +66,33 @@ class ArticleController {
 			return res.status(500).json({ message: 'Failed to retrieve articles' });
 		}
 	}
+
+	/**
+	 * PATCH /api/article/:articleId
+	 * { title, subtitle, content }
+	 */
+	static async updateArticle(req, res) {
+		try {
+			const data = await ArticleService.updateArticle(req.body);
+			return res.status(200).end();
+		} catch (e) {
+			console.log(e.message);
+			return res.status(e.status).json({ message: e.message });
+		}
+	}
+
+	/**
+	 * DELETE /api/article/:articleId
+	 */
+	static async deleteArticle(req, res) {
+		const { articleId } = req.params;
+		try {
+			await ArticleService.deleteArticle(articleId);
+		} catch (e) {
+			console.log(e);
+			return res.status(e.status).json({ message: e.message });
+		}
+	}
 }
 
 export default ArticleController;

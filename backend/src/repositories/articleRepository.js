@@ -1,7 +1,11 @@
 import pool from '../psql.js';
 
+/**
+ * article_id, title, subtitle, content, author_id, created_at, updated_at
+ */
+
 class ArticleRepository {
-	static async createArticle({ title, subtitle, content, author_id }) {
+	static async create({ title, subtitle, content, author_id }) {
 		const result = await pool.query(
 			'INSERT INTO article (title, subtitle, content, author_id) VALUES ($1, $2, $3, $4) RETURNING *',
 			[title, subtitle, content, author_id],
@@ -23,6 +27,27 @@ class ArticleRepository {
 			[authorId],
 		);
 		return result.rows;
+	}
+
+	static async update({ articleId, title, subtitle, content }) {
+		const result = await pool.query(
+			`UPDATE article 
+			SET title = $1, subtitle = $2, content = $3, updated_at = NOW() 
+			WHERE article_id = $4
+			RETURNING *`,
+			[title, subtitle, content, articleId],
+		);
+		return result.rows[0];
+	}
+
+	static async delete(articleId) {
+		const result = await pool.query(
+			`DELETE FROM article
+			WHERE article_id = $1
+			RETURNING *`,
+			[articleId],
+		);
+		return result.rows[0];
 	}
 }
 

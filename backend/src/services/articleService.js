@@ -1,13 +1,15 @@
+import CustomError from '../constants/error/customError.js';
+import ArticleErrorMessage from '../constants/error/articleErrorMessage.js';
 import ArticleRepository from '../repositories/articleRepository.js';
 import MemberService from './memberService.js';
 
 class ArticleService {
-	static async writeArticle({ title, subtitle, content, author_id }) {
-		const result = await ArticleRepository.createArticle({
+	static async writeArticle({ title, subtitle, content, authorId }) {
+		const result = await ArticleRepository.create({
 			title,
 			subtitle,
 			content,
-			author_id,
+			authorId,
 		});
 		console.log(result);
 		return { article_id: result.article_id };
@@ -15,6 +17,9 @@ class ArticleService {
 
 	static async getArticle(articleId) {
 		const result = await ArticleRepository.findByArticleId(articleId);
+		if (!result) {
+			throw new CustomError(ArticleErrorMessage.ARTICLE_NOT_FOUND);
+		}
 		const author = await MemberService.getMemberProfile(result.author_id);
 		console.log(result);
 		return {
@@ -23,9 +28,34 @@ class ArticleService {
 		};
 	}
 
-	static async getMemberArticles(member_id) {
-		const result = await ArticleRepository.findByAuthorId(member_id);
+	static async getMemberArticles(memberId) {
+		const result = await ArticleRepository.findByAuthorId(memberId);
 		return result;
+	}
+
+	static async updateArticle({ articleId, title, subtitle, content }) {
+		const result = await ArticleRepository.update({
+			articleId,
+			title,
+			subtitle,
+			content,
+		});
+		return { article_id: result.article_id };
+	}
+
+	static async deleteArticle(articleId) {
+		const result = await ArticleRepository.delete(articleId);
+		return result;
+	}
+
+	static async checkAuthor({ memberId, articleId }) {
+		const article = await ArticleRepository.findByArticleId(articleId);
+		if (!article) {
+			throw new CustomError(ArticleErrorMessage.ARTICLE_NOT_FOUND);
+		}
+		const authorId = article.author_id;
+		console.log('author_id =', article.author_id);
+		return memberId.toString() === authorId.toString();
 	}
 }
 

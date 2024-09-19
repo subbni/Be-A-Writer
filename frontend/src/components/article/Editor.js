@@ -88,7 +88,7 @@ const QuillWrapper = styled.div`
 	}
 `;
 
-const Editor = ({ title, subtitle, content, onChangeField, onPublish }) => {
+const Editor = ({ title, subtitle, content, onChangeField, onPublish, originalArticle }) => {
 	const keyDownListenr = (event) => {
 		if (event.key === 'Enter') {
 			console.log('enter');
@@ -120,10 +120,14 @@ const Editor = ({ title, subtitle, content, onChangeField, onPublish }) => {
 
 	useEffect(() => {
 		const editor = document.querySelector('.ql-editor');
+		if (originalArticle) {
+			editor.innerHTML = content;
+		}
 		editor.addEventListener('keydown', keyDownListenr);
 		return () => {
 			if (editor) {
 				editor.removeEventListener('keydown', keyDownListenr);
+				editor.innerHTML = '';
 			}
 		};
 	}, []);

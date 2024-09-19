@@ -5,10 +5,11 @@ import pool from '../psql.js';
  */
 
 class ArticleRepository {
-	static async create({ title, subtitle, content, author_id }) {
+	static async create({ title, subtitle, content, authorId }) {
+		console.log(arguments);
 		const result = await pool.query(
 			'INSERT INTO article (title, subtitle, content, author_id) VALUES ($1, $2, $3, $4) RETURNING *',
-			[title, subtitle, content, author_id],
+			[title, subtitle, content, authorId],
 		);
 		return result.rows[0];
 	}

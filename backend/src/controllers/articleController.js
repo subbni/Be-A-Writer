@@ -8,6 +8,7 @@ class ArticleController {
 	 * }
 	 */
 	static async writeArticle(req, res) {
+		console.log(req.state.member);
 		const { title, subtitle, content } = req.body;
 		if (!title || !content) {
 			return res
@@ -18,7 +19,7 @@ class ArticleController {
 			title,
 			subtitle,
 			content,
-			author_id: req.state.member.member_id,
+			authorId: req.state.member.member_id,
 		});
 		return res.status(201).json(data);
 	}
@@ -42,7 +43,6 @@ class ArticleController {
 	 * GET /api/article/:id
 	 */
 	static async showArticle(req, res) {
-		console.log('시작');
 		const { articleId } = req.params;
 		try {
 			const data = await ArticleService.getArticle(articleId);
@@ -64,6 +64,34 @@ class ArticleController {
 		} catch (e) {
 			console.log(e.message);
 			return res.status(500).json({ message: 'Failed to retrieve articles' });
+		}
+	}
+
+	/**
+	 * PATCH /api/article/:articleId
+	 * { title, subtitle, content }
+	 */
+	static async updateArticle(req, res) {
+		try {
+			const data = await ArticleService.updateArticle(req.body);
+			return res.status(200).json(data);
+		} catch (e) {
+			console.log(e.message);
+			return res.status(e.status).json({ message: e.message });
+		}
+	}
+
+	/**
+	 * DELETE /api/article/:articleId
+	 */
+	static async deleteArticle(req, res) {
+		const { articleId } = req.params;
+		try {
+			const data = await ArticleService.deleteArticle(articleId);
+			return res.status(200).json(data);
+		} catch (e) {
+			console.log(e);
+			return res.status(e.status).json({ message: e.message });
 		}
 	}
 }

@@ -15,13 +15,13 @@ export default function createRequestSaga(type, request) {
 		yield put(startLoading(type)); // 로딩 시작
 		try {
 			const response = yield call(request, action.payload); // 요청 전송
-			console.log(response);
 			yield put({
 				type: SUCCESS,
 				payload: response.data,
 			});
 		} catch (e) {
 			// 요청 실패
+			console.log(e);
 			yield put({
 				type: FAILURE,
 				payload: e,

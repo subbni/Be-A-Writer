@@ -48,6 +48,44 @@ const SubInfo = styled.div`
 			margin-right: 0.5rem;
 		}
 	}
+	.right {
+		position: relative;
+		.menu {
+			padding-left: 1rem;
+			cursor: pointer;
+		}
+	}
+`;
+
+const MenuDropdown = styled.div`
+	display: none;
+	&.clicked {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: white;
+		width: 110px;
+		right: 0;
+		border-radius: 2px;
+		border: 1px solid var(--color-gray);
+	}
+`;
+
+const MenuDropdownItem = styled.div`
+	width: 108px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 15px;
+	text-align: center;
+	cursor: pointer;
+	&:not(:last-child) {
+		border-bottom: 1px solid var(--color-gray);
+	}
+	&:hover {
+		background-color: var(--color-light-gray);
+	}
 `;
 
 const ArticleContent = styled.div`
@@ -55,7 +93,7 @@ const ArticleContent = styled.div`
 	padding: 1.125rem 0;
 `;
 
-const ArticleViewer = ({ article, error, loading }) => {
+const ArticleViewer = ({ article, error, loading, author, onDeleteClick, onModifyClick }) => {
 	if (error) {
 		console.log('에러 발생');
 		console.log(error.message);
@@ -67,6 +105,11 @@ const ArticleViewer = ({ article, error, loading }) => {
 
 	const { title, subtitle, created_at, content } = article;
 	const { nickname } = article.author;
+
+	const onMenuClick = (e) => {
+		const menuDropdown = document.querySelector('.menu-dropdown');
+		menuDropdown.classList.toggle('clicked');
+	};
 
 	return (
 		<ArticleViewerBlock>
@@ -81,7 +124,19 @@ const ArticleViewer = ({ article, error, loading }) => {
 						<span className="author">{nickname}</span>
 						<span>{formatDateTime(created_at)}</span>
 					</div>
-					<img src={Kebab} alt="menu" />
+					{author && (
+						<div className="right">
+							<img className="menu" src={Kebab} alt="menu" onClick={onMenuClick} />
+							<MenuDropdown className="menu-dropdown">
+								<MenuDropdownItem className="modify" onClick={onModifyClick}>
+									수정하기
+								</MenuDropdownItem>
+								<MenuDropdownItem className="delete" onClick={onDeleteClick}>
+									삭제하기
+								</MenuDropdownItem>
+							</MenuDropdown>
+						</div>
+					)}
 				</SubInfo>
 			</ArticleHead>
 			<ArticleContent>

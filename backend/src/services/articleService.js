@@ -21,7 +21,6 @@ class ArticleService {
 			throw new CustomError(ArticleErrorMessage.ARTICLE_NOT_FOUND);
 		}
 		const author = await MemberService.getMemberProfile(result.author_id);
-		console.log(result);
 		return {
 			...result,
 			author: author,

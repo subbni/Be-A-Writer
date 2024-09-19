@@ -9,3 +9,10 @@ export const getArticle = (articleId) => client.get(`/api/article/detail/${artic
 
 // 본인 작성 글 조회
 export const getMyArticles = () => client.get('/api/article/my');
+
+// 글 수정
+export const modifyArticle = ({ articleId, title, subtitle, content }) =>
+	client.patch(`/api/article/${articleId}`, { articleId, title, subtitle, content });
+
+// 글 삭제
+export const deleteArticle = (articleId) => client.delete(`/api/article/${articleId}`);

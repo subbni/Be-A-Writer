@@ -27,8 +27,8 @@ class ArticleService {
 		};
 	}
 
-	static async getMemberArticles(memberId) {
-		const result = await ArticleRepository.findByAuthorId(memberId);
+	static async getMemberArticles(memberId, params) {
+		const result = await ArticleRepository.findByAuthorId(memberId, params);
 		return result;
 	}
 

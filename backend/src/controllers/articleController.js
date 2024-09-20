@@ -54,12 +54,18 @@ class ArticleController {
 	}
 
 	/**
-	 * GET /api/article/my
+	 * GET /api/article/my?page=1&limit=5
 	 */
 	static async showMemberArticles(req, res) {
 		const member_id = req.state.member.member_id;
+		const page = parseInt(req.query.page, 10) || 1;
+		const limit = parseInt(req.query.limit, 10) || 10;
+		const offset = (page - 1) * limit;
 		try {
-			const data = await ArticleService.getMemberArticles(member_id);
+			const data = await ArticleService.getMemberArticles(member_id, {
+				limit,
+				offset,
+			});
 			return res.status(200).json(data);
 		} catch (e) {
 			console.log(e.message);

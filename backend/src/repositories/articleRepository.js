@@ -24,10 +24,23 @@ class ArticleRepository {
 
 	static async findByAuthorId(authorId) {
 		const result = await pool.query(
-			'SELECT * FROM article WHERE author_id = $1',
-			[authorId],
+			`WITH article_count AS (
+					SELECT COUNT(*) as total_count 
+					FROM article 
+					WHERE author_id = $1
+			)
+			SELECT *, (SELECT total_count FROM article_count) 
+			FROM article 
+			WHERE author_id = $1 
+			ORDER BY article_id DESC 
+			LIMIT $2 OFFSET $3`,
+			[authorId, params.limit, params.offset],
 		);
-		return result.rows;
+
+		return {
+			data: result.rows,
+			count: result.rows.length > 0 ? result.rows[0].total_count : 0,
+		};
 	}
 
 	static async update({ articleId, title, subtitle, content }) {

@@ -47,6 +47,11 @@ class ArticleService {
 		return result;
 	}
 
+	static async getAll(params) {
+		const result = await ArticleRepository.findAll(params);
+		return result;
+	}
+
 	static async checkAuthor({ memberId, articleId }) {
 		const article = await ArticleRepository.findByArticleId(articleId);
 		if (!article) {

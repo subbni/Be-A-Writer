@@ -25,16 +25,17 @@ class ArticleController {
 	}
 
 	/**
-	 * GET /api/article?page=1&limit=10
+	 * GET /api/article/list ?page=1&limit=10
 	 */
 	static async list(req, res) {
 		const page = parseInt(req.query.page, 10) || 1;
 		const limit = parseInt(req.query.limit, 10) || 10;
 		const offset = (page - 1) * limit;
 		try {
-			const data = await ArticleService.list({ limit, offset });
+			const data = await ArticleService.getAll({ limit, offset });
 			return res.status(200).json(data);
 		} catch (e) {
+			console.log(e);
 			return res.status(500).json({ message: 'Failed to retrieve articles' });
 		}
 	}

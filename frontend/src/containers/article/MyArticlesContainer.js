@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyArticles from '../../components/article/MyArticles';
 import { useDispatch, useSelector } from 'react-redux';
 import { readMyArticles, unloadArticles } from '../../modules/article/articles/articlesActions';
+import PaginationBar from '../../components/pagination/PaginationBar';
+
 const MyArticlesContainer = () => {
 	const limit = 5;
 	const dispatch = useDispatch();
@@ -23,9 +25,18 @@ const MyArticlesContainer = () => {
 		return () => {
 			dispatch(unloadArticles());
 		};
-	}, [dispatch]);
+	}, [dispatch, limit, page]);
 
-	return <MyArticles articles={articles} error={error} loading={loading} />;
+	const onPageChange = (page) => {
+		setPage(page);
+	};
+
+	return (
+		<>
+			<MyArticles articles={articles} error={error} loading={loading} />
+			<PaginationBar totalItemCnt={totalCnt} currentPage={page} onPageChange={onPageChange} />
+		</>
+	);
 };
 
 export default MyArticlesContainer;

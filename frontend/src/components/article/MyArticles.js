@@ -6,7 +6,7 @@ import { formatDate } from '../../utils/dateUtils';
 
 const MyArticlesBlock = styled(Responsive)`
 	padding: 10rem;
-	padding-bottom: 5rem;
+	padding-bottom: 1rem;
 	max-width: 1300px;
 `;
 
@@ -55,7 +55,7 @@ const MyArticles = ({ articles, error, loading }) => {
 		<MyArticlesBlock>
 			<ArticleWrapper>
 				{articles &&
-					articles.map((article) => (
+					articles.data.map((article) => (
 						<ArticleItem key={article.article_id} to={`/article/${article.article_id}`}>
 							<h2 className="title">{article.title}</h2>
 							<div className="content">

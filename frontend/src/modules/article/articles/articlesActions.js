@@ -8,7 +8,10 @@ import {
 } from './articlesTypes';
 
 export const readArticle = createAction(READ_ARTICLE, (id) => id);
-export const readMyArticles = createAction(READ_MY_ARTICLES);
+export const readMyArticles = createAction(READ_MY_ARTICLES, ({ page, limit }) => ({
+	page,
+	limit,
+}));
 export const unloadArticle = createAction(UNLOAD_ARTICLE);
 export const unloadArticles = createAction(UNLOAD_ARTICLES);
 

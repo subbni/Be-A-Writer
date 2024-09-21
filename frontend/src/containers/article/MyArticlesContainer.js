@@ -3,15 +3,23 @@ import MyArticles from '../../components/article/MyArticles';
 import { useDispatch, useSelector } from 'react-redux';
 import { readMyArticles, unloadArticles } from '../../modules/article/articles/articlesActions';
 const MyArticlesContainer = () => {
+	const limit = 5;
 	const dispatch = useDispatch();
-	const { articles, error, loading } = useSelector(({ articles, loading }) => ({
-		articles: articles.articles,
-		error: articles.error,
-		loading: loading['article/READ_MY_ARTICLES'],
-	}));
+
+	const articles = useSelector((state) => state.articles.articles);
+	const error = useSelector((state) => state.articles.error);
+	const loading = useSelector((state) => state.loading['article/READ_MY_ARTICLES']);
+
+	const [page, setPage] = useState(1);
+	const totalCnt = articles ? parseInt(articles.count) : 0;
 
 	useEffect(() => {
-		dispatch(readMyArticles());
+		dispatch(
+			readMyArticles({
+				limit,
+				page,
+			}),
+		);
 		return () => {
 			dispatch(unloadArticles());
 		};

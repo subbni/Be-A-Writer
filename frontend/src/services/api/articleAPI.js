@@ -8,7 +8,8 @@ export const write = ({ title, subtitle, content }) =>
 export const getArticle = (articleId) => client.get(`/api/article/detail/${articleId}`);
 
 // 본인 작성 글 조회
-export const getMyArticles = () => client.get('/api/article/my');
+export const getMyArticles = ({ page, limit }) =>
+	client.get(`/api/article/my?page=${page}&limit=${limit}`);
 
 // 글 수정
 export const modifyArticle = ({ articleId, title, subtitle, content }) =>
@@ -16,3 +17,7 @@ export const modifyArticle = ({ articleId, title, subtitle, content }) =>
 
 // 글 삭제
 export const deleteArticle = (articleId) => client.delete(`/api/article/${articleId}`);
+
+// 전체 글 리스트 조회
+export const getAllArticles = ({ page, limit }) =>
+	client.get(`/api/article/list?page=${page}&limit=${limit}`);

@@ -69,7 +69,9 @@ const Sidebar = ({ isSidebarClosed, onMenuBtnClick }) => {
 				</HeaderMenu>
 				<SideMenu>
 					<SideMenuItem>
-						<img className="btn" src={Home} alt="home" />
+						<Link to="/articles">
+							<img className="btn" src={Home} alt="home" />
+						</Link>
 					</SideMenuItem>
 					<SideMenuItem>
 						<img className="btn" src={Calendar} alt="calendar" />

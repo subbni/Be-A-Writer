@@ -6,7 +6,6 @@ import pool from '../psql.js';
 
 class ArticleRepository {
 	static async create({ title, subtitle, content, authorId }) {
-		console.log(arguments);
 		const result = await pool.query(
 			'INSERT INTO article (title, subtitle, content, author_id) VALUES ($1, $2, $3, $4) RETURNING *',
 			[title, subtitle, content, authorId],
@@ -22,12 +21,25 @@ class ArticleRepository {
 		return result.rows[0];
 	}
 
-	static async findByAuthorId(authorId) {
+	static async findByAuthorId(authorId, params) {
 		const result = await pool.query(
-			'SELECT * FROM article WHERE author_id = $1',
-			[authorId],
+			`WITH article_count AS (
+					SELECT COUNT(*) as total_count 
+					FROM article 
+					WHERE author_id = $1
+			)
+			SELECT *, (SELECT total_count FROM article_count) 
+			FROM article 
+			WHERE author_id = $1 
+			ORDER BY article_id DESC 
+			LIMIT $2 OFFSET $3`,
+			[authorId, params.limit, params.offset],
 		);
-		return result.rows;
+
+		return {
+			data: result.rows,
+			count: result.rows.length > 0 ? result.rows[0].total_count : 0,
+		};
 	}
 
 	static async update({ articleId, title, subtitle, content }) {
@@ -49,6 +61,30 @@ class ArticleRepository {
 			[articleId],
 		);
 		return result.rows[0];
+	}
+
+	static async findAll(params) {
+		const result = await pool.query(
+			`WITH article_count AS (
+					SELECT COUNT(*) as total_count 
+					FROM article 
+			)
+			SELECT a.*, m.nickname AS author_nickname, (SELECT total_count FROM article_count) 
+			FROM article a
+			JOIN member m ON a.author_id = m.member_id
+			ORDER BY a.article_id DESC 
+			LIMIT $1 OFFSET $2`,
+			[params.limit, params.offset],
+		);
+		return {
+			data: result.rows,
+			count: result.rows.length > 0 ? result.rows[0].total_count : 0,
+		};
+	}
+
+	static async getToTalCount() {
+		const result = await pool.query('SELECT count(*) FROM article');
+		return result.rows[0].count;
 	}
 }
 

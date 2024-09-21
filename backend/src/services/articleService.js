@@ -27,8 +27,8 @@ class ArticleService {
 		};
 	}
 
-	static async getMemberArticles(memberId) {
-		const result = await ArticleRepository.findByAuthorId(memberId);
+	static async getMemberArticles(memberId, params) {
+		const result = await ArticleRepository.findByAuthorId(memberId, params);
 		return result;
 	}
 
@@ -44,6 +44,11 @@ class ArticleService {
 
 	static async deleteArticle(articleId) {
 		const result = await ArticleRepository.delete(articleId);
+		return result;
+	}
+
+	static async getAll(params) {
+		const result = await ArticleRepository.findAll(params);
 		return result;
 	}
 

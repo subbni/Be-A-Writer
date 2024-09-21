@@ -7,6 +7,7 @@ const articleRouter = Router();
 
 articleRouter.post('/write', checkLoggedIn, ArticleController.writeArticle);
 articleRouter.get('/my', checkLoggedIn, ArticleController.showMemberArticles);
+articleRouter.get('/list', ArticleController.list);
 articleRouter.get('/detail/:articleId', ArticleController.showArticle);
 articleRouter.patch(
 	'/:articleId',
@@ -20,5 +21,4 @@ articleRouter.delete(
 	verifyArticleAuthor,
 	ArticleController.deleteArticle,
 );
-articleRouter.get('/', ArticleController.list);
 export default articleRouter;

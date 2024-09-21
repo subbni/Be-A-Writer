@@ -8,9 +8,8 @@ import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
 	const [isSidebarClosed, setIsSidebarClosed] = useState(true);
-	const { user } = useSelector(({ user }) => ({
-		user: user.user,
-	}));
+	const user = useSelector((state) => state.user.user);
+
 	const dispatch = useDispatch();
 	const onLogout = () => {
 		dispatch(logout());

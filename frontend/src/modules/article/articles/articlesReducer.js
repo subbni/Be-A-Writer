@@ -2,6 +2,8 @@ import { handleActions } from 'redux-actions';
 import {
 	DELETE_ARTICLE_FAILURE,
 	DELETE_ARTICLE_SUCCESS,
+	READ_ALL_ARTICLES_FAILURE,
+	READ_ALL_ARTICLES_SUCCESS,
 	READ_ARTICLE_FAILURE,
 	READ_ARTICLE_SUCCESS,
 	READ_MY_ARTICLES_FAILURE,
@@ -32,6 +34,14 @@ const articles = handleActions(
 			articles,
 		}),
 		[READ_MY_ARTICLES_FAILURE]: (state, { payload: error }) => ({
+			...state,
+			error,
+		}),
+		[READ_ALL_ARTICLES_SUCCESS]: (state, { payload: articles }) => ({
+			...state,
+			articles,
+		}),
+		[READ_ALL_ARTICLES_FAILURE]: (state, { payload: error }) => ({
 			...state,
 			error,
 		}),

@@ -17,3 +17,7 @@ export const modifyArticle = ({ articleId, title, subtitle, content }) =>
 
 // 글 삭제
 export const deleteArticle = (articleId) => client.delete(`/api/article/${articleId}`);
+
+// 전체 글 리스트 조회
+export const getAllArticles = ({ page, limit }) =>
+	client.get(`/api/article/list?page=${page}&limit=${limit}`);

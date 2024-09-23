@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MyArticles from '../../components/article/MyArticles';
+import MyArticlesView from '../../components/article/MyArticlesView';
 import { useDispatch, useSelector } from 'react-redux';
 import { readMyArticles, unloadArticles } from '../../modules/article/articles/articlesActions';
 import PaginationBar from '../../components/pagination/PaginationBar';
@@ -33,7 +33,7 @@ const MyArticlesContainer = () => {
 
 	return (
 		<>
-			<MyArticles articles={articles} error={error} loading={loading} />
+			<MyArticlesView articles={articles} error={error} loading={loading} />
 			<PaginationBar totalItemCnt={totalCnt} currentPage={page} onPageChange={onPageChange} />
 		</>
 	);

@@ -1,16 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
 import Responsive from '../common/Responsive';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/dateUtils';
 
-const MyArticlesBlock = styled(Responsive)`
+const FullArticlesBlock = styled(Responsive)`
 	padding: 10rem;
 	padding-bottom: 1rem;
 	max-width: 1300px;
+	min-width: 800px;
 `;
 
-const ArticleWrapper = styled.div`
+const FullArticlesWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -48,12 +49,21 @@ const ArticleItem = styled(Link)`
 			text-decoration: underline;
 		}
 	}
+	.info {
+		span {
+			padding-right: 1rem;
+		}
+		.author {
+			font-style: italic;
+			font-size: 0.8rem;
+		}
+	}
 `;
 
-const MyArticles = ({ articles, error, loading }) => {
+const FullArticlesView = ({ articles }) => {
 	return (
-		<MyArticlesBlock>
-			<ArticleWrapper>
+		<FullArticlesBlock>
+			<FullArticlesWrapper>
 				{articles &&
 					articles.data.map((article) => (
 						<ArticleItem key={article.article_id} to={`/article/${article.article_id}`}>
@@ -62,12 +72,15 @@ const MyArticles = ({ articles, error, loading }) => {
 								{article.subtitle && <span className="subtitle">{article.subtitle}</span>}
 								{article.content.replace(/(<([^>]+)>)/gi, '')}
 							</div>
-							<div className="createdAt">{formatDate(article.created_at)}</div>
+							<div className="info">
+								<span className="createdAt">{formatDate(article.created_at)}</span>
+								<span className="author">by {article.author_nickname}</span>
+							</div>
 						</ArticleItem>
 					))}
-			</ArticleWrapper>
-		</MyArticlesBlock>
+			</FullArticlesWrapper>
+		</FullArticlesBlock>
 	);
 };
 
-export default MyArticles;
+export default FullArticlesView;

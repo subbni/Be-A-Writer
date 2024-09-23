@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ArticleFeed from '../../components/article/ArticleFeed';
+import FullArticlesView from '../../components/article/FullArticlesView';
 import PaginationBar from '../../components/pagination/PaginationBar';
 import { readAllArticles, unloadArticles } from '../../modules/article/articles/articlesActions';
 
-const ArticleFeedContainer = () => {
+const FullArticlesContainer = () => {
 	const limit = 10;
 	const dispatch = useDispatch();
 
@@ -16,7 +16,6 @@ const ArticleFeedContainer = () => {
 	const totalCnt = articles ? parseInt(articles.count) : 0;
 
 	useEffect(() => {
-		console.log(`limit : ${limit}, page:${page} dispatch`);
 		dispatch(readAllArticles({ limit, page }));
 
 		return () => {
@@ -30,7 +29,7 @@ const ArticleFeedContainer = () => {
 
 	return (
 		<>
-			<ArticleFeed articles={articles} error={error} loading={loading} />
+			<FullArticlesView articles={articles} error={error} loading={loading} />
 			<PaginationBar
 				totalItemCnt={totalCnt}
 				currentPage={page}
@@ -42,4 +41,4 @@ const ArticleFeedContainer = () => {
 	);
 };
 
-export default ArticleFeedContainer;
+export default FullArticlesContainer;

@@ -14,7 +14,8 @@ const SideBarBlock = styled.div`
 	right: 0;
 	width: calc(1rem + 70px);
 	height: 100%;
-	background-color: var(--color-light-gray);
+	background-color: white;
+	/* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08); */
 	z-index: 101;
 	padding-left: 1rem;
 	transition: transform 0.3s ease-in-out;
@@ -74,7 +75,9 @@ const Sidebar = ({ isSidebarClosed, onMenuBtnClick }) => {
 						</Link>
 					</SideMenuItem>
 					<SideMenuItem>
-						<img className="btn" src={Calendar} alt="calendar" />
+						<Link to="/calendar">
+							<img className="btn" src={Calendar} alt="calendar" />
+						</Link>
 					</SideMenuItem>
 					<SideMenuItem>
 						<Link to="/write">

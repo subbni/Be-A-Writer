@@ -11,6 +11,12 @@ export const getArticle = (articleId) => client.get(`/api/article/detail/${artic
 export const getMyArticles = ({ page, limit }) =>
 	client.get(`/api/article/my?page=${page}&limit=${limit}`);
 
+// 본인 작성 글 조회 by Date
+export const getMyArticlesByDate = ({ year, month, day = null }) =>
+	day === null
+		? client.get(`api/article/my/by-date?year=${year}&month=${month}`)
+		: client.get(`api/article/my/by-date?year=${year}&month=${month}&day=${day}`);
+
 // 글 수정
 export const modifyArticle = ({ articleId, title, subtitle, content }) =>
 	client.patch(`/api/article/${articleId}`, { articleId, title, subtitle, content });

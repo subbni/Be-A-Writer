@@ -7,9 +7,7 @@ const OAuth2RedirectHandler = () => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { user } = useSelector(({ user }) => ({
-		user: user.user,
-	}));
+	const user = useSelector((state) => state.user.user);
 
 	useEffect(() => {
 		const queryParams = new URLSearchParams(location.search);

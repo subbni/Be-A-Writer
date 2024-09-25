@@ -1,20 +1,36 @@
 import { useState } from 'react';
 import {
 	addMonths,
+	addYears,
 	eachDayOfInterval,
 	endOfMonth,
 	endOfWeek,
+	getDate,
 	getMonth,
 	getYear,
 	startOfMonth,
 	startOfWeek,
 	subMonths,
+	subYears,
 } from 'date-fns';
 
 const useCalendar = () => {
 	const [currentDate, setCurrentDate] = useState(new Date()); // 현재 날짜
 	const [selectedYear, setSelectedYear] = useState(getYear(currentDate));
 	const [selectedMonth, setSelectedMonth] = useState(getMonth(currentDate));
+	const [selectedDay, setSelectedDay] = useState(null);
+
+	const handlePrevYear = () => {
+		const prevYear = subYears(new Date(selectedYear, selectedMonth), 1);
+		setSelectedYear(getYear(prevYear));
+		setSelectedMonth(getMonth(prevYear));
+	};
+
+	const handleNextYear = () => {
+		const nextMonth = addYears(new Date(selectedYear, selectedMonth), 1);
+		setSelectedYear(getYear(nextMonth));
+		setSelectedMonth(getMonth(nextMonth));
+	};
 
 	const handlePrevMonth = () => {
 		const prevMonth = subMonths(new Date(selectedYear, selectedMonth), 1);
@@ -26,6 +42,11 @@ const useCalendar = () => {
 		const nextMonth = addMonths(new Date(selectedYear, selectedMonth), 1);
 		setSelectedYear(getYear(nextMonth));
 		setSelectedMonth(getMonth(nextMonth));
+	};
+
+	const handleSelectedDay = (date) => {
+		console.log('current date', date);
+		setSelectedDay(getDate(date));
 	};
 
 	const days = eachDayOfInterval({
@@ -45,9 +66,13 @@ const useCalendar = () => {
 	return {
 		selectedYear,
 		selectedMonth,
+		selectedDay,
 		weeks,
+		handlePrevYear,
+		handleNextYear,
 		handlePrevMonth,
 		handleNextMonth,
+		handleSelectedDay,
 	};
 };
 

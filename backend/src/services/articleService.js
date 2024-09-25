@@ -32,6 +32,14 @@ class ArticleService {
 		return result;
 	}
 
+	static async getMemberArticlesByDate(memberId, params) {
+		const result = await ArticleRepository.findByAuthorIdAndCreatedAt(
+			memberId,
+			params,
+		);
+		return result;
+	}
+
 	static async updateArticle({ articleId, title, subtitle, content }) {
 		const result = await ArticleRepository.update({
 			articleId,

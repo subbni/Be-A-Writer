@@ -1,10 +1,10 @@
 import React from 'react';
-import Responsive from '../common/Responsive';
 import styled from 'styled-components';
+import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/dateUtils';
 
-const ArticleFeedBlock = styled(Responsive)`
+const MyArticlesBlock = styled(Responsive)`
 	padding: 10rem;
 	padding-bottom: 1rem;
 	max-width: 1300px;
@@ -48,20 +48,11 @@ const ArticleItem = styled(Link)`
 			text-decoration: underline;
 		}
 	}
-	.info {
-		span {
-			padding-right: 1rem;
-		}
-		.author {
-			font-style: italic;
-			font-size: 0.8rem;
-		}
-	}
 `;
 
-const ArticleFeed = ({ articles }) => {
+const MyArticlesView = ({ articles, error, loading }) => {
 	return (
-		<ArticleFeedBlock>
+		<MyArticlesBlock>
 			<ArticleWrapper>
 				{articles &&
 					articles.data.map((article) => (
@@ -71,15 +62,12 @@ const ArticleFeed = ({ articles }) => {
 								{article.subtitle && <span className="subtitle">{article.subtitle}</span>}
 								{article.content.replace(/(<([^>]+)>)/gi, '')}
 							</div>
-							<div className="info">
-								<span className="createdAt">{formatDate(article.created_at)}</span>
-								<span className="author">by {article.author_nickname}</span>
-							</div>
+							<div className="createdAt">{formatDate(article.created_at)}</div>
 						</ArticleItem>
 					))}
 			</ArticleWrapper>
-		</ArticleFeedBlock>
+		</MyArticlesBlock>
 	);
 };
 
-export default ArticleFeed;
+export default MyArticlesView;

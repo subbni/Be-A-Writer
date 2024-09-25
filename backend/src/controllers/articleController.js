@@ -25,7 +25,7 @@ class ArticleController {
 	}
 
 	/**
-	 * GET /api/article/list ?page=1&limit=10
+	 * GET /api/article/list?page=1&limit=10
 	 */
 	static async list(req, res) {
 		const page = parseInt(req.query.page, 10) || 1;
@@ -71,6 +71,30 @@ class ArticleController {
 		} catch (e) {
 			console.log(e.message);
 			return res.status(500).json({ message: 'Failed to retrieve articles' });
+		}
+	}
+
+	/**
+	 * GET /api/article/my/by-date?year=2024&month=9&day=22
+	 */
+	static async showMemberArticlesByDate(req, res) {
+		const member_id = req.state.member.member_id;
+		const { year, month, day } = req.query;
+
+		if (!year || !month) {
+			return res.status(400).send('Year and month are required.');
+		}
+		console.log(year, month, day);
+		try {
+			const data = await ArticleService.getMemberArticlesByDate(member_id, {
+				year,
+				month,
+				day,
+			});
+			return res.status(200).json(data);
+		} catch (e) {
+			console.log(e.message);
+			return res.status(500).json(e.message);
 		}
 	}
 

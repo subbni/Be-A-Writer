@@ -1,25 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
-import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { formatDate } from '../../utils/dateUtils';
 
-const MyArticlesBlock = styled(Responsive)`
-	padding: 10rem;
-	padding-bottom: 1rem;
-	max-width: 1300px;
-`;
-
-const ArticleWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+const ArticleListBlock = styled.div`
+	position: relative;
+	width: 600px;
+	max-height: 600px;
+	padding: 1rem;
+	margin: 1rem;
+	/* border: 1px solid gray; */
+	overflow-y: scroll;
 `;
 
 const ArticleItem = styled(Link)`
+	font-size: 17px;
 	width: 100%;
-	height: 150px;
+	height: 120px;
 	border-bottom: 1px solid gray;
 	display: flex;
 	flex-direction: column;
@@ -28,7 +25,7 @@ const ArticleItem = styled(Link)`
 	padding: 1.125rem 0;
 	color: var(--color-dark-gray);
 	.title {
-		font-size: 22px;
+		font-size: 19px;
 		font-weight: 500;
 		color: var(--color-black);
 	}
@@ -48,15 +45,31 @@ const ArticleItem = styled(Link)`
 			text-decoration: underline;
 		}
 	}
+	.info {
+		span {
+			padding-right: 1rem;
+		}
+		.author {
+			font-style: italic;
+			font-size: 0.8rem;
+		}
+	}
 `;
 
-const MyArticles = ({ articles, error, loading }) => {
+const ArticleListHeader = styled.div`
+	width: 100%;
+	height: 20px;
+	background-color: white;
+	text-align: center;
+`;
+
+const ArticleListSection = ({ articles }) => {
 	return (
-		<MyArticlesBlock>
-			<ArticleWrapper>
-				{articles &&
-					articles.data.map((article) => (
-						<ArticleItem key={article.article_id} to={`/article/${article.article_id}`}>
+		<ArticleListBlock>
+			<ArticleListHeader>{articles && <div>총 {articles.length}개의 글</div>}</ArticleListHeader>
+			{articles && articles.length > 0
+				? articles.map((article, idx) => (
+						<ArticleItem key={`article${idx}`} to={`/article/${article.article_id}`}>
 							<h2 className="title">{article.title}</h2>
 							<div className="content">
 								{article.subtitle && <span className="subtitle">{article.subtitle}</span>}
@@ -64,10 +77,10 @@ const MyArticles = ({ articles, error, loading }) => {
 							</div>
 							<div className="createdAt">{formatDate(article.created_at)}</div>
 						</ArticleItem>
-					))}
-			</ArticleWrapper>
-		</MyArticlesBlock>
+				  ))
+				: null}
+		</ArticleListBlock>
 	);
 };
 
-export default MyArticles;
+export default ArticleListSection;

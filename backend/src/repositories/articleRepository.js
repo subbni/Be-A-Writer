@@ -42,6 +42,26 @@ class ArticleRepository {
 		};
 	}
 
+	static async findByAuthorIdAndCreatedAt(
+		authorId,
+		{ year, month, day = null },
+	) {
+		const sql = `SELECT *
+			FROM article
+			WHERE author_id = $1
+			AND EXTRACT(YEAR FROM created_at) = $2
+			AND EXTRACT(MONTH FROM created_at) = $3
+			${day ? 'AND EXTRACT(DAY FROM created_at) = $4' : ''}
+			ORDER BY article_id `;
+
+		const params = day ? [authorId, year, month, day] : [authorId, year, month];
+		const result = await pool.query(sql, params);
+		return {
+			data: result.rows,
+			count: result.rows.length,
+		};
+	}
+
 	static async update({ articleId, title, subtitle, content }) {
 		const result = await pool.query(
 			`UPDATE article 

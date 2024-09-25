@@ -8,8 +8,8 @@ import Left from '../../images/light/Left.svg';
 const HeaderBlock = styled.div`
 	position: fixed;
 	width: 100%;
-	background-color: var(--color-light-gray);
-	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+	background-color: white;
+	/* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08); */
 	z-index: 101;
 `;
 
@@ -45,6 +45,16 @@ const Menu = styled.div`
 	padding-right: 1rem; // Responsive의 padding-left와 동일하게
 `;
 
+const Login = styled(Link)`
+	height: 35px;
+	width: 80px;
+	text-align: center;
+	line-height: 35px;
+	border: 1px solid var(--color-gray);
+	border-radius: 100px;
+	font-size: 16px;
+`;
+
 const Header = ({ user, onLogout, onMenuBtnClick }) => {
 	return (
 		<>
@@ -64,9 +74,9 @@ const Header = ({ user, onLogout, onMenuBtnClick }) => {
 							<span onClick={onLogout}>로그아웃</span>
 						</div>
 					) : (
-						<Link to="/login" className="right">
+						<Login to="/login" className="right">
 							시작하기
-						</Link>
+						</Login>
 					)}
 				</Wrapper>
 			</HeaderBlock>

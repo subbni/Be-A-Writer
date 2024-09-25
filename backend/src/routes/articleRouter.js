@@ -7,6 +7,11 @@ const articleRouter = Router();
 
 articleRouter.post('/write', checkLoggedIn, ArticleController.writeArticle);
 articleRouter.get('/my', checkLoggedIn, ArticleController.showMemberArticles);
+articleRouter.get(
+	'/my/by-date',
+	checkLoggedIn,
+	ArticleController.showMemberArticlesByDate,
+);
 articleRouter.get('/list', ArticleController.list);
 articleRouter.get('/detail/:articleId', ArticleController.showArticle);
 articleRouter.patch(

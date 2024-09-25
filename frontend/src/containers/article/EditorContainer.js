@@ -12,16 +12,12 @@ import {
 const EditorContainer = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { title, subtitle, content, article, articleError, originalArticle } = useSelector(
-		({ articleEditor }) => ({
-			title: articleEditor.title,
-			subtitle: articleEditor.subtitle,
-			content: articleEditor.content,
-			article: articleEditor.article,
-			articleError: articleEditor.articleError,
-			originalArticle: articleEditor.originalArticle,
-		}),
-	);
+	const title = useSelector((state) => state.articleEditor.title);
+	const subtitle = useSelector((state) => state.articleEditor.subtitle);
+	const content = useSelector((state) => state.articleEditor.content);
+	const article = useSelector((state) => state.articleEditor.article);
+	const articleError = useSelector((state) => state.articleEditor.articleError);
+	const originalArticle = useSelector((state) => state.articleEditor.originalArticle);
 
 	const onChangeField = useCallback((payload) => dispatch(changeField(payload)), [dispatch]);
 	// TODO : 빈 내용 : <p> </p> 혹은 <p><br/></p> 처리

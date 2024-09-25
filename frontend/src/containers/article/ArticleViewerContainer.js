@@ -15,13 +15,11 @@ const ArticleViewerContainer = () => {
 	const { articleId } = useParams();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { article, error, loading, user, deleted } = useSelector(({ articles, loading, user }) => ({
-		article: articles.article,
-		error: articles.error,
-		loading: loading['articles/READ_ARTICLE'],
-		user: user.user,
-		deleted: articles.deleted,
-	}));
+	const article = useSelector((state) => state.articles.article);
+	const error = useSelector((state) => state.articles.error);
+	const loading = useSelector((state) => state.loading['articles/READ_ARTICLE']);
+	const user = useSelector((state) => state.user.user);
+	const deleted = useSelector((state) => state.articles.deleted);
 
 	const onDeleteClick = () => {
 		setModal(true);

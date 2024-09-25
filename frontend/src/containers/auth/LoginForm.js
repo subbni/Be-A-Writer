@@ -4,17 +4,20 @@ import { changeField, initializeForm, login } from '../../modules/auth/auth';
 import AuthForm from '../../components/auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
 import { check } from '../../modules/user/user';
-
+// const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
+// 	form: auth.login,
+// 	auth: auth.auth,
+// 	authError: auth.authError,
+// 	user: user.user,
+// }));
 const LoginForm = () => {
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
-		form: auth.login,
-		auth: auth.auth,
-		authError: auth.authError,
-		user: user.user,
-	}));
+	const form = useSelector((state) => state.auth.login);
+	const auth = useSelector((state) => state.auth.auth);
+	const authError = useSelector((state) => state.auth.authError);
+	const user = useSelector((state) => state.user.user);
 
 	const onChange = (e) => {
 		const { value, name } = e.target;

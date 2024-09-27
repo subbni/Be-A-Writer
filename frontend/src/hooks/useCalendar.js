@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	addMonths,
 	addYears,
@@ -15,10 +15,15 @@ import {
 } from 'date-fns';
 
 const useCalendar = () => {
-	const [currentDate, setCurrentDate] = useState(new Date()); // 현재 날짜
-	const [selectedYear, setSelectedYear] = useState(getYear(currentDate));
-	const [selectedMonth, setSelectedMonth] = useState(getMonth(currentDate));
+	const [selectedYear, setSelectedYear] = useState(null);
+	const [selectedMonth, setSelectedMonth] = useState(null);
 	const [selectedDay, setSelectedDay] = useState(null);
+
+	useEffect(() => {
+		const currentDate = new Date();
+		setSelectedYear(getYear(currentDate));
+		setSelectedMonth(getMonth(currentDate));
+	}, []);
 
 	const handlePrevYear = () => {
 		const prevYear = subYears(new Date(selectedYear, selectedMonth), 1);
@@ -45,7 +50,6 @@ const useCalendar = () => {
 	};
 
 	const handleSelectedDay = (date) => {
-		console.log('current date', date);
 		setSelectedDay(getDate(date));
 	};
 

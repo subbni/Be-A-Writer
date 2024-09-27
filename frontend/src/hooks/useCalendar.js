@@ -29,24 +29,28 @@ const useCalendar = () => {
 		const prevYear = subYears(new Date(selectedYear, selectedMonth), 1);
 		setSelectedYear(getYear(prevYear));
 		setSelectedMonth(getMonth(prevYear));
+		setSelectedDay(null);
 	};
 
 	const handleNextYear = () => {
 		const nextMonth = addYears(new Date(selectedYear, selectedMonth), 1);
 		setSelectedYear(getYear(nextMonth));
 		setSelectedMonth(getMonth(nextMonth));
+		setSelectedDay(null);
 	};
 
 	const handlePrevMonth = () => {
 		const prevMonth = subMonths(new Date(selectedYear, selectedMonth), 1);
 		setSelectedYear(getYear(prevMonth));
 		setSelectedMonth(getMonth(prevMonth));
+		setSelectedDay(null);
 	};
 
 	const handleNextMonth = () => {
 		const nextMonth = addMonths(new Date(selectedYear, selectedMonth), 1);
 		setSelectedYear(getYear(nextMonth));
 		setSelectedMonth(getMonth(nextMonth));
+		setSelectedDay(null);
 	};
 
 	const handleSelectedDay = (date) => {

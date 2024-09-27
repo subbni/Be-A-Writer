@@ -38,27 +38,30 @@ const ArticleCalendarView = ({ articles, onDateChange, articlesForMonth }) => {
 	} = useCalendar();
 
 	useEffect(() => {
-		console.log(`selectedYear's changed.`);
-		onDateChange({
-			key: 'year',
-			value: selectedYear,
-		});
+		if (selectedYear) {
+			onDateChange({
+				key: 'year',
+				value: selectedYear,
+			});
+		}
 	}, [onDateChange, selectedYear]);
 
 	useEffect(() => {
-		console.log(`selectedMonth's changed.`);
-		onDateChange({
-			key: 'month',
-			value: selectedMonth,
-		});
+		if (selectedMonth) {
+			onDateChange({
+				key: 'month',
+				value: selectedMonth,
+			});
+		}
 	}, [onDateChange, selectedMonth]);
 
 	useEffect(() => {
-		console.log(`selectedDay's changed.`);
-		onDateChange({
-			key: 'day',
-			value: selectedDay,
-		});
+		if (selectedDay) {
+			onDateChange({
+				key: 'day',
+				value: selectedDay,
+			});
+		}
 	}, [onDateChange, selectedDay]);
 
 	return (

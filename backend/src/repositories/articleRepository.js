@@ -1,7 +1,7 @@
 import pool from '../psql.js';
 
 /**
- * article_id, title, subtitle, content, author_id, created_at, updated_at
+ * article_id, title, subtitle, content, author_id, created_at, updated_at, is_public
  */
 
 class ArticleRepository {
@@ -88,10 +88,12 @@ class ArticleRepository {
 			`WITH article_count AS (
 					SELECT COUNT(*) as total_count 
 					FROM article 
+					WHERE is_public = TRUE
 			)
 			SELECT a.*, m.nickname AS author_nickname, (SELECT total_count FROM article_count) 
 			FROM article a
 			JOIN member m ON a.author_id = m.member_id
+			WHERE a.is_public = true
 			ORDER BY a.article_id DESC 
 			LIMIT $1 OFFSET $2`,
 			[params.limit, params.offset],

@@ -5,10 +5,10 @@ import pool from '../psql.js';
  */
 
 class ArticleRepository {
-	static async create({ title, subtitle, content, authorId }) {
+	static async create({ title, subtitle, content, is_public, authorId }) {
 		const result = await pool.query(
-			'INSERT INTO article (title, subtitle, content, author_id) VALUES ($1, $2, $3, $4) RETURNING *',
-			[title, subtitle, content, authorId],
+			'INSERT INTO article (title, subtitle, content, is_public, author_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+			[title, subtitle, content, is_public, authorId],
 		);
 		return result.rows[0];
 	}
@@ -62,13 +62,13 @@ class ArticleRepository {
 		};
 	}
 
-	static async update({ articleId, title, subtitle, content }) {
+	static async update({ articleId, title, subtitle, content, is_public }) {
 		const result = await pool.query(
 			`UPDATE article 
-			SET title = $1, subtitle = $2, content = $3, updated_at = NOW() 
-			WHERE article_id = $4
+			SET title = $1, subtitle = $2, content = $3, is_public = $4, updated_at = NOW() 
+			WHERE article_id = $5
 			RETURNING *`,
-			[title, subtitle, content, articleId],
+			[title, subtitle, content, is_public, articleId],
 		);
 		return result.rows[0];
 	}

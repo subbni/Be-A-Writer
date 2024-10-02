@@ -4,11 +4,13 @@ import ArticleRepository from '../repositories/articleRepository.js';
 import MemberService from './memberService.js';
 
 class ArticleService {
-	static async writeArticle({ title, subtitle, content, authorId }) {
+	static async writeArticle({ title, subtitle, content, is_public, authorId }) {
+		console.log(is_public);
 		const result = await ArticleRepository.create({
 			title,
 			subtitle,
 			content,
+			is_public,
 			authorId,
 		});
 		console.log(result);
@@ -40,12 +42,19 @@ class ArticleService {
 		return result;
 	}
 
-	static async updateArticle({ articleId, title, subtitle, content }) {
+	static async updateArticle({
+		articleId,
+		title,
+		subtitle,
+		content,
+		is_public,
+	}) {
 		const result = await ArticleRepository.update({
 			articleId,
 			title,
 			subtitle,
 			content,
+			is_public,
 		});
 		return { article_id: result.article_id };
 	}

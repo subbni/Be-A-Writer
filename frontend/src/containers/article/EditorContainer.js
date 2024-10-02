@@ -15,11 +15,13 @@ const EditorContainer = () => {
 	const title = useSelector((state) => state.articleEditor.title);
 	const subtitle = useSelector((state) => state.articleEditor.subtitle);
 	const content = useSelector((state) => state.articleEditor.content);
+	const is_public = useSelector((state) => state.articleEditor.is_public);
 	const article = useSelector((state) => state.articleEditor.article);
 	const articleError = useSelector((state) => state.articleEditor.articleError);
 	const originalArticle = useSelector((state) => state.articleEditor.originalArticle);
 
 	const onChangeField = useCallback((payload) => dispatch(changeField(payload)), [dispatch]);
+
 	// TODO : 빈 내용 : <p> </p> 혹은 <p><br/></p> 처리
 	const onPublish = () => {
 		if (originalArticle) {
@@ -29,6 +31,7 @@ const EditorContainer = () => {
 					title,
 					subtitle,
 					content,
+					is_public,
 				}),
 			);
 		} else {
@@ -37,6 +40,7 @@ const EditorContainer = () => {
 					title,
 					subtitle,
 					content,
+					is_public,
 				}),
 			);
 		}
@@ -64,6 +68,7 @@ const EditorContainer = () => {
 			title={title}
 			subtitle={subtitle}
 			content={content}
+			is_public={is_public}
 			onChangeField={onChangeField}
 			onPublish={onPublish}
 			error={articleError}

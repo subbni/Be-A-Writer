@@ -14,6 +14,7 @@ const initialState = {
 	title: '',
 	subtitle: '',
 	content: '',
+	is_public: true,
 	originalArticle: '',
 	article: null,
 	articleError: null,
@@ -44,6 +45,7 @@ const articleEditor = handleActions(
 			title: article.title,
 			subtitle: article.subtitle,
 			content: article.content,
+			is_public: article.is_public,
 			originalArticle: article,
 		}),
 		[MODIFY_ARTICLE_SUCCESS]: (state, { payload: article }) => ({

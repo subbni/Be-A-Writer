@@ -1,8 +1,7 @@
 import client from './client';
 
 // 글 작성
-export const write = ({ title, subtitle, content }) =>
-	client.post('/api/article/write', { title, subtitle, content });
+export const write = (body) => client.post('/api/article/write', body);
 
 // 글 단일 조회
 export const getArticle = (articleId) => client.get(`/api/article/detail/${articleId}`);
@@ -18,8 +17,7 @@ export const getMyArticlesByDate = ({ year, month, day = null }) =>
 		: client.get(`api/article/my/by-date?year=${year}&month=${month}&day=${day}`);
 
 // 글 수정
-export const modifyArticle = ({ articleId, title, subtitle, content }) =>
-	client.patch(`/api/article/${articleId}`, { articleId, title, subtitle, content });
+export const modifyArticle = (body) => client.patch(`/api/article/${body.articleId}`, body);
 
 // 글 삭제
 export const deleteArticle = (articleId) => client.delete(`/api/article/${articleId}`);

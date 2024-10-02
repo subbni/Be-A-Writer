@@ -12,18 +12,23 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
 	key: key,
 	value: value,
 }));
-export const writeArticle = createAction(WRITE_ARTICLE, ({ title, subtitle, content }) => ({
-	title: title,
-	subtitle: subtitle,
-	content: content,
-}));
+export const writeArticle = createAction(
+	WRITE_ARTICLE,
+	({ title, subtitle, content, is_public }) => ({
+		title,
+		subtitle,
+		content,
+		is_public,
+	}),
+);
 export const setOriginalArticle = createAction(SET_ORIGINAL_ARTICLE, (article) => article);
 export const modifyArticle = createAction(
 	MODIFY_ARTICLE,
-	({ articleId, title, subtitle, content }) => ({
+	({ articleId, title, subtitle, content, is_public }) => ({
 		articleId,
 		title,
 		subtitle,
 		content,
+		is_public,
 	}),
 );

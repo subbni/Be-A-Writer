@@ -3,6 +3,7 @@ import Responsive from '../common/Responsive';
 import styled from 'styled-components';
 import Kebab from '../../images/Kebab.svg';
 import Profile from '../../images/Profile.svg';
+import Lock from '../../images/light/Lock.svg';
 import { formatDateTime } from '../../utils/dateUtils';
 
 const ArticleViewerBlock = styled(Responsive)`
@@ -46,6 +47,17 @@ const SubInfo = styled.div`
 		.profile {
 			width: 27px;
 			margin-right: 0.5rem;
+		}
+		.private {
+			padding: 0 0.55rem;
+			display: flex;
+			flex-direction: row;
+			justify-content: start;
+			align-items: center;
+			img {
+				height: 90%;
+			}
+			text-align: center;
 		}
 	}
 	.right {
@@ -103,7 +115,7 @@ const ArticleViewer = ({ article, error, loading, author, onDeleteClick, onModif
 		return null;
 	}
 
-	const { title, subtitle, created_at, content } = article;
+	const { title, subtitle, created_at, content, is_public } = article;
 	const { nickname } = article.author;
 
 	const onMenuClick = (e) => {
@@ -123,6 +135,12 @@ const ArticleViewer = ({ article, error, loading, author, onDeleteClick, onModif
 						<img className="profile" src={Profile} alt="profile" />
 						<span className="author">{nickname}</span>
 						<span>{formatDateTime(created_at)}</span>
+						{!is_public && (
+							<div className="private">
+								<img src={Lock} alt="private post" />
+								<span>비공개</span>
+							</div>
+						)}
 					</div>
 					{author && (
 						<div className="right">

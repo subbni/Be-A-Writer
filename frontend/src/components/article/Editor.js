@@ -3,7 +3,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styled, { css } from 'styled-components';
 import Responsive from '../common/Responsive';
-import user from '../../modules/user/user';
+import Lock from '../../images/Lock.svg';
+import OpenLock from '../../images/OpenLock.svg';
 
 const EditorBlock = styled(Responsive)`
 	padding: 10rem;
@@ -21,6 +22,53 @@ const TitleWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 80%;
+`;
+
+const PublishWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.lock {
+		height: 40px;
+		padding: 5px;
+		scale: 0.9;
+		cursor: pointer;
+		&:hover {
+			scale: 1;
+		}
+	}
+`;
+const Tooltip = styled.div`
+	position: absolute;
+	visibility: hidden;
+	left: 3rem;
+	top: 10px;
+	background-color: white;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	color: var(--color-dark-gray);
+	padding: 5px 10px;
+	text-align: center;
+	width: 9rem;
+	height: 1.5rem;
+
+	font-size: 15px;
+	border-radius: 5px;
+	bottom: 40%;
+
+	/* 애니메이션 관련 */
+	opacity: 0;
+	transform: translateY(10px); /* 10px 아래에서 시작 */
+	transition: opacity 0.4s ease, transform 0.3s ease;
+`;
+
+const LockWrapper = styled.div`
+	position: relative;
+	&:hover ${Tooltip} {
+		visibility: visible;
+		opacity: 1;
+		transform: translateY(0);
+	}
 `;
 
 const TitleInput = styled.input`
@@ -54,7 +102,8 @@ const writeButtonStyle = css`
 	background-color: white;
 	color: var(--color-dark-gray);
 	padding: 0.5rem;
-	margin-top: 1rem;
+	margin: 0.5rem 0;
+	/* margin-top: 1rem; */
 	font-size: 1rem;
 	cursor: pointer;
 	&:hover {
@@ -88,7 +137,15 @@ const QuillWrapper = styled.div`
 	}
 `;
 
-const Editor = ({ title, subtitle, content, onChangeField, onPublish, originalArticle }) => {
+const Editor = ({
+	title,
+	subtitle,
+	content,
+	is_public,
+	onChangeField,
+	onPublish,
+	originalArticle,
+}) => {
 	const keyDownListenr = (event) => {
 		if (event.key === 'Enter') {
 			console.log('enter');
@@ -150,6 +207,10 @@ const Editor = ({ title, subtitle, content, onChangeField, onPublish, originalAr
 		onChangeField({ key: 'content', value: e });
 	};
 
+	const onChangePublicity = (e) => {
+		onChangeField({ key: 'is_public', value: !is_public });
+	};
+
 	const handlePublish = () => {
 		if (checkEmptyFields()) {
 			onPublish();
@@ -182,7 +243,17 @@ const Editor = ({ title, subtitle, content, onChangeField, onPublish, originalAr
 							onChange={onChangeTitles}
 						/>
 					</TitleWrapper>
-					<StyledButton onClick={handlePublish}>저장</StyledButton>
+					<PublishWrapper>
+						<StyledButton onClick={handlePublish}>저장</StyledButton>
+						<LockWrapper>
+							{is_public ? (
+								<img className="lock" src={OpenLock} alt="open lock" onClick={onChangePublicity} />
+							) : (
+								<img className="lock" src={Lock} alt="lock" onClick={onChangePublicity} />
+							)}
+							<Tooltip>{is_public ? '공개로 발행됩니다.' : '비공개로 발행됩니다.'}</Tooltip>
+						</LockWrapper>
+					</PublishWrapper>
 				</EditorHeader>
 
 				<ReactQuill modules={modules} placeholder="내용을 입력하세요" onChange={onChangeContent} />

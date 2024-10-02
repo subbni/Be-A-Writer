@@ -5,7 +5,7 @@ import { readMyArticles, unloadArticles } from '../../modules/article/articles/a
 import PaginationBar from '../../components/pagination/PaginationBar';
 
 const MyArticlesContainer = () => {
-	const limit = 5;
+	const limit = 10;
 	const dispatch = useDispatch();
 
 	const articles = useSelector((state) => state.articles.articles);

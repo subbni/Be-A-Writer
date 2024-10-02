@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { formatDate } from '../../utils/dateUtils';
+import Lock from '../../images/light/Lock.svg';
 
 const ArticleListBlock = styled.div`
 	position: relative;
@@ -39,19 +40,22 @@ const ArticleItem = styled(Link)`
 		text-overflow: ellipsis; /* ... 처리하기 */
 		white-space: nowrap; /* 줄바꿈 안하기 (한 줄 밑줄임표 적용) */
 	}
+	.info {
+		display: flex;
+		flex-direction: row;
+		justify-content: start;
+		align-items: center;
+
+		img {
+			height: 90%;
+			padding-left: 0.5rem;
+		}
+	}
+
 	&:hover {
 		cursor: pointer;
 		.title {
 			text-decoration: underline;
-		}
-	}
-	.info {
-		span {
-			padding-right: 1rem;
-		}
-		.author {
-			font-style: italic;
-			font-size: 0.8rem;
 		}
 	}
 `;
@@ -75,7 +79,10 @@ const ArticleListSection = ({ articles }) => {
 								{article.subtitle && <span className="subtitle">{article.subtitle}</span>}
 								{article.content.replace(/(<([^>]+)>)/gi, '')}
 							</div>
-							<div className="createdAt">{formatDate(article.created_at)}</div>
+							<div className="info">
+								<span>{formatDate(article.created_at)}</span>
+								{!article.is_public && <img src={Lock} alt="private post" />}
+							</div>
 						</ArticleItem>
 				  ))
 				: null}

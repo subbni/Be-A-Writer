@@ -4,21 +4,20 @@ class ArticleController {
 	/**
 	 * POST /api/article/write
 	 * {
-	 *  title, subtitle, content
+	 *  title, subtitle, content, is_public
 	 * }
 	 */
 	static async writeArticle(req, res) {
 		console.log(req.state.member);
-		const { title, subtitle, content } = req.body;
+		const { title, content } = req.body;
 		if (!title || !content) {
 			return res
 				.status(400)
 				.json({ message: 'title and content are all required' });
 		}
+		console.log(req.body);
 		const data = await ArticleService.writeArticle({
-			title,
-			subtitle,
-			content,
+			...req.body,
 			authorId: req.state.member.member_id,
 		});
 		return res.status(201).json(data);
@@ -100,7 +99,7 @@ class ArticleController {
 
 	/**
 	 * PATCH /api/article/:articleId
-	 * { title, subtitle, content }
+	 * { title, subtitle, content, is_public }
 	 */
 	static async updateArticle(req, res) {
 		try {

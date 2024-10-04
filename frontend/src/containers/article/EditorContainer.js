@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Editor from '../../components/article/Editor';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -47,6 +47,12 @@ const EditorContainer = () => {
 	};
 
 	useEffect(() => {
+		return () => {
+			dispatch(initialize());
+		};
+	}, []);
+
+	useEffect(() => {
 		if (!originalArticle) {
 			dispatch(initialize());
 		}
@@ -56,7 +62,7 @@ const EditorContainer = () => {
 		if (article) {
 			const { article_id } = article;
 			dispatch(initialize());
-			navigate(`/article/${article_id}`);
+			navigate(`/article/${article_id}`, { replace: true });
 		}
 		if (articleError) {
 			console.log(articleError);

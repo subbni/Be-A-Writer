@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import jwtMiddleware from './lib/jwtMiddleware.js';
 import oauthRouter from './routes/oauthRouter.js';
 import articleRouter from './routes/articleRouter.js';
+import commentRouter from './routes/commentRouter.js';
 
 dotenv.config();
 const app = new express();
@@ -19,6 +20,7 @@ app.use(jwtMiddleware);
 app.use('/api/auth', authRouter);
 app.use('/api/oauth', oauthRouter);
 app.use('/api/article', articleRouter);
+app.use('/api/comment', commentRouter);
 
 app.listen(app.get('port'), () => {
 	console.log(`Listening to ${app.get('port')} port ...`);

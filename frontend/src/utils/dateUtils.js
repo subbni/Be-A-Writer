@@ -19,3 +19,31 @@ export const formatDateTime = (isoString) => {
 
 	return `${year}.${month}.${day}  ${hours}:${minutes}`;
 };
+
+export const getTimeAgo = (isoString) => {
+	const date = new Date(isoString);
+	const now = new Date();
+	const differenceInMs = now - date; // 두 날짜 차이 (밀리초)
+
+	const msInMinute = 1000 * 60;
+	const msInHour = 1000 * 60 * 60;
+	const msInDay = 1000 * 60 * 60 * 24;
+
+	if (differenceInMs < msInMinute) {
+		return '방금 전';
+	}
+
+	// 1시간 이내면 'n분 전'
+	if (differenceInMs < msInHour) {
+		const minutes = Math.floor(differenceInMs / msInMinute);
+		return `${minutes}분 전`;
+	}
+
+	// 24시간 이내면 'n시간 전'
+	if (differenceInMs < msInDay) {
+		const hours = Math.floor(differenceInMs / msInHour);
+		return `${hours}시간 전`;
+	}
+
+	return formatDate(isoString);
+};

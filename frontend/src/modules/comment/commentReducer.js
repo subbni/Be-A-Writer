@@ -4,10 +4,13 @@ import {
 	READ_COMMENTS_FAILURE,
 	WRITE_COMMENT_FAILURE,
 	WRITE_COMMENT_SUCCESS,
+	READ_RECOMMENTS_SUCCESS,
+	READ_RECOMMENTS_FAILURE,
 } from './commentTypes';
 
 const initialState = {
 	comments: null,
+	recomments: {},
 	addedComment: null,
 	error: null,
 };
@@ -19,6 +22,17 @@ const comments = handleActions(
 			comments,
 		}),
 		[READ_COMMENTS_FAILURE]: (state, { payload: error }) => ({
+			...state,
+			error,
+		}),
+		[READ_RECOMMENTS_SUCCESS]: (state, { payload: { parentId, data } }) => ({
+			...state,
+			recomments: {
+				...state.recomments,
+				[parentId]: [...data],
+			},
+		}),
+		[READ_RECOMMENTS_FAILURE]: (state, { payload: error }) => ({
 			...state,
 			error,
 		}),

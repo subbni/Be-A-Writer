@@ -34,7 +34,12 @@ const MyArticlesContainer = () => {
 	return (
 		<>
 			<MyArticlesView articles={articles} error={error} loading={loading} />
-			<PaginationBar totalItemCnt={totalCnt} currentPage={page} onPageChange={onPageChange} />
+			<PaginationBar
+				itemCntPerPage={limit}
+				totalItemCnt={totalCnt}
+				currentPage={page}
+				onPageChange={onPageChange}
+			/>
 		</>
 	);
 };

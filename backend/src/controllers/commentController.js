@@ -37,7 +37,7 @@ class CommentController {
 	}
 
 	/**
-	 * GET /api/comment/reply:parentId
+	 * GET /api/comment/reply/:parentId
 	 */
 	static async showReplyComments(req, res) {
 		const { parentId } = req.params;
@@ -47,6 +47,38 @@ class CommentController {
 		} catch (e) {
 			console.log(e.message);
 			return res.status(500).json(e.message);
+		}
+	}
+
+	/**
+	 * DELETE /api/comment/:commentId
+	 */
+	static async deleteComment(req, res) {
+		const { commentId } = req.params;
+		try {
+			const data = await CommentService.deleteComment(commentId);
+			return res.status(200).json(data);
+		} catch (e) {
+			return res.status(500).json({ message: e.message });
+		}
+	}
+
+	/**
+	 * PATCH /api/comment/:commentId
+	 * { content }
+	 */
+	static async updateComment(req, res) {
+		const { commentId } = req.params;
+		console.log(req.body);
+		try {
+			const data = await CommentService.updateComment({
+				commentId,
+				...req.body,
+			});
+			return res.status(200).json(data);
+		} catch (e) {
+			console.log(e.message);
+			return res.status(500).json({ message: e.message });
 		}
 	}
 }

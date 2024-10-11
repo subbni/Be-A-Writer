@@ -54,6 +54,14 @@ class CommentRepository {
 		return result.rows;
 	}
 
+	static async findByCommentId(commentId) {
+		const result = await pool.query(
+			'SELECT * FROM comment WHERE comment_id = $1',
+			[commentId],
+		);
+		return result.rows[0];
+	}
+
 	static async updateRecommentCount(comment_id, amount) {
 		const result = await pool.query(
 			`UPDATE comment c
@@ -63,6 +71,28 @@ class CommentRepository {
 		);
 
 		return result.rows;
+	}
+
+	static async update({ commentId, content }) {
+		const result = await pool.query(
+			`UPDATE comment
+			SET content = $1, updated_at = NOW()
+			WHERE comment_id = $2
+			RETURNING *
+			`,
+			[content, commentId],
+		);
+		return result.rows[0];
+	}
+
+	static async delete(commentId) {
+		const result = await pool.query(
+			`DELETE FROM comment
+			WHERE comment_id = $1
+			RETURNING *`,
+			[commentId],
+		);
+		return result.rows[0];
 	}
 }
 

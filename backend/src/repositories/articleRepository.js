@@ -73,6 +73,18 @@ class ArticleRepository {
 		return result.rows[0];
 	}
 
+	static async updateCommentCount({ articleId, amount }) {
+		const result = await pool.query(
+			`UPDATE article
+			SET comment_count = comment_count + $1
+			WHERE article_id = $2
+			RETURNING *
+			`,
+			[amount, articleId],
+		);
+		return result.rows[0];
+	}
+
 	static async delete(articleId) {
 		const result = await pool.query(
 			`DELETE FROM article

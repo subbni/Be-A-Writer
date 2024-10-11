@@ -6,11 +6,16 @@ import {
 	WRITE_COMMENT_SUCCESS,
 	READ_RECOMMENTS_SUCCESS,
 	READ_RECOMMENTS_FAILURE,
+	MODIFY_COMMENT_SUCCESS,
+	MODIFY_COMMENT_FAILURE,
+	DELETE_COMMENT_SUCCESS,
+	DELETE_COMMENT_FAILURE,
 } from './commentTypes';
 
 const initialState = {
 	comments: null,
 	recomments: {},
+	deletedComment: null,
 	addedComment: null,
 	error: null,
 };
@@ -41,6 +46,22 @@ const comments = handleActions(
 			addedComment: comment,
 		}),
 		[WRITE_COMMENT_FAILURE]: (state, { payload: error }) => ({
+			...state,
+			error,
+		}),
+		[MODIFY_COMMENT_SUCCESS]: (state, { payload: comment }) => ({
+			...state,
+			addedComment: comment,
+		}),
+		[MODIFY_COMMENT_FAILURE]: (state, { payload: error }) => ({
+			...state,
+			error,
+		}),
+		[DELETE_COMMENT_SUCCESS]: (state, { payload: comment }) => ({
+			...state,
+			deletedComment: comment,
+		}),
+		[DELETE_COMMENT_FAILURE]: (state, { payload: error }) => ({
 			...state,
 			error,
 		}),

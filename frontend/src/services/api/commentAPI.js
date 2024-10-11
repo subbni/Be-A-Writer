@@ -12,3 +12,12 @@ export const getComments = ({ articleId, page, limit }) =>
 
 // 대댓글 조회
 export const getRecomments = (commentId) => client.get(`/api/comment/reply/${commentId}`);
+
+// 댓글 수정
+export const updateComment = ({ commentId, content }) =>
+	client.patch(`/api/comment/${commentId}`, {
+		content: content,
+	});
+
+// 댓글 삭제
+export const deleteComment = (commentId) => client.delete(`/api/comment/${commentId}`);

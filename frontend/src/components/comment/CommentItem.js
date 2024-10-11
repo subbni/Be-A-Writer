@@ -17,9 +17,7 @@ const CommentItemStyled = styled.div`
 	padding: 0.6rem 0;
 	&.recomment {
 		background-color: var(--color-light-background);
-		/* align-items: center; */
 		border-bottom: 1px solid var(--color-light-gray);
-		/* margin: 0 0.5rem; */
 	}
 	.left {
 		display: flex;
@@ -57,6 +55,7 @@ const CommentData = styled.div`
 	align-items: start;
 	padding-top: 0.35rem;
 	width: 100%;
+	margin-right: 1rem;
 	.content {
 		padding: 0.75rem 0;
 	}
@@ -64,6 +63,9 @@ const CommentData = styled.div`
 		font-size: 0.8rem;
 		color: var(--color-dark-gray);
 		padding-left: 0.5rem;
+	}
+	.deletedMsg {
+		color: var(--color-gray);
 	}
 `;
 
@@ -127,23 +129,6 @@ const MenuDropdownItem = styled.div`
 	}
 `;
 
-const CommentModifyStyled = styled.div`
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: end;
-	width: 100%;
-	background-color: var(--color-light-background);
-	border-bottom: 1.5px solid var(--color-light-gray);
-	padding: 1rem;
-
-	${({ $isRecomment }) =>
-		$isRecomment &&
-		css`
-			width: 94%;
-		`}
-`;
 const CommentModifyInput = styled.textarea`
 	width: 100%;
 	min-height: 3.5rem;
@@ -254,26 +239,43 @@ const CommentItem = ({
 					<div className="left">
 						{isRecomment && <RecommentIcon src={RecommentRectangle} />}
 						<ProfileImage src={Profile} alt="profile image" />
-						<CommentData>
-							<div className="nickname">
-								{comment.member_nickname}
-								<span className="date_info">
-									{getTimeAgo(comment.created_at)}
-									{comment.created_at !== comment.updated_at && `(수정됨)`}
-								</span>
-							</div>
-							<div className="content">{comment.content}</div>
-							<div className="recomment_info">
-								<RecommentWriteBtn onClick={() => onRecommentWriteBtnClick(comment.comment_id)}>
-									{replyingCommentId === comment.comment_id ? '답글 다는 중' : '답글'}
-								</RecommentWriteBtn>
-								{comment.recomment_count > 0 && (
-									<RecommentShowBtn onClick={() => onRecommentShowBtnClick(comment.comment_id)}>
-										{isExpanded ? '닫기' : `	• 답글 ${comment.recomment_count}개`}
-									</RecommentShowBtn>
-								)}
-							</div>
-						</CommentData>
+						{comment.deleted ? (
+							<CommentData>
+								<div className="nickname">{comment.member_nickname}</div>
+								<div className="content deletedMsg">삭제된 댓글입니다.</div>
+								<div className="recomment_info">
+									<RecommentWriteBtn onClick={() => onRecommentWriteBtnClick(comment.comment_id)}>
+										{replyingCommentId === comment.comment_id ? '답글 다는 중' : '답글'}
+									</RecommentWriteBtn>
+									{comment.recomment_count > 0 && (
+										<RecommentShowBtn onClick={() => onRecommentShowBtnClick(comment.comment_id)}>
+											{isExpanded ? '닫기' : `	• 답글 ${comment.recomment_count}개`}
+										</RecommentShowBtn>
+									)}
+								</div>
+							</CommentData>
+						) : (
+							<CommentData>
+								<div className="nickname">
+									{comment.member_nickname}
+									<span className="date_info">
+										{getTimeAgo(comment.created_at)}
+										{comment.created_at !== comment.updated_at && `(수정됨)`}
+									</span>
+								</div>
+								<div className="content">{comment.content}</div>
+								<div className="recomment_info">
+									<RecommentWriteBtn onClick={() => onRecommentWriteBtnClick(comment.comment_id)}>
+										{replyingCommentId === comment.comment_id ? '답글 다는 중' : '답글'}
+									</RecommentWriteBtn>
+									{comment.recomment_count > 0 && (
+										<RecommentShowBtn onClick={() => onRecommentShowBtnClick(comment.comment_id)}>
+											{isExpanded ? '닫기' : `	• 답글 ${comment.recomment_count}개`}
+										</RecommentShowBtn>
+									)}
+								</div>
+							</CommentData>
+						)}
 					</div>
 					{isAuthor && (
 						<div className="right">

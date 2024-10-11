@@ -19,7 +19,7 @@ class CommentRepository {
 
 	static async getCountByArticleId(article_id) {
 		const result = await pool.query(
-			'SELECT count(*) FROM comment WHERE article_id = $1',
+			'SELECT count(*) FROM comment WHERE article_id = $1 AND deleted = false',
 			[article_id],
 		);
 		return result.rows[0];
@@ -90,6 +90,18 @@ class CommentRepository {
 			`DELETE FROM comment
 			WHERE comment_id = $1
 			RETURNING *`,
+			[commentId],
+		);
+		return result.rows[0];
+	}
+
+	static async updateDeleted(commentId) {
+		const result = await pool.query(
+			`UPDATE comment
+			SET deleted = true
+			WHERE comment_id = $1
+			RETURNING *
+			`,
 			[commentId],
 		);
 		return result.rows[0];

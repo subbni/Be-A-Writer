@@ -15,8 +15,8 @@ const RecommentEditorBlock = styled.div`
 	padding-right: 1.5rem;
 `;
 const RecommentInput = styled.textarea`
-	width: 95%;
-	height: 7.5rem;
+	width: 94%;
+	height: 5.5rem;
 	margin-bottom: 1rem;
 	border: 1px solid var(--color-gray);
 	border-radius: 5px;

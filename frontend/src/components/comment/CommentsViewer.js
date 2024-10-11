@@ -18,27 +18,28 @@ const CommentsInfo = styled.div`
 	font-size: 0.9rem;
 	padding-bottom: 1rem;
 	border-bottom: 1px solid var(--color-gray);
-	margin-bottom: 1rem;
+	margin-bottom: 0.5rem;
 	.write_comment {
 		font-weight: 500;
 		cursor: pointer;
 	}
 `;
 
-const CommentsViewer = ({ articleId, comments, recomments, onRecommentShow, onCommentSubmit }) => {
+const CommentsViewer = ({
+	children,
+	articleId,
+	comments,
+	recomments,
+	onRecommentShow,
+	onCommentSubmit,
+}) => {
 	return (
 		<CommentsViewerBlock>
 			<CommentsInfo>
 				<div className="comments_count">댓글 {comments ? comments.count : 0}개</div>
 				<div className="write_comment">댓글 쓰기</div>
 			</CommentsInfo>
-			<CommentsList
-				comments={comments}
-				recomments={recomments}
-				onCommentSubmit={onCommentSubmit}
-				onRecommentShow={onRecommentShow}
-			/>
-			<CommentEditor articleId={articleId} onCommentSubmit={onCommentSubmit} />
+			{children}
 		</CommentsViewerBlock>
 	);
 };

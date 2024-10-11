@@ -12,7 +12,7 @@ const CommentEditorBlock = styled.div`
 `;
 const CommentInput = styled.textarea`
 	width: 100%;
-	height: 7.5rem;
+	height: 5.5rem;
 	margin: 1rem 0;
 	border: 1px solid var(--color-gray);
 	border-radius: 5px;

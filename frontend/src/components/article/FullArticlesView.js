@@ -3,6 +3,7 @@ import Responsive from '../common/Responsive';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/dateUtils';
+import Comment from '../../images/Comment.svg';
 
 const FullArticlesBlock = styled(Responsive)`
 	padding: 10rem;
@@ -49,7 +50,27 @@ const ArticleItem = styled(Link)`
 			text-decoration: underline;
 		}
 	}
-	.info {
+	.article-info {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		text-align: center;
+		.info_left {
+		}
+		.info_right {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			img {
+				display: block;
+				width: 22px;
+				margin-right: 0.25rem;
+				margin-bottom: 0.25rem;
+			}
+		}
 		span {
 			padding-right: 1rem;
 		}
@@ -72,9 +93,15 @@ const FullArticlesView = ({ articles }) => {
 								{article.subtitle && <span className="subtitle">{article.subtitle}</span>}
 								{article.content.replace(/(<([^>]+)>)/gi, '')}
 							</div>
-							<div className="info">
-								<span className="createdAt">{formatDate(article.created_at)}</span>
-								<span className="author">by {article.author_nickname}</span>
+							<div className="article-info">
+								<div className="info_left">
+									<span className="createdAt">{formatDate(article.created_at)}</span>
+									<span className="author">by {article.author_nickname}</span>
+								</div>
+								<div className="info_right">
+									<img src={Comment} alt="comment" />
+									{article.comment_count}
+								</div>
 							</div>
 						</ArticleItem>
 					))}

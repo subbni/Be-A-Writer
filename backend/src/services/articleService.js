@@ -5,7 +5,6 @@ import MemberService from './memberService.js';
 
 class ArticleService {
 	static async writeArticle({ title, subtitle, content, is_public, authorId }) {
-		console.log(is_public);
 		const result = await ArticleRepository.create({
 			title,
 			subtitle,
@@ -13,7 +12,6 @@ class ArticleService {
 			is_public,
 			authorId,
 		});
-		console.log(result);
 		return { article_id: result.article_id };
 	}
 
@@ -70,13 +68,22 @@ class ArticleService {
 	}
 
 	static async checkAuthor({ memberId, articleId }) {
+		const article = await this.checkIfArticleExist(articleId);
+		const authorId = article.author_id;
+		return memberId.toString() === authorId.toString();
+	}
+
+	static async updateCommentCount(articleId, amount) {
+		await this.checkIfArticleExist(articleId);
+		await ArticleRepository.updateCommentCount({ articleId, amount });
+	}
+
+	static async checkIfArticleExist(articleId) {
 		const article = await ArticleRepository.findByArticleId(articleId);
 		if (!article) {
 			throw new CustomError(ArticleErrorMessage.ARTICLE_NOT_FOUND);
 		}
-		const authorId = article.author_id;
-		console.log('author_id =', article.author_id);
-		return memberId.toString() === authorId.toString();
+		return article;
 	}
 }
 

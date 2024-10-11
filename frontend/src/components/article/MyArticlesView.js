@@ -4,6 +4,7 @@ import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/dateUtils';
 import Lock from '../../images/light/Lock.svg';
+import Comment from '../../images/Comment.svg';
 
 const MyArticlesBlock = styled(Responsive)`
 	padding: 10rem;
@@ -44,16 +45,37 @@ const ArticleItem = styled(Link)`
 		white-space: nowrap; /* 줄바꿈 안하기 (한 줄 밑줄임표 적용) */
 	}
 	.info {
+		width: 100%;
 		display: flex;
 		flex-direction: row;
-		justify-content: start;
 		align-items: center;
-
+		justify-content: space-between;
+	}
+	.info_left {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
 		img {
-			height: 90%;
-			padding-left: 0.5rem;
+			display: block;
+			padding-left: 0.25rem;
+			margin-right: 0.25rem;
+			margin-bottom: 0.125rem;
 		}
 	}
+	.info_right {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		img {
+			display: block;
+			width: 22px;
+			margin-right: 0.25rem;
+			margin-bottom: 0.25rem;
+		}
+	}
+
 	&:hover {
 		cursor: pointer;
 		.title {
@@ -75,8 +97,14 @@ const MyArticlesView = ({ articles, error, loading }) => {
 								{article.content.replace(/(<([^>]+)>)/gi, '')}
 							</div>
 							<div className="info">
-								<span>{formatDate(article.created_at)}</span>
-								{!article.is_public && <img src={Lock} alt="private post" />}
+								<div className="info_left">
+									<span>{formatDate(article.created_at)}</span>
+									{!article.is_public && <img src={Lock} alt="private post" />}
+								</div>
+								<div className="info_right">
+									<img src={Comment} alt="comment" />
+									{article.comment_count}
+								</div>
 							</div>
 						</ArticleItem>
 					))}

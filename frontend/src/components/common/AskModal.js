@@ -29,18 +29,33 @@ const ButtonWrapper = styled.div`
 const modalButtonStyle = css`
 	width: 20%;
 	border: none;
-	background-color: var(--color-light-gray);
 	color: var(--color-dark-gray);
 	padding: 0.5rem;
 	margin: 0 0.5rem;
 	margin-top: 1rem;
 	font-size: 1rem;
+	font-weight: 500;
 	border-radius: 4px;
 	cursor: pointer;
-	&:hover {
-		background-color: var(--color-dark-gray);
-		color: white;
-	}
+	${({ $cancel }) =>
+		$cancel &&
+		css`
+			color: var(--color-point);
+			background: none;
+			&:hover {
+				background: var(--color-light-gray);
+			}
+		`}
+
+	${({ $confirm }) =>
+		$confirm &&
+		css`
+			color: white;
+			background: #52607f;
+			&:hover {
+				background: var(--color-point);
+			}
+		`}
 `;
 
 const StyledButton = styled.button`
@@ -64,8 +79,12 @@ const AskModal = ({
 				<p>{description}</p>
 				<div className="buttons"></div>
 				<ButtonWrapper>
-					<StyledButton onClick={onCancel}>{cancelText}</StyledButton>
-					<StyledButton onClick={onConfirm}>{confirmText}</StyledButton>
+					<StyledButton $cancel={true} onClick={onCancel}>
+						{cancelText}
+					</StyledButton>
+					<StyledButton $confirm={true} onClick={onConfirm}>
+						{confirmText}
+					</StyledButton>
 				</ButtonWrapper>
 			</AskModalBlock>
 		</FullScreen>

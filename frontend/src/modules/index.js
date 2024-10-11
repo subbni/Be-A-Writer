@@ -9,6 +9,8 @@ import { articlesSaga } from './article/articles/articlesSaga';
 import articles from './article/articles/articlesReducer';
 import calendar from './calendar/calendarReducer';
 import { calendarSaga } from './calendar/calendarSaga';
+import comments from './comment/commentReducer';
+import { commentSaga } from './comment/commentSaga';
 
 const rootReducer = combineReducers({
 	auth,
@@ -17,10 +19,18 @@ const rootReducer = combineReducers({
 	articleEditor,
 	articles,
 	calendar,
+	comments,
 });
 
 export function* rootSaga() {
-	yield all([authSaga(), userSaga(), articleEditorSaga(), articlesSaga(), calendarSaga()]);
+	yield all([
+		authSaga(),
+		userSaga(),
+		articleEditorSaga(),
+		articlesSaga(),
+		calendarSaga(),
+		commentSaga(),
+	]);
 }
 
 export default rootReducer;

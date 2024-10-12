@@ -68,12 +68,10 @@ const CommentViewerContainer = () => {
 	}, [deletedComment, dispatch]);
 
 	const onCommentSubmit = (form) => {
-		console.log(form);
 		dispatch(writeComment(form));
 	};
 
 	const onRecommentShow = (commentId) => {
-		console.log(commentId);
 		dispatch(readRecomments(commentId));
 	};
 
@@ -82,7 +80,6 @@ const CommentViewerContainer = () => {
 	};
 
 	const onCommentModify = (form) => {
-		console.log(form);
 		dispatch(modifyComment(form));
 	};
 

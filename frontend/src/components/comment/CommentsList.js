@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Profile from '../../images/Profile.svg';
-import Kebab from '../../images/Kebab.svg';
-import RecommentEditor from './RecommentEditor';
-import RecommentRectangle from '../../images/RecommentRectangle.svg';
-import { getTimeAgo } from '../../utils/dateUtils';
 import CommentItem from './CommentItem';
 import RecommentsList from './RecommentsList';
 const CommentsListBlock = styled.div`

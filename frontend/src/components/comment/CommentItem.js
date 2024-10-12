@@ -277,7 +277,7 @@ const CommentItem = ({
 							</CommentData>
 						)}
 					</div>
-					{isAuthor && (
+					{isAuthor && !comment.deleted && (
 						<div className="right">
 							<img
 								className="menu"

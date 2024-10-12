@@ -43,20 +43,24 @@ class CommentService {
 
 	static async deleteComment(commentId) {
 		const comment = await CommentRepository.findByCommentId(commentId);
-		if (comment.recomment_count > 0) {
+		if (!comment) {
+			throw new CustomError(CommentErrorMessage.COMMENT_NOT_FOUND);
 		}
-		if (comment.parent_id !== null) {
-			await CommentRepository.updateRecommentCount(comment.parent_id, -1);
-		}
-		await ArticleService.updateCommentCount(comment.article_id, -1);
 
-		if (comment.recomment_count > 0) {
-			const result = await CommentRepository.updateDeleted(commentId);
-			return { data: result };
-		} else {
-			const result = await CommentRepository.delete(commentId);
-			return { data: result };
+		const { parent_id, article_id, recomment_count } = comment;
+
+		if (parent_id) {
+			CommentRepository.updateRecommentCount(comment.parent_id, -1);
 		}
+
+		await ArticleService.updateCommentCount(article_id, -1);
+
+		const result =
+			recomment_count > 0
+				? await CommentRepository.updateDeleted(commentId)
+				: await CommentRepository.delete(commentId);
+
+		return { data: result };
 	}
 
 	static async checkAuthor({ memberId, commentId }) {

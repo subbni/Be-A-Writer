@@ -17,7 +17,7 @@ const RecommentsList = ({
 	editingCommentId,
 	onRecommentWriteBtnClick,
 	onRecommentShowBtnClick,
-	onRecommentCancleClick,
+	onRecommentCancelClick,
 	onCommentSubmit,
 	currentUserId,
 	onCommentModifyClick,
@@ -42,7 +42,7 @@ const RecommentsList = ({
 								onRecommentShowBtnClick={onRecommentShowBtnClick}
 								expandedCommentId={expandedCommentId}
 								onCommentSubmit={onCommentSubmit}
-								onRecommentCancleClick={onRecommentCancleClick}
+								onRecommentCancleClick={onRecommentCancelClick}
 								isAuthor={currentUserId === recomment.member_id}
 								isEditing={editingCommentId === recomment.comment_id}
 								onCommentDelete={onCommentDelete}

@@ -1,8 +1,6 @@
-import React, { useRef } from 'react';
-import CommentEditor from './CommentEditor';
+import React from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
-import CommentsList from './CommentsList';
 
 const CommentsViewerBlock = styled(Responsive)`
 	/* border: 1px solid black; */
@@ -25,14 +23,7 @@ const CommentsInfo = styled.div`
 	}
 `;
 
-const CommentsViewer = ({
-	children,
-	articleId,
-	comments,
-	recomments,
-	onRecommentShow,
-	onCommentSubmit,
-}) => {
+const CommentsViewer = ({ children, comments }) => {
 	return (
 		<CommentsViewerBlock>
 			<CommentsInfo>

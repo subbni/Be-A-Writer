@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import CommentItem from './CommentItem';
-import RecommentsList from './RecommentsList';
+import CommentItem from '../../components/comment/CommentItem';
+import RecommentsList from '../../components/comment/RecommentsList';
+import { useSelector } from 'react-redux';
 const CommentsListBlock = styled.div`
 	/* border: 1px solid black; */
 	font-size: 0.9rem;
@@ -15,15 +16,10 @@ const CommentWrapper = styled.div`
 	/* padding: 0.6rem 0; */
 `;
 
-const CommentsList = ({
-	comments,
-	recomments,
-	onCommentSubmit,
-	onRecommentShow,
-	currentUserId,
-	onCommentDelete,
-	onCommentModify,
-}) => {
+const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCommentModify }) => {
+	const currentUserId = useSelector((state) => state.user.user.member_id);
+	const comments = useSelector((state) => state.comments.comments);
+	const recomments = useSelector((state) => state.comments.recomments);
 	const [replyingCommentId, setReplyingCommentId] = useState(null);
 	// TODO : expandedCommentIds Set으로 만들기
 	const [expandedCommentId, setExpandedCommentId] = useState([]);
@@ -98,7 +94,7 @@ const CommentsList = ({
 									onCommentSubmit={onCommentSubmit}
 									onRecommentWriteBtnClick={onRecommentWriteBtnClick}
 									onRecommentShowBtnClick={onRecommentShowBtnClick}
-									onRecommentCancleClick={onRecommentCancelClick}
+									onRecommentCancelClick={onRecommentCancelClick}
 									onCommentModifyClick={onCommentModifyClick}
 									onCommentModifyCancelClick={onCommentModifyCancelClick}
 									onCommentDelete={onCommentDelete}

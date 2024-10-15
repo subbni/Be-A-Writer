@@ -11,10 +11,11 @@ import {
 } from '../../modules/comment/commentActions';
 import CommentsList from '../../components/comment/CommentsList';
 import CommentEditor from '../../components/comment/CommentEditor';
+import PaginationBar from '../../components/pagination/PaginationBar';
 
 const CommentViewerContainer = () => {
 	const { articleId } = useParams();
-	const limit = 50;
+	const limit = 10;
 	const dispatch = useDispatch();
 
 	const comments = useSelector((state) => state.comments.comments);
@@ -83,6 +84,10 @@ const CommentViewerContainer = () => {
 		dispatch(modifyComment(form));
 	};
 
+	const onPageChange = (page) => {
+		setPage(page);
+	};
+
 	return (
 		<CommentsViewer
 			articleId={articleId}
@@ -98,7 +103,12 @@ const CommentViewerContainer = () => {
 				onRecommentShow={onRecommentShow}
 				onCommentDelete={onCommentDelete}
 				onCommentModify={onCommentModify}
-				currentUserId={currentUserId}
+			/>
+			<PaginationBar
+				totalItemCnt={comments?.parentCount.count}
+				onPageChange={onPageChange}
+				currentPage={page}
+				itemCntPerPage={limit}
 			/>
 			<CommentEditor articleId={articleId} onCommentSubmit={onCommentSubmit} />
 		</CommentsViewer>

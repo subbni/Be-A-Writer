@@ -36,7 +36,7 @@ const CommentsViewer = ({
 	return (
 		<CommentsViewerBlock>
 			<CommentsInfo>
-				<div className="comments_count">댓글 {comments ? comments.count : 0}개</div>
+				<div className="comments_count">댓글 {comments?.totalCount.count}개</div>
 				<div className="write_comment">댓글 쓰기</div>
 			</CommentsInfo>
 			{children}

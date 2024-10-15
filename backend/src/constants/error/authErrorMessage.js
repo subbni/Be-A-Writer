@@ -3,6 +3,10 @@ const AuthErrorMessage = {
 		message: '해당 이메일로 가입된 계정이 이미 존재합니다.',
 		status: 409,
 	},
+	DUPLICATED_NICKNAME: {
+		message: '이미 사용 중인 닉네임입니다.',
+		status: 409,
+	},
 	EMAIL_NOT_FOUND: {
 		message: '해당 이메일로 가입된 계정이 없습니다.',
 		status: 404,

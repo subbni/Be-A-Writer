@@ -22,6 +22,14 @@ class MemberRepository {
 		);
 		return result.rows.length === 0 ? null : result.rows[0];
 	}
+
+	static async findByNickname(nickname) {
+		const result = await pool.query(
+			'SELECT * FROM member WHERE nickname = $1',
+			[nickname],
+		);
+		return result.rows[0];
+	}
 }
 
 export default MemberRepository;

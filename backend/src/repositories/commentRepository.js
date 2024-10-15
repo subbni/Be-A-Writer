@@ -25,6 +25,14 @@ class CommentRepository {
 		return result.rows[0];
 	}
 
+	static async getParentCommentCountByArticleId(article_id) {
+		const result = await pool.query(
+			'SELECT count(*) FROM comment WHERE article_id = $1 AND deleted = false AND parent_id IS NULL',
+			[article_id],
+		);
+		return result.rows[0];
+	}
+
 	static async findParentCommentByArticleId(article_id, { limit, offset }) {
 		const result = await pool.query(
 			`SELECT c.*, m.nickname AS member_nickname, m.member_id AS member_id

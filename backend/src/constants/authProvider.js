@@ -1,4 +1,4 @@
-const AuthProvider = {
+export const AuthProvider = {
 	LOCAL: 'LOCAL',
 	GOOGLE: 'GOOGLE',
 	NAVER: 'NAVER',

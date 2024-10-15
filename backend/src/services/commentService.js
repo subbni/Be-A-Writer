@@ -18,9 +18,11 @@ class CommentService {
 			articleId,
 			params,
 		);
-		const count = await CommentRepository.getCountByArticleId(articleId);
+		const totalCount = await CommentRepository.getCountByArticleId(articleId);
+		const parentCount =
+			await CommentRepository.getParentCommentCountByArticleId(articleId);
 
-		return { data, ...count };
+		return { data, totalCount: totalCount, parentCount };
 	}
 
 	static async getCountOfCommentsByArticle(articleId) {

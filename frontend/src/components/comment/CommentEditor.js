@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const CommentEditorBlock = styled.div`

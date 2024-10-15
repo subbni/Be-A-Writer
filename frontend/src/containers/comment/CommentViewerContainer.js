@@ -9,21 +9,20 @@ import {
 	readRecomments,
 	writeComment,
 } from '../../modules/comment/commentActions';
-import CommentsList from '../../components/comment/CommentsList';
+import CommentsList from '../comment/CommentsList';
 import CommentEditor from '../../components/comment/CommentEditor';
+import PaginationBar from '../../components/pagination/PaginationBar';
 
 const CommentViewerContainer = () => {
 	const { articleId } = useParams();
-	const limit = 50;
+	const limit = 10;
 	const dispatch = useDispatch();
 
 	const comments = useSelector((state) => state.comments.comments);
-	const recomments = useSelector((state) => state.comments.recomments);
 	const addedComment = useSelector((state) => state.comments.addedComment);
 	const deletedComment = useSelector((state) => state.comments.deletedComment);
 	const error = useSelector((state) => state.comments.error);
 	const loading = useSelector((state) => state.loading['comment/READ_COMMENTS']);
-	const currentUserId = useSelector((state) => state.user.user.member_id);
 
 	const [page, setPage] = useState(1);
 
@@ -83,22 +82,23 @@ const CommentViewerContainer = () => {
 		dispatch(modifyComment(form));
 	};
 
+	const onPageChange = (page) => {
+		setPage(page);
+	};
+
 	return (
-		<CommentsViewer
-			articleId={articleId}
-			comments={comments}
-			recomments={recomments}
-			onCommentSubmit={onCommentSubmit}
-			onRecommentShow={onRecommentShow}
-		>
+		<CommentsViewer comments={comments}>
 			<CommentsList
-				comments={comments}
-				recomments={recomments}
 				onCommentSubmit={onCommentSubmit}
 				onRecommentShow={onRecommentShow}
 				onCommentDelete={onCommentDelete}
 				onCommentModify={onCommentModify}
-				currentUserId={currentUserId}
+			/>
+			<PaginationBar
+				totalItemCnt={comments?.parentCount.count}
+				onPageChange={onPageChange}
+				currentPage={page}
+				itemCntPerPage={limit}
 			/>
 			<CommentEditor articleId={articleId} onCommentSubmit={onCommentSubmit} />
 		</CommentsViewer>

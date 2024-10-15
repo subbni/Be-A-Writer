@@ -37,6 +37,7 @@ const ArticleViewerContainer = () => {
 	const onDelete = async () => {
 		try {
 			dispatch(deleteArticle(article.article_id));
+			navigate(-1);
 		} catch (e) {
 			console.log(e);
 		}

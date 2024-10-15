@@ -3,6 +3,7 @@ import AuthErrorMessage from '../constants/error/authErrorMessage.js';
 import AuthService from './authService.js';
 import MemberRepository from '../repositories/memberRepository.js';
 import { mapAuthProvider } from '../constants/authProvider.js';
+import CustomError from '../constants/error/customError.js';
 
 class OAuthService {
 	static async processSocialLogin(userInfo) {
@@ -21,7 +22,7 @@ class OAuthService {
 				};
 			} else {
 				// 2.2. 동일하지 않다면 중복 이메일 오류 처리
-				throw new Error(AuthErrorMessage.DUPLICATED_EMAIL);
+				throw new CustomError(AuthErrorMessage.DUPLICATED_EMAIL);
 			}
 		} else {
 			// 3. 없다면 회원가입 처리

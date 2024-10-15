@@ -1,3 +1,4 @@
+import AuthProvider from '../constants/authProvider.js';
 import AuthService from '../services/authService.js';
 import * as tokenUtil from '../utils/tokenUtil.js';
 

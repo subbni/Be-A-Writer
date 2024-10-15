@@ -1,5 +1,4 @@
 import axios from 'axios';
-import MemberModel from '../repositories/memberRepository.js';
 import AuthErrorMessage from '../constants/error/authErrorMessage.js';
 import AuthService from './authService.js';
 import MemberRepository from '../repositories/memberRepository.js';
@@ -10,7 +9,7 @@ class OAuthService {
 		// login or register 처리
 
 		//  1. 해당 이메일로 가입된 계정이 있는지 확인
-		const member = await MemberModel.findMemberByEmail(userInfo.email);
+		const member = await MemberRepository.findByEmail(userInfo.email);
 		// 2. 있다면 현재 요청한 플랫폼과 동일한지 확인
 		if (member !== null) {
 			if (member.auth_provider === userInfo.authProvider) {

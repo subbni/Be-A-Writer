@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CommentItem from '../../components/comment/CommentItem';
 import RecommentsList from '../../components/comment/RecommentsList';
 import { useSelector } from 'react-redux';
+import AskModal from '../../components/common/AskModal';
 const CommentsListBlock = styled.div`
 	/* border: 1px solid black; */
 	font-size: 0.9rem;
@@ -24,6 +25,9 @@ const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCom
 	// TODO : expandedCommentIds Set으로 만들기
 	const [expandedCommentId, setExpandedCommentId] = useState([]);
 	const [editingCommentId, setEditingCommentId] = useState(null);
+	const [menuClickedCommentId, setMenuClickedCommentId] = useState(null);
+
+	const [modal, setModal] = useState(false);
 
 	const onRecommentWriteBtnClick = (commentId) => {
 		setReplyingCommentId(commentId);
@@ -42,6 +46,18 @@ const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCom
 		setReplyingCommentId(null);
 	};
 
+	const onCommentMenuClick = (commentId) => {
+		if (menuClickedCommentId !== null) {
+			const menuDropdown = document.querySelector(`.comment${menuClickedCommentId}_menu-dropdown`);
+			menuDropdown.classList.toggle('clicked');
+		}
+		if (commentId === menuClickedCommentId) {
+			setMenuClickedCommentId(null);
+		} else {
+			setMenuClickedCommentId(commentId);
+		}
+	};
+
 	const onCommentModifyClick = (commentId) => {
 		setEditingCommentId(commentId);
 	};
@@ -55,9 +71,30 @@ const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCom
 		onCommentModify(form);
 	};
 
+	const onDeleteClick = () => {
+		setModal(true);
+	};
+
+	const onDeleteCancel = () => {
+		setModal(false);
+	};
+
+	const onDeleteConfirm = () => {
+		onCommentDelete(menuClickedCommentId);
+		setModal(false);
+		setMenuClickedCommentId(null);
+	};
+
 	useEffect(() => {
 		setReplyingCommentId(null);
 	}, [comments, recomments]);
+
+	useEffect(() => {
+		if (menuClickedCommentId !== null) {
+			const menuDropdown = document.querySelector(`.comment${menuClickedCommentId}_menu-dropdown`);
+			menuDropdown.classList.toggle('clicked');
+		}
+	}, [menuClickedCommentId]);
 
 	return (
 		<CommentsListBlock>
@@ -78,8 +115,9 @@ const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCom
 								onRecommentCancleClick={onRecommentCancelClick}
 								onCommentModifyClick={onCommentModifyClick}
 								onCommentModifyCancelClick={onCommentModifyCancelClick}
-								onCommentDelete={onCommentDelete}
+								onDeleteClick={onDeleteClick}
 								onCommentModifyConfirmClick={onCommentModifyConfirmClick}
+								onCommentMenuClick={onCommentMenuClick}
 								isAuthor={currentUserId === comment.member_id}
 								isEditing={editingCommentId === comment.comment_id}
 								isExpanded={expandedCommentId.includes(comment.comment_id)}
@@ -92,12 +130,13 @@ const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCom
 									replyingCommentId={replyingCommentId}
 									editingCommentId={editingCommentId}
 									onCommentSubmit={onCommentSubmit}
+									onCommentMenuClick={onCommentMenuClick}
 									onRecommentWriteBtnClick={onRecommentWriteBtnClick}
 									onRecommentShowBtnClick={onRecommentShowBtnClick}
 									onRecommentCancelClick={onRecommentCancelClick}
 									onCommentModifyClick={onCommentModifyClick}
 									onCommentModifyCancelClick={onCommentModifyCancelClick}
-									onCommentDelete={onCommentDelete}
+									onDeleteClick={onDeleteClick}
 									onCommentModifyConfirmClick={onCommentModifyConfirmClick}
 									currentUserId={currentUserId}
 									isAuthor={currentUserId === comment.member_id}
@@ -107,6 +146,14 @@ const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCom
 						</CommentWrapper>
 					);
 				})}
+			<AskModal
+				visible={modal}
+				title="댓글 삭제"
+				description="이 댓글을 정말 삭제하시겠습니까?"
+				confirmText="삭제"
+				onConfirm={onDeleteConfirm}
+				onCancel={onDeleteCancel}
+			/>
 		</CommentsListBlock>
 	);
 };

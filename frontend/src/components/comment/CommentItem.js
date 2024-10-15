@@ -175,8 +175,9 @@ const CommentItem = ({
 	onRecommentCancleClick,
 	onCommentModifyClick,
 	onCommentModifyCancelClick,
-	onCommentDelete,
+	onDeleteClick,
 	onCommentModifyConfirmClick,
+	onCommentMenuClick,
 	isAuthor,
 	isEditing,
 	isExpanded,
@@ -187,15 +188,6 @@ const CommentItem = ({
 		setContent(e.target.value);
 	};
 
-	const onMenuClick = (id) => {
-		const menuDropdown = document.querySelector(`.comment${id}_menu-dropdown`);
-		menuDropdown.classList.toggle('clicked');
-	};
-	const onDeleteMenuClick = (id) => {
-		if (window.confirm('이 댓글을 정말로 삭제하시겠습니까?')) {
-			onCommentDelete(id);
-		}
-	};
 	return (
 		<>
 			{isEditing ? (
@@ -283,7 +275,7 @@ const CommentItem = ({
 								className="menu"
 								src={Kebab}
 								alt="menu"
-								onClick={() => onMenuClick(comment.comment_id)}
+								onClick={() => onCommentMenuClick(comment.comment_id)}
 							/>
 							<MenuDropdown className={`comment${comment.comment_id}_menu-dropdown`}>
 								<MenuDropdownItem
@@ -292,10 +284,7 @@ const CommentItem = ({
 								>
 									수정하기
 								</MenuDropdownItem>
-								<MenuDropdownItem
-									className="delete"
-									onClick={() => onDeleteMenuClick(comment.comment_id)}
-								>
+								<MenuDropdownItem className="delete" onClick={onDeleteClick}>
 									삭제하기
 								</MenuDropdownItem>
 							</MenuDropdown>

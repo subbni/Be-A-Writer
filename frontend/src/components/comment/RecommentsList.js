@@ -21,9 +21,10 @@ const RecommentsList = ({
 	onCommentSubmit,
 	currentUserId,
 	onCommentModifyClick,
-	onCommentDelete,
+	onDeleteClick,
 	onCommentModifyCancelClick,
 	onCommentModifyConfirmClick,
+	onCommentMenuClick,
 }) => {
 	return (
 		<RecommentWrapper>
@@ -45,10 +46,11 @@ const RecommentsList = ({
 								onRecommentCancleClick={onRecommentCancelClick}
 								isAuthor={currentUserId === recomment.member_id}
 								isEditing={editingCommentId === recomment.comment_id}
-								onCommentDelete={onCommentDelete}
+								onDeleteClick={onDeleteClick}
 								onCommentModifyClick={onCommentModifyClick}
 								onCommentModifyCancelClick={onCommentModifyCancelClick}
 								onCommentModifyConfirmClick={onCommentModifyConfirmClick}
+								onCommentMenuClick={onCommentMenuClick}
 							/>
 						</>
 					);

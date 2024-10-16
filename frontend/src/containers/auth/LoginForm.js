@@ -38,6 +38,7 @@ const LoginForm = () => {
 
 	useEffect(() => {
 		dispatch(initializeForm('login'));
+		return () => dispatch(initializeForm('login'));
 	}, [dispatch]);
 
 	useEffect(() => {

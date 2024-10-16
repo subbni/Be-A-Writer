@@ -51,7 +51,7 @@ const RegisterForm = () => {
 	// 첫 렌더링
 	useEffect(() => {
 		dispatch(initializeForm('register'));
-		// TODO: authError가 초기화 되지 않은 상태로 들어오는 이유 확인하기
+		return () => dispatch(initializeForm('register'));
 	}, [dispatch]);
 
 	// 회원가입 성공/실패 처리
@@ -65,7 +65,8 @@ const RegisterForm = () => {
 		}
 		if (auth) {
 			dispatch(check());
-			window.alert('회원가입 되었습니다. 환영합니다!');
+			window.alert(`${form.nickname}님의 가입을 환영합니다!`);
+			navigate('/login');
 		}
 	}, [auth, authError, dispatch]);
 

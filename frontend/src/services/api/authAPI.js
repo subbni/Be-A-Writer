@@ -12,3 +12,9 @@ export const check = () => client.get('/api/auth/check');
 
 // 로그아웃
 export const logout = () => client.post('/api/auth/logout');
+
+// userInfo 요청
+export const getUserInfo = () => client.get('/api/oauth/userinfo');
+
+// userInfo 등록 요청
+export const registerUserInfo = (userInfo) => client.post('/api/oauth/register', userInfo);

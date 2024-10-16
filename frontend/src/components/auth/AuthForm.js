@@ -30,6 +30,10 @@ const StyledInput = styled.input`
 		color: var(--color-dark);
 		border-bottom: 2px solid var(--color-black);
 	}
+	&:-webkit-autofill {
+		-webkit-box-shadow: 0 0 0 1000px white inset;
+		-webkit-text-fill-color: var(--color-black);
+	}
 `;
 
 const authButtonStyle = css`
@@ -77,6 +81,7 @@ const ErrorMessage = styled.div`
 const textMap = {
 	register: '회원가입',
 	login: '로그인',
+	nicknameRegister: '닉네임 설정',
 };
 
 const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
@@ -89,28 +94,32 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
 					name="email"
 					placeholder="이메일"
 					onChange={onChange}
-					value={form.email}
+					value={form?.email}
 					required
+					disabled={type === 'nicknameRegister'}
 				/>
-				{type === 'register' && (
+				{(type === 'register' || type === 'nicknameRegister') && (
 					<StyledInput
 						type="text"
 						name="nickname"
 						placeholder="닉네임"
 						onChange={onChange}
-						value={form.nickname}
+						value={form?.nickname}
 						required
 					/>
 				)}
-				<StyledInput
-					type="password"
-					name="password"
-					placeholder="비밀번호"
-					autoComplete="off"
-					onChange={onChange}
-					value={form.password}
-					required
-				/>
+				{type !== 'nicknameRegister' && (
+					<StyledInput
+						type="password"
+						name="password"
+						placeholder="비밀번호"
+						autoComplete="off"
+						onChange={onChange}
+						value={form?.password}
+						required
+					/>
+				)}
+
 				{type === 'register' && (
 					<StyledInput
 						type="password"
@@ -118,7 +127,7 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
 						placeholder="비밀번호 확인"
 						autoComplete="off"
 						onChange={onChange}
-						value={form.passwordConfirm}
+						value={form?.passwordConfirm}
 						required
 					/>
 				)}
@@ -126,9 +135,8 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
 				<StyledButton type="submit">확인</StyledButton>
 			</form>
 			<AuthFooter>
-				{type === 'register' ? (
-					<Link to="/login">이미 계정이 있으신가요?</Link>
-				) : (
+				{type === 'register' && <Link to="/login">이미 계정이 있으신가요?</Link>}
+				{type === 'login' && (
 					<>
 						<Link to="/">비밀번호 찾기</Link>
 						<div>|</div>
@@ -136,8 +144,12 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
 					</>
 				)}
 			</AuthFooter>
-			<Or />
-			<SocialLogin />
+			{type !== 'nicknameRegister' && (
+				<>
+					<Or />
+					<SocialLogin />
+				</>
+			)}
 		</AuthFormBlock>
 	);
 };

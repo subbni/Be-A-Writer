@@ -2,15 +2,17 @@ import AuthErrorMessage from '../constants/error/authErrorMessage.js';
 import CustomError from '../constants/error/customError.js';
 import MemberRepository from '../repositories/memberRepository.js';
 import jwt from 'jsonwebtoken';
+import * as passwordUtil from '../utils/passwordUtil.js';
 
 class AuthService {
 	static async registerMember({ email, password, nickname, authProvider }) {
 		await this.checkIfEmailExist(email);
 		await this.checkIfNicknameIsTaken(nickname);
 
+		const hashedPassword = await passwordUtil.hashPassword(password);
 		await MemberRepository.create({
 			email,
-			password,
+			password: hashedPassword,
 			nickname,
 			authProvider,
 		});
@@ -26,7 +28,11 @@ class AuthService {
 		if (member === null) {
 			throw new CustomError(AuthErrorMessage.EMAIL_NOT_FOUND);
 		}
-		if (member.password !== password) {
+		const isPasswordMatch = await passwordUtil.comparePassword(
+			password,
+			member.password,
+		);
+		if (!isPasswordMatch) {
 			throw new CustomError(AuthErrorMessage.INVALID_PASSWORD);
 		}
 		return {

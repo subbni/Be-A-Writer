@@ -5,10 +5,8 @@ import jwt from 'jsonwebtoken';
 
 class AuthService {
 	static async registerMember({ email, password, nickname, authProvider }) {
-		// check if email is already taken
-		if ((await MemberRepository.findByEmail(email)) !== null) {
-			throw new CustomError(AuthErrorMessage.DUPLICATED_EMAIL);
-		}
+		await this.checkIfEmailExist(email);
+		await this.checkIfNicknameIsTaken(nickname);
 
 		await MemberRepository.create({
 			email,
@@ -36,6 +34,19 @@ class AuthService {
 			email: member.email,
 			nickname: member.nickname,
 		};
+	}
+
+	static async checkIfEmailExist(email) {
+		const existedMember = await MemberRepository.findByEmail(email);
+		if (existedMember) {
+			throw new CustomError(AuthErrorMessage.DUPLICATED_EMAIL);
+		}
+	}
+	static async checkIfNicknameIsTaken(nickname) {
+		const existedMember = await MemberRepository.findByNickname(nickname);
+		if (existedMember) {
+			throw new CustomError(AuthErrorMessage.DUPLICATED_NICKNAME);
+		}
 	}
 }
 

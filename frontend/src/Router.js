@@ -10,6 +10,8 @@ import Layout from './containers/common/Layout';
 import MyArticlesPage from './pages/MyArticlesPage';
 import FullArticlesPage from './pages/FullArticlesPage';
 import CalendarPage from './pages/CalendarPage';
+import SetNicknameForm from './containers/auth/SetNicknameForm';
+import NicknameSettingPage from './pages/NicknameSettingPage';
 
 const Router = () => {
 	return (
@@ -26,6 +28,7 @@ const Router = () => {
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+				<Route path="/oauth2/redirect/nickname" element={<NicknameSettingPage />} />
 			</Routes>
 		</BrowserRouter>
 	);

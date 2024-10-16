@@ -1,4 +1,4 @@
-import AuthErrorMessage from '../constants/error/authErrorMessage.js';
+import AuthErrorMessage from '../../constants/error/authErrorMessage.js';
 
 const oauth2ErrorHandler = async (err, req, res, next) => {
 	// 닉네임 설정 필요한 경우

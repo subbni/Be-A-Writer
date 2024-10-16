@@ -37,12 +37,14 @@ class AuthService {
 	}
 
 	static async checkIfEmailExist(email) {
-		if ((await MemberRepository.findByEmail(email)) !== null) {
+		const existedMember = await MemberRepository.findByEmail(email);
+		if (existedMember) {
 			throw new CustomError(AuthErrorMessage.DUPLICATED_EMAIL);
 		}
 	}
 	static async checkIfNicknameIsTaken(nickname) {
-		if ((await MemberRepository.findByNickname(nickname)) !== null) {
+		const existedMember = await MemberRepository.findByNickname(nickname);
+		if (existedMember) {
 			throw new CustomError(AuthErrorMessage.DUPLICATED_NICKNAME);
 		}
 	}

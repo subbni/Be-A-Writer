@@ -11,6 +11,8 @@ import calendar from './calendar/calendarReducer';
 import { calendarSaga } from './calendar/calendarSaga';
 import comments from './comment/commentReducer';
 import { commentSaga } from './comment/commentSaga';
+import { profileSaga } from './profile/profileSaga';
+import profile from './profile/profileReducer';
 
 const rootReducer = combineReducers({
 	auth,
@@ -20,6 +22,7 @@ const rootReducer = combineReducers({
 	articles,
 	calendar,
 	comments,
+	profile,
 });
 
 export function* rootSaga() {
@@ -30,6 +33,7 @@ export function* rootSaga() {
 		articlesSaga(),
 		calendarSaga(),
 		commentSaga(),
+		profileSaga(),
 	]);
 }
 

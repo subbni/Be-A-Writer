@@ -30,6 +30,28 @@ class MemberRepository {
 		);
 		return result.rows[0];
 	}
+
+	static async updateProfile({ memberId, nickname, bio }) {
+		const result = await pool.query(
+			`UPDATE member
+			SET nickname = $2, bio = $3
+			WHERE member_id = $1
+			RETURNING *`,
+			[memberId, nickname, bio],
+		);
+		return result.rows[0];
+	}
+
+	static async updatePassword(memberId, newPassword) {
+		const result = await pool.query(
+			`UPDATE member
+			SET password = $2
+			WHERE member_id = $1
+			RETURNING *`,
+			[memberId, newPassword],
+		);
+		return result.rows[0];
+	}
 }
 
 export default MemberRepository;

@@ -6,7 +6,7 @@ const PaginationBarBlock = styled.div`
 	height: 25px;
 	margin: 1rem;
 	margin-top: 3rem;
-	margin-bottom: 5rem;
+	margin-bottom: 4rem;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -40,29 +40,28 @@ const PaginationBar = ({
 		onPageChange(page);
 	};
 
-	return (
+	return totalPages > 1 ? (
 		<PaginationBarBlock>
 			{start !== 1 && (
 				<PaginationButton text="<" onClick={() => setStart(start - btnRange)} $active={false} />
 			)}
-			{Array(btnRange)
-				.fill(start)
-				.map(
-					(_, idx) =>
-						start + idx <= totalPages && (
-							<PaginationButton
-								key={`pageBtn${start + idx}`}
-								text={start + idx}
-								$active={currentPage === start + idx}
-								onClick={() => onPageClick(start + idx)}
-							/>
-						),
-				)}
+			{Array.from(
+				{ length: btnRange },
+				(_, idx) =>
+					start + idx <= totalPages && (
+						<PaginationButton
+							key={`pageBtn${start + idx}`}
+							text={start + idx}
+							$active={currentPage === start + idx}
+							onClick={() => onPageClick(start + idx)}
+						/>
+					),
+			)}
 			{start + btnRange - 1 < totalPages && (
 				<PaginationButton text=">" onClick={() => setStart(start + btnRange)} $active={false} />
 			)}
 		</PaginationBarBlock>
-	);
+	) : null;
 };
 
 export default PaginationBar;

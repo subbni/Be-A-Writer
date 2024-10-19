@@ -1,4 +1,6 @@
 import bcrypt from 'bcrypt';
+import AuthErrorMessage from '../constants/error/authErrorMessage.js';
+import CustomError from '../constants/error/customError.js';
 
 export const hashPassword = async (plainPassword) => {
 	const saltRounds = 10;
@@ -21,4 +23,12 @@ export const comparePassword = async (inputPassword, hashedPassword) => {
 		console.log(e);
 		throw e;
 	}
+};
+
+export const verifyPassword = async (inputPassword, hashPassword) => {
+	const isMatch = await comparePassword(inputPassword, hashPassword);
+	if (!isMatch) {
+		throw new CustomError(AuthErrorMessage.INVALID_PASSWORD);
+	}
+	return isMatch;
 };

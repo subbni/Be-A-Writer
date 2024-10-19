@@ -1,8 +1,8 @@
 import AuthErrorMessage from '../constants/error/authErrorMessage.js';
 import CustomError from '../constants/error/customError.js';
 import MemberRepository from '../repositories/memberRepository.js';
-import jwt from 'jsonwebtoken';
 import * as passwordUtil from '../utils/passwordUtil.js';
+import MemberService from './memberService.js';
 
 class AuthService {
 	static async registerMember({ email, password, nickname, authProvider }) {
@@ -28,17 +28,21 @@ class AuthService {
 		if (member === null) {
 			throw new CustomError(AuthErrorMessage.EMAIL_NOT_FOUND);
 		}
-		const isPasswordMatch = await passwordUtil.comparePassword(
-			password,
-			member.password,
-		);
-		if (!isPasswordMatch) {
-			throw new CustomError(AuthErrorMessage.INVALID_PASSWORD);
-		}
+		await passwordUtil.verifyPassword(password, member.password);
 		return {
 			member_id: member.member_id,
 			email: member.email,
 			nickname: member.nickname,
+		};
+	}
+
+	static async updatePassword({ memberId, currentPassword, newPassword }) {
+		const member = await MemberService.getMember(memberId);
+		await passwordUtil.verifyPassword(currentPassword, member.password);
+		const newHashedPassword = await passwordUtil.hashPassword(newPassword);
+		await MemberRepository.updatePassword(memberId, newHashedPassword);
+		return {
+			message: '비밀번호 변경 완료!',
 		};
 	}
 

@@ -5,6 +5,7 @@ import Profile from '../../images/Profile.svg';
 import Kebab from '../../images/Kebab.svg';
 import RecommentEditor from './RecommentEditor';
 import RecommentRectangle from '../../images/RecommentRectangle.svg';
+import { Link } from 'react-router-dom';
 
 const CommentItemStyled = styled.div`
 	position: relative;
@@ -249,7 +250,7 @@ const CommentItem = ({
 						) : (
 							<CommentData>
 								<div className="nickname">
-									{comment.member_nickname}
+									<Link to={`/${comment.member_id}`}>{comment.member_nickname}</Link>
 									<span className="date_info">
 										{getTimeAgo(comment.created_at)}
 										{comment.created_at !== comment.updated_at && `(수정됨)`}

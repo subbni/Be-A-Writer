@@ -5,6 +5,7 @@ import Kebab from '../../images/Kebab.svg';
 import Profile from '../../images/Profile.svg';
 import Lock from '../../images/light/Lock.svg';
 import { formatDateTime } from '../../utils/dateUtils';
+import { Link } from 'react-router-dom';
 
 const ArticleViewerBlock = styled(Responsive)`
 	padding: 10rem;
@@ -115,7 +116,7 @@ const ArticleViewer = ({ article, error, loading, author, onDeleteClick, onModif
 		return null;
 	}
 
-	const { title, subtitle, created_at, content, is_public } = article;
+	const { title, subtitle, created_at, content, is_public, author_id } = article;
 	const { nickname } = article.author;
 
 	const onMenuClick = (e) => {
@@ -133,7 +134,9 @@ const ArticleViewer = ({ article, error, loading, author, onDeleteClick, onModif
 				<SubInfo>
 					<div className="left">
 						<img className="profile" src={Profile} alt="profile" />
-						<span className="author">{nickname}</span>
+						<Link to={`/${author_id}`}>
+							<span className="author">{nickname}</span>
+						</Link>
 						<span>{formatDateTime(created_at)}</span>
 						{!is_public && (
 							<div className="private">

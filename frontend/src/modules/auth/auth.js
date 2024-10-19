@@ -15,6 +15,10 @@ const [GET_USER_INFO, GET_USER_INFO_SUCCESS, GET_USER_INFO_FAILURE] =
 const [REGISTER_USER_INFO, REGISTER_USER_INFO_SUCCESS, REGISTER_USER_INFO_FAILURE] =
 	createRequestActionTypes('auth/REGISTER_USER_INFO');
 
+// 비밀번호 수정
+export const [UPDATE_PASSWORD, UPDATE_PASSWORD_SUCCESS, UPDATE_PASSWORD_FAILURE] =
+	createRequestActionTypes('auth/UPDATE_PASSWORD');
+
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
 export const changeField = createAction(CHANGE_FIELD, ({ form, key, value }) => ({
 	form, // (register/login)
@@ -35,18 +39,24 @@ export const registerUserInfo = createAction(
 	REGISTER_USER_INFO,
 	({ email, nickname, password, authProvider }) => ({ email, nickname, password, authProvider }),
 );
+export const updatePassword = createAction(UPDATE_PASSWORD, ({ currentPassword, newPassword }) => ({
+	currentPassword,
+	newPassword,
+}));
 
 // ============= redux - saga ================ //
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 const getUserInfoSaga = createRequestSaga(GET_USER_INFO, authAPI.getUserInfo);
 const registerUserInfoSaga = createRequestSaga(REGISTER_USER_INFO, authAPI.registerUserInfo);
+const updatePasswordSaga = createRequestSaga(UPDATE_PASSWORD, authAPI.updatePassword);
 
 export function* authSaga() {
 	yield takeLatest(REGISTER, registerSaga);
 	yield takeLatest(LOGIN, loginSaga);
 	yield takeLatest(GET_USER_INFO, getUserInfoSaga);
 	yield takeLatest(REGISTER_USER_INFO, registerUserInfoSaga);
+	yield takeLatest(UPDATE_PASSWORD, updatePasswordSaga);
 }
 
 const initialState = {
@@ -65,6 +75,9 @@ const initialState = {
 		nickname: '',
 		password: '',
 		authProvider: '',
+	},
+	password: {
+		message: null,
 	},
 	auth: null,
 	authError: null,
@@ -115,6 +128,14 @@ const auth = handleActions(
 			auth,
 		}),
 		[REGISTER_USER_INFO_FAILURE]: (state, { payload: error }) => ({
+			...state,
+			authError: error,
+		}),
+		[UPDATE_PASSWORD_SUCCESS]: (state, { payload: password }) => ({
+			...state,
+			password,
+		}),
+		[UPDATE_PASSWORD_FAILURE]: (state, { payload: error }) => ({
 			...state,
 			authError: error,
 		}),

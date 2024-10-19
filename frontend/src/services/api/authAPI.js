@@ -18,3 +18,6 @@ export const getUserInfo = () => client.get('/api/oauth/userinfo');
 
 // userInfo 등록 요청
 export const registerUserInfo = (userInfo) => client.post('/api/oauth/register', userInfo);
+
+// 비밀번호 수정
+export const updatePassword = (form) => client.patch('/api/auth/password', form);

@@ -1,4 +1,4 @@
-import pool from '../psql.js';
+import pool from '../config/psql.js';
 
 /**
  * article_id, title, subtitle, content, author_id, created_at, updated_at, is_public

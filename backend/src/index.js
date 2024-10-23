@@ -1,5 +1,5 @@
 import express from 'express';
-import pool from './psql.js';
+import pool from './config/psql.js';
 import authRouter from './routes/authRouter.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';

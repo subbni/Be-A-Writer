@@ -1,4 +1,4 @@
-import pool from '../psql.js';
+import pool from '../config/psql.js';
 
 class MemberRepository {
 	static async create({ email, password, nickname, authProvider }) {

@@ -4,6 +4,7 @@ import Responsive from './Responsive';
 import { Link } from 'react-router-dom';
 import Burger from '../../images/light/Burger.svg';
 import Left from '../../images/light/Left.svg';
+import DefaultProfile from '../../images/Profile.svg';
 
 const HeaderBlock = styled.div`
 	position: fixed;
@@ -27,8 +28,18 @@ const Wrapper = styled(Responsive)`
 	.btn {
 		cursor: pointer;
 	}
-	.right > span {
-		cursor: pointer;
+	.right {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		img {
+			cursor: pointer;
+			padding-right: 0.3rem;
+		}
+		span {
+			font-size: 0.9rem;
+		}
 	}
 `;
 
@@ -70,8 +81,8 @@ const Header = ({ user, onLogout, onMenuBtnClick }) => {
 					</LeftWrapper>
 					{user ? (
 						<div className="right">
-							<span>{user.nickname}님 </span>
-							<span onClick={onLogout}>로그아웃</span>
+							<img src={DefaultProfile} alt="profile" onClick={onLogout} />
+							<span>{user.nickname} </span>
 						</div>
 					) : (
 						<Login to="/login" className="right">

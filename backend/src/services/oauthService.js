@@ -1,8 +1,5 @@
-import axios from 'axios';
 import AuthErrorMessage from '../constants/error/authErrorMessage.js';
-import AuthService from './authService.js';
 import MemberRepository from '../repositories/memberRepository.js';
-import { mapAuthProvider } from '../constants/authProvider.js';
 import CustomError from '../constants/error/customError.js';
 
 class OAuthService {
@@ -13,7 +10,7 @@ class OAuthService {
 		const member = await MemberRepository.findByEmail(userInfo.email);
 		// 2. 있다면 현재 요청한 플랫폼과 동일한지 확인
 
-		if (member !== undefined && member !== null) {
+		if (member) {
 			if (member.auth_provider === userInfo.authProvider) {
 				// 2-1. 동일하다면 로그인 처리
 				return {
@@ -38,7 +35,7 @@ class OAuthService {
 
 	static async registerMember({ email, nickname, password, authProvider }) {
 		// 1. userInfo에 nickname이 존재하지 않는 경우
-		if (nickname === undefined || nickname === null) {
+		if (!nickname) {
 			throw new CustomError(AuthErrorMessage.NICKNAME_REQUIRED);
 		}
 		// 2. 중복된 nickname인 경우

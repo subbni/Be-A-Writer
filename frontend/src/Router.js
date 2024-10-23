@@ -12,6 +12,9 @@ import FullArticlesPage from './pages/FullArticlesPage';
 import CalendarPage from './pages/CalendarPage';
 import SetNicknameForm from './containers/auth/SetNicknameForm';
 import NicknameSettingPage from './pages/NicknameSettingPage';
+import ProfilePage from './pages/ProfilePage';
+import ProfileSettingPage from './pages/ProfileSettingPage';
+import PasswordSettingPage from './pages/PasswordSettingPage';
 
 const Router = () => {
 	return (
@@ -24,6 +27,9 @@ const Router = () => {
 					<Route path="my" element={<MyArticlesPage />} />
 					<Route path="article/:articleId" element={<ArticlePage />} />
 					<Route path="calendar" element={<CalendarPage />} />
+					<Route path="/:memberId" element={<ProfilePage />} />
+					<Route path="/my/profile" element={<ProfileSettingPage />} />
+					<Route path="/my/password" element={<PasswordSettingPage />} />
 				</Route>
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />

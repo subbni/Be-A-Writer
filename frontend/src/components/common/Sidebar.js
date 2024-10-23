@@ -5,7 +5,10 @@ import Home from '../../images/light/Home.svg';
 import Calendar from '../../images/light/Calendar.svg';
 import Edit from '../../images/light/Edit.svg';
 import Book from '../../images/light/Book.svg';
+import Setting from '../../images/Settings.svg';
+import DefaultProfile from '../../images/Profile.svg';
 import { Link } from 'react-router-dom';
+
 const SideBarBlock = styled.div`
 	position: fixed;
 	top: 0;
@@ -31,6 +34,7 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: start;
+	height: 100%;
 	.btn {
 		cursor: pointer;
 	}
@@ -46,11 +50,17 @@ const HeaderMenu = styled.div`
 `;
 
 const SideMenu = styled.ul`
+	height: 100%;
 	padding: 2rem 1rem 1rem 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: space-between;
+	.top {
+	}
+	.bottom li {
+		scale: 1;
+	}
 `;
 
 const SideMenuItem = styled.li`
@@ -61,7 +71,7 @@ const SideMenuItem = styled.li`
 	}
 `;
 
-const Sidebar = ({ isSidebarClosed, onMenuBtnClick }) => {
+const Sidebar = ({ isSidebarClosed, onMenuBtnClick, user }) => {
 	return (
 		<SideBarBlock $isClosed={isSidebarClosed}>
 			<Wrapper>
@@ -69,26 +79,37 @@ const Sidebar = ({ isSidebarClosed, onMenuBtnClick }) => {
 					<img className="btn menu-btn" src={Left} alt="close menu" onClick={onMenuBtnClick} />
 				</HeaderMenu>
 				<SideMenu>
-					<SideMenuItem>
-						<Link to="/articles">
-							<img className="btn" src={Home} alt="home" />
-						</Link>
-					</SideMenuItem>
-					<SideMenuItem>
-						<Link to="/calendar">
-							<img className="btn" src={Calendar} alt="calendar" />
-						</Link>
-					</SideMenuItem>
-					<SideMenuItem>
-						<Link to="/write">
-							<img className="btn" src={Edit} alt="edit" />
-						</Link>
-					</SideMenuItem>
-					<SideMenuItem>
-						<Link to="/my">
-							<img className="btn" src={Book} alt="my articles" />
-						</Link>
-					</SideMenuItem>
+					<div className="top">
+						<SideMenuItem>
+							<Link to="/articles">
+								<img className="btn" src={Home} alt="home" />
+							</Link>
+						</SideMenuItem>
+						<SideMenuItem>
+							<Link to="/calendar">
+								<img className="btn" src={Calendar} alt="calendar" />
+							</Link>
+						</SideMenuItem>
+						<SideMenuItem>
+							<Link to="/write">
+								<img className="btn" src={Edit} alt="edit" />
+							</Link>
+						</SideMenuItem>
+						<SideMenuItem>
+							<Link to="/my">
+								<img className="btn" src={Book} alt="my articles" />
+							</Link>
+						</SideMenuItem>
+					</div>
+					<div className="bottom">
+						{user && (
+							<SideMenuItem>
+								<Link to={`/${user.member_id}`}>
+									<img className="btn" src={DefaultProfile} alt="mypage" />
+								</Link>
+							</SideMenuItem>
+						)}
+					</div>
 				</SideMenu>
 			</Wrapper>
 		</SideBarBlock>

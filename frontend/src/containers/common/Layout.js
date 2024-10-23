@@ -21,7 +21,7 @@ const Layout = () => {
 	return (
 		<>
 			<Header user={user} onLogout={onLogout} onMenuBtnClick={onMenuBtnClick} />
-			<Sidebar isSidebarClosed={isSidebarClosed} onMenuBtnClick={onMenuBtnClick} />
+			<Sidebar isSidebarClosed={isSidebarClosed} onMenuBtnClick={onMenuBtnClick} user={user} />
 			<Outlet />
 		</>
 	);

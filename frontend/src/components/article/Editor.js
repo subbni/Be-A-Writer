@@ -146,31 +146,33 @@ const Editor = ({
 	onPublish,
 	originalArticle,
 }) => {
-	const keyDownListenr = (event) => {
+	const keyDownListener = (event) => {
 		if (event.key === 'Enter') {
-			console.log('enter');
-			// 사용자가 엔터를 입력했을 경우
 			const selection = document.getSelection(); // caret 정보 가져오기
 			if (selection.rangeCount > 0) {
 				// 현재 caret 존재
 				const range = selection.getRangeAt(0); // Selection 이 위치한 Node 정보
-				const endNode = range.endContainer.parentElement; // Element
-				const endOffset = endNode.getBoundingClientRect().top; // 세로 위치 정보
-				const viewportHeight = window.innerHeight; // 뷰포트 정보
-				const limit = (viewportHeight * 4) / 5; // 뷰포트의 4/5 지점
+				const endNode = range.endContainer; // 부모 요소가 아닌 해당 노드 자체를 가져옴
+				console.group('keyDownListner 실행');
+				// console.log('endNode', endNode);
+				// endNode가 텍스트 노드일 경우, 위치 정보를 처리할 수 없음
+				if (endNode.nodeType !== Node.TEXT_NODE) {
+					// 텍스트 노드가 아닐 경우 바로 위치 정보를 가져올 수 있음
+					console.log('텍스트 노드 아님 : ', endNode.textContent);
+					const endOffset = endNode.getBoundingClientRect().top; // 세로 위치 정보
+					const viewportHeight = window.innerHeight; // 뷰포트 정보
+					const limit = (viewportHeight * 4) / 5; // 뷰포트의 4/5 지점
 
-				if (endOffset > limit) {
-					// 현재 caret 위치가 뷰포트의 5/4지점 보다 더 아래일 경우
-					// window.scrollBy({
-					// 	// 스크롤 처리
-					// 	top: endOffset - limit,
-					// 	behavior: 'smooth',
-					// });
-					window.scrollTo({
-						top: document.body.scrollHeight, // 페이지의 전체 높이로 이동
-						behavior: 'smooth', // 부드럽게 스크롤
-					});
+					if (endOffset > limit || endOffset < 0) {
+						console.log('다른 노드 : 뷰포트 밖에 있거나 너무 아래에 있음');
+						endNode.scrollIntoView({
+							behavior: 'smooth',
+							block: 'center',
+						});
+					}
+				} else {
 				}
+				console.groupEnd();
 			}
 		}
 	};
@@ -180,10 +182,10 @@ const Editor = ({
 		if (originalArticle) {
 			editor.innerHTML = content;
 		}
-		editor.addEventListener('keydown', keyDownListenr);
+		editor.addEventListener('keydown', keyDownListener);
 		return () => {
 			if (editor) {
-				editor.removeEventListener('keydown', keyDownListenr);
+				editor.removeEventListener('keydown', keyDownListener);
 				editor.innerHTML = '';
 			}
 		};

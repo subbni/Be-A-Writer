@@ -1,6 +1,7 @@
 import AuthProvider from '../constants/authProvider.js';
 import AuthService from '../services/authService.js';
 import * as tokenUtil from '../utils/tokenUtil.js';
+import { areAllFieldsDefined } from '../utils/helpers.js';
 
 class AuthController {
 	/**
@@ -70,6 +71,34 @@ class AuthController {
 	static async logout(req, res) {
 		tokenUtil.clearTokenCookie(req, res);
 		res.status(204).end(); // NO_CONTENT
+	}
+
+	/**
+	 * 비밀번호 변경
+	 */
+	/**
+	 * patch /api/auth/password
+	 * { currentPassword, newPassword }
+	 */
+	static async updatePassword(req, res) {
+		const { currentPassword, newPassword } = req.body;
+		if (!areAllFieldsDefined({ currentPassword, newPassword })) {
+			return res.status(400).json({
+				message: 'currentPassword and newPassword fields are required',
+			});
+		}
+		const memberId = req.state.member.member_id;
+		try {
+			const data = await AuthService.updatePassword({
+				currentPassword,
+				newPassword,
+				memberId,
+			});
+			return res.status(200).json(data);
+		} catch (e) {
+			console.log(e);
+			return res.status(e.status).json({ message: e.message });
+		}
 	}
 }
 

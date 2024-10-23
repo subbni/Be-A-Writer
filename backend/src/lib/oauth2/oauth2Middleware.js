@@ -5,8 +5,11 @@ import oauth2NaverHandler from './oauth2NaverHandler.js';
 
 const oauth2Middleware = async (req, res, next) => {
 	const { provider } = req.params;
-	console.log(provider);
+	const { error } = req.query;
 	try {
+		if (error) {
+			throw new Error('로그인 창으로 돌아갑니다.');
+		}
 		switch (mapAuthProvider(provider)) {
 			case AuthProvider.GOOGLE:
 				await oauth2GoogleHandler(req, res);

@@ -16,11 +16,16 @@ class ArticleController {
 				.json({ message: 'title and content are all required' });
 		}
 		console.log(req.body);
-		const data = await ArticleService.writeArticle({
-			...req.body,
-			authorId: req.state.member.member_id,
-		});
-		return res.status(201).json(data);
+		try {
+			const data = await ArticleService.writeArticle({
+				...req.body,
+				authorId: req.state.member.member_id,
+			});
+			return res.status(201).json(data);
+		} catch (e) {
+			console.log(e);
+			return res.status(e.status).json({ message: e.message });
+		}
 	}
 
 	/**

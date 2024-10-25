@@ -1,15 +1,15 @@
+import './env.js';
 import express from 'express';
 import pool from './config/psql.js';
 import authRouter from './routes/authRouter.js';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
 import jwtMiddleware from './lib/jwtMiddleware.js';
 import oauthRouter from './routes/oauthRouter.js';
 import articleRouter from './routes/articleRouter.js';
 import commentRouter from './routes/commentRouter.js';
 import memberRouter from './routes/memberRouter.js';
+import imageRouter from './routes/imageRouter.js';
 
-dotenv.config();
 const app = new express();
 
 app.set('port', process.env.PORT || 4000);
@@ -23,6 +23,7 @@ app.use('/api/oauth', oauthRouter);
 app.use('/api/article', articleRouter);
 app.use('/api/comment', commentRouter);
 app.use('/api/member', memberRouter);
+app.use('/api/image', imageRouter);
 
 app.listen(app.get('port'), () => {
 	console.log(`Listening to ${app.get('port')} port ...`);

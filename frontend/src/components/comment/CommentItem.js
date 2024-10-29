@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { getTimeAgo } from '../../utils/dateUtils';
-import Profile from '../../images/Profile.svg';
+import DefaultProfile from '../../images/Profile.svg';
 import Kebab from '../../images/Kebab.svg';
 import RecommentEditor from './RecommentEditor';
 import RecommentRectangle from '../../images/RecommentRectangle.svg';
@@ -26,7 +26,7 @@ const CommentItemStyled = styled.div`
 		justify-content: start;
 		align-items: start;
 		& > * {
-			padding-left: 0.5rem;
+			margin-left: 0.5rem;
 		}
 	}
 	.right {
@@ -45,8 +45,11 @@ const CommentItemStyled = styled.div`
 `;
 
 const ProfileImage = styled.img`
-	width: 35px;
-	height: 35px;
+	/* padding: 0.125rem; */
+	width: 25px;
+	height: 25px;
+	border-radius: 30px;
+	/* border: 1px solid gray; */
 `;
 
 const CommentData = styled.div`
@@ -54,7 +57,7 @@ const CommentData = styled.div`
 	flex-direction: column;
 	justify-content: start;
 	align-items: start;
-	padding-top: 0.35rem;
+	/* padding-top: 0.35rem; */
 	width: 100%;
 	margin-right: 1rem;
 	.content {
@@ -198,7 +201,7 @@ const CommentItem = ({
 				>
 					<div className="left">
 						{isRecomment && <RecommentIcon src={RecommentRectangle} />}
-						<ProfileImage src={Profile} alt="profile image" />
+						<ProfileImage src={comment.member_profile_url || DefaultProfile} alt="profile image" />
 						<CommentData>
 							<div className="nickname">
 								{comment.member_nickname}
@@ -231,7 +234,7 @@ const CommentItem = ({
 				>
 					<div className="left">
 						{isRecomment && <RecommentIcon src={RecommentRectangle} />}
-						<ProfileImage src={Profile} alt="profile image" />
+						<ProfileImage src={comment.member_profile_url || DefaultProfile} alt="profile image" />
 						{comment.deleted ? (
 							<CommentData>
 								<div className="nickname">{comment.member_nickname}</div>

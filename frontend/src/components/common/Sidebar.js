@@ -61,6 +61,9 @@ const SideMenu = styled.ul`
 	.bottom li {
 		scale: 1;
 	}
+	.profile {
+		border-radius: 30px;
+	}
 `;
 
 const SideMenuItem = styled.li`
@@ -105,7 +108,11 @@ const Sidebar = ({ isSidebarClosed, onMenuBtnClick, user }) => {
 						{user && (
 							<SideMenuItem>
 								<Link to={`/${user.member_id}`}>
-									<img className="btn" src={DefaultProfile} alt="mypage" />
+									<img
+										className="btn profile"
+										src={user.profileImageUrl || DefaultProfile}
+										alt="mypage"
+									/>
 								</Link>
 							</SideMenuItem>
 						)}

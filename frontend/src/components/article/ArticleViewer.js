@@ -2,7 +2,7 @@ import React from 'react';
 import Responsive from '../common/Responsive';
 import styled from 'styled-components';
 import Kebab from '../../images/Kebab.svg';
-import Profile from '../../images/Profile.svg';
+import DefaultProfile from '../../images/Profile.svg';
 import Lock from '../../images/light/Lock.svg';
 import { formatDateTime } from '../../utils/dateUtils';
 import { Link } from 'react-router-dom';
@@ -22,7 +22,7 @@ const TitleWrapper = styled.div`
 	padding-bottom: 1.125rem;
 	.title {
 		font-size: 25px;
-		font-weight: 500;
+		font-weight: 400;
 		padding-bottom: 10px;
 	}
 	.subtitle {
@@ -47,6 +47,8 @@ const SubInfo = styled.div`
 		text-align: center;
 		.profile {
 			width: 27px;
+			height: 27px;
+			border-radius: 20px;
 			margin-right: 0.5rem;
 		}
 		.private {
@@ -104,9 +106,12 @@ const MenuDropdownItem = styled.div`
 const ArticleContent = styled.div`
 	color: var(--color-article-content);
 	padding: 1.125rem 0;
+	p {
+		margin: 8px 0;
+	}
 `;
 
-const ArticleViewer = ({ article, error, loading, author, onDeleteClick, onModifyClick }) => {
+const ArticleViewer = ({ article, error, loading, isAuthor, onDeleteClick, onModifyClick }) => {
 	if (error) {
 		console.log('에러 발생');
 		console.log(error.message);
@@ -117,7 +122,7 @@ const ArticleViewer = ({ article, error, loading, author, onDeleteClick, onModif
 	}
 
 	const { title, subtitle, created_at, content, is_public, author_id } = article;
-	const { nickname } = article.author;
+	const { nickname, profileImageUrl } = article.author;
 
 	const onMenuClick = (e) => {
 		const menuDropdown = document.querySelector('.menu-dropdown');
@@ -133,7 +138,7 @@ const ArticleViewer = ({ article, error, loading, author, onDeleteClick, onModif
 				</TitleWrapper>
 				<SubInfo>
 					<div className="left">
-						<img className="profile" src={Profile} alt="profile" />
+						<img className="profile" src={profileImageUrl || DefaultProfile} alt="profile" />
 						<Link to={`/${author_id}`}>
 							<span className="author">{nickname}</span>
 						</Link>
@@ -145,7 +150,7 @@ const ArticleViewer = ({ article, error, loading, author, onDeleteClick, onModif
 							</div>
 						)}
 					</div>
-					{author && (
+					{isAuthor && (
 						<div className="right">
 							<img className="menu" src={Kebab} alt="menu" onClick={onMenuClick} />
 							<MenuDropdown className="menu-dropdown">

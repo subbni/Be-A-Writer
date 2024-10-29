@@ -16,6 +16,7 @@ const jwtMiddleware = async (req, res, next) => {
 			member_id: decoded.member_id,
 			email: decoded.email,
 			nickname: decoded.nickname,
+			profileImageUrl: decoded.profileImageUrl,
 		};
 		// TODO : 만료 기간이 기준일 미만이라면 재발급 처리
 	} catch (e) {

@@ -35,9 +35,10 @@ class CommentRepository {
 
 	static async findParentCommentByArticleId(article_id, { limit, offset }) {
 		const result = await pool.query(
-			`SELECT c.*, m.nickname AS member_nickname, m.member_id AS member_id
+			`SELECT c.*, m.nickname AS member_nickname, m.member_id AS member_id, i.stored_url AS member_profile_url
 			FROM comment c
 			JOIN member m ON c.member_id = m.member_id
+			LEFT JOIN image i ON m.profile_image_id = i.image_id
 			WHERE c.article_id = $1
 				AND c.parent_id IS NULL
 			ORDER BY c.created_at ASC
@@ -51,9 +52,10 @@ class CommentRepository {
 
 	static async findReplyCommentByParentId(parent_id) {
 		const result = await pool.query(
-			`SELECT c.*, m.nickname AS member_nickname, m.member_id AS member_id
+			`SELECT c.*, m.nickname AS member_nickname, m.member_id AS member_id, i.stored_url AS member_profile_url
 			FROM comment c
 			JOIN member m ON c.member_id = m.member_id
+			LEFT JOIN image i ON m.profile_image_id = i.image_id
 			WHERE c.parent_id = $1
 			ORDER BY c.created_at ASC;
 			`,

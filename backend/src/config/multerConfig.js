@@ -6,7 +6,7 @@ import s3 from './s3Client.js';
 const upload = (directory = 'profiles') =>
 	multer({
 		storage: multerS3({
-			s3: s3(),
+			s3: s3,
 			bucket: process.env.AWS_S3_BUCKET_NAME,
 			key: (req, file, cb) => {
 				const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);

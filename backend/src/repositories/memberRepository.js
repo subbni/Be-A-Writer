@@ -42,6 +42,28 @@ class MemberRepository {
 		return result.rows[0];
 	}
 
+	static async updateProfileImage({ memberId, imageId }) {
+		const result = await pool.query(
+			`UPDATE member
+			SET profile_image_id = $1
+			WHERE member_id = $2
+			RETURNING *`,
+			[imageId, memberId],
+		);
+		return result.rows[0];
+	}
+
+	static async deleteProfileImage(memberId) {
+		const result = await pool.query(
+			`UPDATE member
+			SET profile_image_id = null
+			WHERE member_id = $1
+			RETURNING *`,
+			[memberId],
+		);
+		return result.rows[0];
+	}
+
 	static async updatePassword(memberId, newPassword) {
 		const result = await pool.query(
 			`UPDATE member

@@ -1,3 +1,4 @@
+import ImageService from '../services/imageService.js';
 import MemberService from '../services/memberService.js';
 import { areAllFieldsDefined } from '../utils/helpers.js';
 
@@ -37,6 +38,29 @@ class MemberController {
 		} catch (e) {
 			console.log(e);
 			return res.status(e.status || 500).json({ message: e.message });
+		}
+	}
+
+	/**
+	 * post /api/member/profile/image
+	 * { file }
+	 */
+	static async updateMemberProfileImage(req, res) {
+		try {
+			if (req.file) {
+				// console.log(req.file);
+				const data = await MemberService.updateMemberProfileImage({
+					memberId: req.state.member.member_id,
+					file: req.file,
+				});
+				return res.status(200).json(data);
+			} else {
+				console.log('req.file 없음');
+				return res.status(200).json({ message: 's3 업로드 실패' });
+			}
+		} catch (e) {
+			console.log(e);
+			return res.status(500).json({ message: e.message });
 		}
 	}
 }

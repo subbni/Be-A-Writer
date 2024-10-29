@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import DefaultProfile from '../../images/Profile.svg';
+import FileUploader from '../common/FileUploader';
 
 const ProfileSettingViewBlock = styled(Responsive)`
 	/* border: 1px solid black; */
@@ -11,6 +12,13 @@ const ProfileSettingViewBlock = styled(Responsive)`
 	min-width: 700px;
 `;
 
+const ProfileImageSettingForm = styled.form`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`;
+
 const ProfileSettingForm = styled.form`
 	display: flex;
 	flex-direction: column;
@@ -18,9 +26,11 @@ const ProfileSettingForm = styled.form`
 	align-items: center;
 `;
 
-const Profile = styled.img`
-	width: 80px;
+const ProfileImage = styled.img`
+	width: 150px;
+	height: 150px;
 	margin-bottom: 2rem;
+	border-radius: 150px;
 `;
 
 const ProfileSettingItem = styled.div`
@@ -86,7 +96,24 @@ const StyledBtn = styled.button`
 	}
 `;
 
-const ProfileSettingView = ({ errMsg, form, onChange, onCancel, onSubmit }) => {
+const FileUploadBtn = styled.div`
+	font-size: 12px;
+	color: var(--color-dark-gray);
+	cursor: pointer;
+	padding: 0.5rem;
+	border: 1px solid var(--color-gray);
+	border-radius: 25px;
+`;
+
+const ProfileSettingView = ({
+	errMsg,
+	form,
+	profileImageUrl,
+	onChange,
+	onCancel,
+	onSubmit,
+	onProfileImageSet,
+}) => {
 	const onFormSubmit = (e) => {
 		e.preventDefault();
 		onSubmit(form);
@@ -94,8 +121,11 @@ const ProfileSettingView = ({ errMsg, form, onChange, onCancel, onSubmit }) => {
 
 	return (
 		<ProfileSettingViewBlock>
+			<ProfileImageSettingForm>
+				<ProfileImage src={profileImageUrl || DefaultProfile} alt="profile image" />
+				<FileUploader btnText="이미지 업로드" onFileSet={onProfileImageSet} />
+			</ProfileImageSettingForm>
 			<ProfileSettingForm onSubmit={onFormSubmit}>
-				<Profile src={DefaultProfile} alt="profile image" />
 				<ProfileInfoItem>
 					<label htmlFor="email">
 						<span>*</span>이메일

@@ -36,6 +36,7 @@ const AuthorInfo = styled.div`
 const ProfileImage = styled.img`
 	width: 100px;
 	height: 100px;
+	border-radius: 100px;
 `;
 
 const ProfileSettingBtn = styled.button`
@@ -58,7 +59,7 @@ const ProfileHeader = ({ profile, isCurrentUser }) => {
 	return (
 		<ProfileHeaderWrapper>
 			<AuthorInfoWrapper>
-				<ProfileImage src={DefaultProfile} alt="profile image" />
+				<ProfileImage src={profile?.profileImageUrl || DefaultProfile} alt="profile image" />
 				<AuthorInfo>
 					<h1 className="nickname">{profile?.nickname}</h1>
 					<div className="description">{profile?.bio}</div>

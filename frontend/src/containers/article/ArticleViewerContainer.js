@@ -61,7 +61,7 @@ const ArticleViewerContainer = () => {
 			navigate('/my');
 		}
 	}, [deleted, navigate]);
-	const author = (user && user.member_id) === (article && article.author_id);
+	const isAuthor = (user && user.member_id) === (article && article.author_id);
 
 	return (
 		<>
@@ -71,7 +71,7 @@ const ArticleViewerContainer = () => {
 				loading={loading}
 				onDeleteClick={onDeleteClick}
 				onModifyClick={onModify}
-				author={author}
+				isAuthor={isAuthor}
 			/>
 			<AskModal
 				visible={modal}

@@ -31,7 +31,7 @@ const ArticleItem = styled(Link)`
 	color: var(--color-dark-gray);
 	.title {
 		font-size: 22px;
-		font-weight: 500;
+		font-weight: 400;
 		color: var(--color-black);
 	}
 	.subtitle {

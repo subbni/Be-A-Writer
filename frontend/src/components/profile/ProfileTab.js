@@ -28,13 +28,19 @@ const ProfileTabItem = styled.div`
 		`};
 `;
 
-const ProfileTab = () => {
+const ProfileTab = ({ tabs, clickedTab, onTabClick }) => {
 	return (
 		<ProfileTabBlock>
 			<ProfileTabWrapper>
-				<ProfileTabItem $isClicked>작가 소개</ProfileTabItem>
-				<ProfileTabItem>작성글</ProfileTabItem>
-				<ProfileTabItem>작품</ProfileTabItem>
+				{tabs.map((tab, index) => (
+					<ProfileTabItem
+						key={index}
+						onClick={() => onTabClick(index)}
+						$isClicked={clickedTab === index}
+					>
+						{tab}
+					</ProfileTabItem>
+				))}
 			</ProfileTabWrapper>
 		</ProfileTabBlock>
 	);

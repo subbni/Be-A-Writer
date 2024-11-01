@@ -82,9 +82,7 @@ const Header = ({ user, onLogout, onMenuBtnClick }) => {
 					{user ? (
 						<div className="right">
 							{/* <img src={DefaultProfile} alt="profile" onClick={onLogout} /> */}
-							<span class="" onClick={onLogout}>
-								END
-							</span>
+							<span onClick={onLogout}>END</span>
 						</div>
 					) : (
 						<Login to="/login" className="right">

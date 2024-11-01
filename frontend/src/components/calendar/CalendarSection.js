@@ -40,7 +40,7 @@ const CalendarHeader = styled.div`
 	span {
 		padding: 0.125rem;
 		font-size: large;
-		font-weight: 600;
+		font-weight: 500;
 	}
 `;
 
@@ -64,12 +64,12 @@ const CalendarDayList = styled.span`
 	${({ $sat }) =>
 		$sat &&
 		css`
-			color: royalblue;
+			color: #002fb9;
 		`}
 	${({ $sun }) =>
 		$sun &&
 		css`
-			color: tomato;
+			color: #d72100;
 		`}
 `;
 

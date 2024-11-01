@@ -106,8 +106,10 @@ const MenuDropdownItem = styled.div`
 const ArticleContent = styled.div`
 	color: var(--color-article-content);
 	padding: 1.125rem 0;
+	font-size: 0.925rem;
 	p {
-		margin: 8px 0;
+		margin: 0;
+		line-height: 1.6rem;
 	}
 `;
 

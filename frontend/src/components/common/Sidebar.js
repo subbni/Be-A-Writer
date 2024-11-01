@@ -43,9 +43,10 @@ const Wrapper = styled.div`
 const HeaderMenu = styled.div`
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	text-align: center;
 	width: 70px;
-	height: 4.2rem;
+	min-height: 4.2rem;
 	padding-right: 1rem;
 `;
 

@@ -8,12 +8,17 @@ import {
 	READ_ARTICLE_SUCCESS,
 	READ_MY_ARTICLES_FAILURE,
 	READ_MY_ARTICLES_SUCCESS,
+	READ_USER_ARTICLES_FAILURE,
+	READ_USER_ARTICLES_SUCCESS,
 	UNLOAD_ARTICLE,
 	UNLOAD_ARTICLES,
 } from './articlesTypes';
 
 const initialState = {
-	articles: null,
+	articles: {
+		count: 0,
+		data: [],
+	},
 	article: null,
 	error: null,
 	deleted: null,
@@ -42,6 +47,18 @@ const articles = handleActions(
 			articles,
 		}),
 		[READ_ALL_ARTICLES_FAILURE]: (state, { payload: error }) => ({
+			...state,
+			error,
+		}),
+		[READ_USER_ARTICLES_SUCCESS]: (state, { payload: newArticles }) => ({
+			...state,
+			articles: {
+				totalCount: newArticles.totalCount,
+				count: state.articles.count + newArticles.count,
+				data: [...state.articles.data, ...newArticles.data],
+			},
+		}),
+		[READ_USER_ARTICLES_FAILURE]: (state, { payload: error }) => ({
 			...state,
 			error,
 		}),

@@ -2,6 +2,7 @@ import AuthErrorMessage from '../constants/error/authErrorMessage.js';
 import CustomError from '../constants/error/customError.js';
 import MemberRepository from '../repositories/memberRepository.js';
 import * as passwordUtil from '../utils/passwordUtil.js';
+import ImageService from './imageService.js';
 import MemberService from './memberService.js';
 
 class AuthService {
@@ -29,11 +30,18 @@ class AuthService {
 			throw new CustomError(AuthErrorMessage.EMAIL_NOT_FOUND);
 		}
 		await passwordUtil.verifyPassword(password, member.password);
-		return {
+		const data = {
 			member_id: member.member_id,
 			email: member.email,
 			nickname: member.nickname,
 		};
+		if (member.profile_image_id) {
+			const profileImageUrl = await ImageService.getImageUrl(
+				member.profile_image_id,
+			);
+			data.profileImageUrl = profileImageUrl;
+		}
+		return data;
 	}
 
 	static async updatePassword({ memberId, currentPassword, newPassword }) {

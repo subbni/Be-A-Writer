@@ -43,9 +43,10 @@ const Wrapper = styled.div`
 const HeaderMenu = styled.div`
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	text-align: center;
 	width: 70px;
-	height: 4.2rem;
+	min-height: 4.2rem;
 	padding-right: 1rem;
 `;
 
@@ -60,6 +61,9 @@ const SideMenu = styled.ul`
 	}
 	.bottom li {
 		scale: 1;
+	}
+	.profile {
+		border-radius: 30px;
 	}
 `;
 
@@ -105,7 +109,11 @@ const Sidebar = ({ isSidebarClosed, onMenuBtnClick, user }) => {
 						{user && (
 							<SideMenuItem>
 								<Link to={`/${user.member_id}`}>
-									<img className="btn" src={DefaultProfile} alt="mypage" />
+									<img
+										className="btn profile"
+										src={user.profileImageUrl || DefaultProfile}
+										alt="mypage"
+									/>
 								</Link>
 							</SideMenuItem>
 						)}

@@ -1,4 +1,4 @@
-import pool from '../psql.js';
+import pool from '../config/psql.js';
 
 class MemberRepository {
 	static async create({ email, password, nickname, authProvider }) {
@@ -38,6 +38,28 @@ class MemberRepository {
 			WHERE member_id = $1
 			RETURNING *`,
 			[memberId, nickname, bio],
+		);
+		return result.rows[0];
+	}
+
+	static async updateProfileImage({ memberId, imageId }) {
+		const result = await pool.query(
+			`UPDATE member
+			SET profile_image_id = $1
+			WHERE member_id = $2
+			RETURNING *`,
+			[imageId, memberId],
+		);
+		return result.rows[0];
+	}
+
+	static async deleteProfileImage(memberId) {
+		const result = await pool.query(
+			`UPDATE member
+			SET profile_image_id = null
+			WHERE member_id = $1
+			RETURNING *`,
+			[memberId],
 		);
 		return result.rows[0];
 	}

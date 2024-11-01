@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils/dateUtils';
 import Lock from '../../images/light/Lock.svg';
 import Comment from '../../images/Comment.svg';
+import ArticleList from './common/ArticleList';
 
 const MyArticlesBlock = styled(Responsive)`
 	padding: 10rem;
@@ -31,7 +32,7 @@ const ArticleItem = styled(Link)`
 	color: var(--color-dark-gray);
 	.title {
 		font-size: 22px;
-		font-weight: 500;
+		font-weight: 400;
 		color: var(--color-black);
 	}
 	.subtitle {
@@ -87,7 +88,8 @@ const ArticleItem = styled(Link)`
 const MyArticlesView = ({ articles, error, loading }) => {
 	return (
 		<MyArticlesBlock>
-			<ArticleWrapper>
+			<ArticleList articles={articles} />
+			{/* <ArticleWrapper>
 				{articles &&
 					articles.data.map((article) => (
 						<ArticleItem key={article.article_id} to={`/article/${article.article_id}`}>
@@ -108,7 +110,7 @@ const MyArticlesView = ({ articles, error, loading }) => {
 							</div>
 						</ArticleItem>
 					))}
-			</ArticleWrapper>
+			</ArticleWrapper> */}
 		</MyArticlesBlock>
 	);
 };

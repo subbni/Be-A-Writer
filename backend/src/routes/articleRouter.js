@@ -6,7 +6,11 @@ import verifyArticleAuthor from '../lib/verifyArticleAuthor.js';
 const articleRouter = Router();
 
 articleRouter.post('/write', checkLoggedIn, ArticleController.writeArticle);
-articleRouter.get('/my', checkLoggedIn, ArticleController.showMemberArticles);
+articleRouter.get(
+	'/my',
+	checkLoggedIn,
+	ArticleController.showMemberOwnArticles,
+);
 articleRouter.get(
 	'/my/by-date',
 	checkLoggedIn,
@@ -14,6 +18,7 @@ articleRouter.get(
 );
 articleRouter.get('/list', ArticleController.list);
 articleRouter.get('/detail/:articleId', ArticleController.showArticle);
+articleRouter.get('/member/:memberId', ArticleController.showMemberArticles);
 articleRouter.patch(
 	'/:articleId',
 	checkLoggedIn,

@@ -5,6 +5,7 @@ import {
 	initializeProfile,
 	readProfile,
 	updateProfile,
+	updateProfileImage,
 } from '../../modules/profile/profileActions';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,6 +20,8 @@ const ProfileSettingViewContainer = () => {
 
 	const [errMsg, setErrMsg] = useState('');
 	const [form, setForm] = useState({});
+	const [profileImageUrl, setProfileImageUrl] = useState({});
+	const [profileImageFile, setProfileImageFile] = useState(null);
 
 	useEffect(() => {
 		dispatch(readProfile(memberId));
@@ -27,6 +30,9 @@ const ProfileSettingViewContainer = () => {
 	useEffect(() => {
 		return () => {
 			dispatch(initializeProfile());
+			if (profileImageFile) {
+				URL.revokeObjectURL(profileImageUrl);
+			}
 		};
 	}, []);
 
@@ -38,6 +44,7 @@ const ProfileSettingViewContainer = () => {
 				nickname: profile.nickname,
 				bio: profile.bio || '',
 			});
+			setProfileImageUrl(() => profile.profileImageUrl);
 		}
 	}, [profile]);
 
@@ -59,6 +66,9 @@ const ProfileSettingViewContainer = () => {
 	};
 
 	const onSubmit = (form) => {
+		if (profileImageFile) {
+			dispatch(updateProfileImage(profileImageFile));
+		}
 		dispatch(updateProfile(form));
 	};
 
@@ -66,13 +76,24 @@ const ProfileSettingViewContainer = () => {
 		navigate(-1);
 	};
 
+	const onProfileImageSet = (e) => {
+		const file = e.target.files[0];
+		setProfileImageFile(file);
+		if (profileImageFile) {
+			URL.revokeObjectURL(profileImageUrl);
+		}
+		setProfileImageUrl(URL.createObjectURL(file));
+	};
+
 	return (
 		<ProfileSettingView
 			errMsg={errMsg}
+			profileImageUrl={profileImageUrl}
 			form={form}
 			onChange={onChange}
 			onSubmit={onSubmit}
 			onCancel={onCancel}
+			onProfileImageSet={onProfileImageSet}
 		/>
 	);
 };

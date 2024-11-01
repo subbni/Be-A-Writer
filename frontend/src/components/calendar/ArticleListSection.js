@@ -27,7 +27,7 @@ const ArticleItem = styled(Link)`
 	color: var(--color-dark-gray);
 	.title {
 		font-size: 19px;
-		font-weight: 500;
+		font-weight: 400;
 		color: var(--color-black);
 	}
 	.subtitle {
@@ -63,14 +63,25 @@ const ArticleItem = styled(Link)`
 const ArticleListHeader = styled.div`
 	width: 100%;
 	height: 20px;
-	background-color: white;
+	font-size: 0.9rem;
+	color: var(--color-dark-gray);
 	text-align: center;
+	span {
+		color: var(--color-point);
+		font-weight: 500;
+	}
 `;
 
 const ArticleListSection = ({ articles }) => {
 	return (
 		<ArticleListBlock>
-			<ArticleListHeader>{articles && <div>총 {articles.length}개의 글</div>}</ArticleListHeader>
+			<ArticleListHeader>
+				{articles && (
+					<div>
+						<span>{articles.length}</span>개의 글
+					</div>
+				)}
+			</ArticleListHeader>
 			{articles && articles.length > 0
 				? articles.map((article, idx) => (
 						<ArticleItem key={`article${idx}`} to={`/article/${article.article_id}`}>

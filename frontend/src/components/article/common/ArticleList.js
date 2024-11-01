@@ -1,23 +1,16 @@
 import React from 'react';
-import Responsive from '../common/Responsive';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { formatDate } from '../../utils/dateUtils';
-import Comment from '../../images/Comment.svg';
-import ArticleList from './common/ArticleList';
+import { formatDate } from '../../../utils/dateUtils';
+import Comment from '../../../images/Comment.svg';
+import Lock from '../../../images/light/Lock.svg';
 
-const FullArticlesBlock = styled(Responsive)`
-	padding: 10rem;
-	padding-bottom: 1rem;
-	max-width: 1300px;
-	min-width: 800px;
-`;
-
-const FullArticlesWrapper = styled.div`
+const ArticlesWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	width: 100%;
 `;
 
 const ArticleItem = styled(Link)`
@@ -59,6 +52,14 @@ const ArticleItem = styled(Link)`
 		align-items: center;
 		text-align: center;
 		.info_left {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			img {
+				display: block;
+				width: 22px;
+			}
 		}
 		.info_right {
 			display: flex;
@@ -73,7 +74,7 @@ const ArticleItem = styled(Link)`
 			}
 		}
 		span {
-			padding-right: 1rem;
+			padding-right: 0.5rem;
 		}
 		.author {
 			font-style: italic;
@@ -82,34 +83,35 @@ const ArticleItem = styled(Link)`
 	}
 `;
 
-const FullArticlesView = ({ articles }) => {
+const ArticleList = ({ articles, lastItemRef }) => {
 	return (
-		<FullArticlesBlock>
-			<ArticleList articles={articles} />
-			{/* <FullArticlesWrapper>
-				{articles &&
-					articles.data.map((article) => (
-						<ArticleItem key={article.article_id} to={`/article/${article.article_id}`}>
-							<h2 className="title">{article.title}</h2>
-							<div className="content">
-								{article.subtitle && <span className="subtitle">{article.subtitle}</span>}
-								{article.content.replace(/(<([^>]+)>)/gi, '')}
-							</div>
-							<div className="article-info">
-								<div className="info_left">
-									<span className="createdAt">{formatDate(article.created_at)}</span>
+		<ArticlesWrapper>
+			{articles &&
+				articles.data.map((article, idx) => (
+					<ArticleItem key={article.article_id} to={`/article/${article.article_id}`}>
+						{idx === articles.data.length - 1 && <div ref={lastItemRef}></div>}
+						<h2 className="title">{article.title}</h2>
+						<div className="content">
+							{article.subtitle && <span className="subtitle">{article.subtitle}</span>}
+							{article.content.replace(/(<([^>]+)>)/gi, '')}
+						</div>
+						<div className="article-info">
+							<div className="info_left">
+								<span className="createdAt">{formatDate(article.created_at)}</span>
+								{article.author_nickname && (
 									<span className="author">by {article.author_nickname}</span>
-								</div>
-								<div className="info_right">
-									<img src={Comment} alt="comment" />
-									{article.comment_count}
-								</div>
+								)}
+								{!article.is_public && <img src={Lock} alt="private post" />}
 							</div>
-						</ArticleItem>
-					))}
-			</FullArticlesWrapper> */}
-		</FullArticlesBlock>
+							<div className="info_right">
+								<img src={Comment} alt="comment" />
+								{article.comment_count}
+							</div>
+						</div>
+					</ArticleItem>
+				))}
+		</ArticlesWrapper>
 	);
 };
 
-export default FullArticlesView;
+export default ArticleList;

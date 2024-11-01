@@ -34,17 +34,17 @@ const CommentViewerContainer = () => {
 				limit,
 			}),
 		);
-	}, [dispatch, limit, page, articleId]);
+	}, [dispatch, page, articleId]);
 
 	useEffect(() => {
-		dispatch(
-			readComments({
-				articleId,
-				page,
-				limit,
-			}),
-		);
 		if (addedComment !== null) {
+			dispatch(
+				readComments({
+					articleId,
+					page,
+					limit,
+				}),
+			);
 			if (addedComment.data.parent_id !== null) {
 				dispatch(readRecomments(addedComment.data.parent_id));
 			}
@@ -52,14 +52,14 @@ const CommentViewerContainer = () => {
 	}, [addedComment, dispatch]);
 
 	useEffect(() => {
-		dispatch(
-			readComments({
-				articleId,
-				page,
-				limit,
-			}),
-		);
 		if (deletedComment !== null) {
+			dispatch(
+				readComments({
+					articleId,
+					page,
+					limit,
+				}),
+			);
 			if (deletedComment.data.parent_id !== null) {
 				dispatch(readRecomments(deletedComment.data.parent_id));
 			}

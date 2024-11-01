@@ -1,4 +1,4 @@
-import pool from '../psql.js';
+import pool from '../config/psql.js';
 
 /**
  * article_id, title, subtitle, content, author_id, created_at, updated_at, is_public
@@ -56,6 +56,39 @@ class ArticleRepository {
 
 		const params = day ? [authorId, year, month, day] : [authorId, year, month];
 		const result = await pool.query(sql, params);
+		return {
+			data: result.rows,
+			count: result.rows.length,
+		};
+	}
+
+	static async getTotalCountByAuthorIdAndIsPublic(authorId, isPublic) {
+		const sql = `
+    SELECT COUNT(*) AS total_count
+    FROM article
+    WHERE author_id = $1 AND is_public = $2
+  `;
+
+		const countResult = await pool.query(sql, [authorId, isPublic]);
+		return countResult.rows[0].total_count;
+	}
+
+	static async findByAuthorIdAndIsPublic(authorId, isPublic, params) {
+		const sql = `
+    SELECT *
+    FROM article
+    WHERE author_id = $1 AND is_public = $2
+    ORDER BY article_id DESC
+    LIMIT $3 OFFSET $4
+  `;
+
+		const result = await pool.query(sql, [
+			authorId,
+			isPublic,
+			params.limit,
+			params.offset,
+		]);
+
 		return {
 			data: result.rows,
 			count: result.rows.length,

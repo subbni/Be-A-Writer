@@ -44,12 +44,18 @@ const CommentItemStyled = styled.div`
 	}
 `;
 
-const ProfileImage = styled.img`
-	/* padding: 0.125rem; */
+const ProfileImageDiv = styled.div`
 	width: 25px;
 	height: 25px;
 	border-radius: 30px;
-	/* border: 1px solid gray; */
+`;
+const ProfileImage = styled.img`
+	/* padding: 0.125rem; */
+	/* display: block; */
+	width: 25px;
+	height: 25px;
+	border-radius: 30px;
+	object-fit: cover;
 `;
 
 const CommentData = styled.div`
@@ -99,6 +105,7 @@ const RecommentWriteBtn = styled.button`
 
 const RecommentIcon = styled.img`
 	margin: 0.5rem;
+	margin-top: 0.2rem;
 `;
 
 const MenuDropdown = styled.div`
@@ -201,7 +208,12 @@ const CommentItem = ({
 				>
 					<div className="left">
 						{isRecomment && <RecommentIcon src={RecommentRectangle} />}
-						<ProfileImage src={comment.member_profile_url || DefaultProfile} alt="profile image" />
+						<ProfileImageDiv>
+							<ProfileImage
+								src={comment.member_profile_url || DefaultProfile}
+								alt="profile image"
+							/>
+						</ProfileImageDiv>
 						<CommentData>
 							<div className="nickname">
 								{comment.member_nickname}
@@ -234,7 +246,12 @@ const CommentItem = ({
 				>
 					<div className="left">
 						{isRecomment && <RecommentIcon src={RecommentRectangle} />}
-						<ProfileImage src={comment.member_profile_url || DefaultProfile} alt="profile image" />
+						<ProfileImageDiv>
+							<ProfileImage
+								src={comment.member_profile_url || DefaultProfile}
+								alt="profile image"
+							/>
+						</ProfileImageDiv>
 						{comment.deleted ? (
 							<CommentData>
 								<div className="nickname">{comment.member_nickname}</div>

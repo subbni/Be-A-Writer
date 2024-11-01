@@ -27,8 +27,23 @@ class ArticleService {
 		};
 	}
 
-	static async getMemberArticles(memberId, params) {
+	static async getMemberOwnArticles(memberId, params) {
 		const result = await ArticleRepository.findByAuthorId(memberId, params);
+		return result;
+	}
+
+	static async getMemberArticles(memberId, isPublic, params) {
+		const result = await ArticleRepository.findByAuthorIdAndIsPublic(
+			memberId,
+			isPublic,
+			params,
+		);
+		const totalCount =
+			await ArticleRepository.getTotalCountByAuthorIdAndIsPublic(
+				memberId,
+				isPublic,
+			);
+		result.totalCount = totalCount;
 		return result;
 	}
 

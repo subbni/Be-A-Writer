@@ -4,6 +4,7 @@ import {
 	READ_ALL_ARTICLES,
 	READ_ARTICLE,
 	READ_MY_ARTICLES,
+	READ_USER_ARTICLES,
 	UNLOAD_ARTICLE,
 	UNLOAD_ARTICLES,
 } from './articlesTypes';
@@ -17,6 +18,7 @@ export const readAllArticles = createAction(READ_ALL_ARTICLES, ({ page, limit })
 	page,
 	limit,
 }));
+export const readUserArticles = createAction(READ_USER_ARTICLES, (id) => id);
 
 export const unloadArticle = createAction(UNLOAD_ARTICLE);
 export const unloadArticles = createAction(UNLOAD_ARTICLES);

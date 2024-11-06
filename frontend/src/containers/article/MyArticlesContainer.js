@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MyArticlesView from '../../components/article/MyArticlesView';
 import { useDispatch, useSelector } from 'react-redux';
-import { readMyArticles, unloadArticles } from '../../modules/article/articles/articlesActions';
+import { readMyArticles, unloadArticles } from '../../modules/articles/articlesActions';
 import PaginationBar from '../../components/pagination/PaginationBar';
 
 const MyArticlesContainer = () => {

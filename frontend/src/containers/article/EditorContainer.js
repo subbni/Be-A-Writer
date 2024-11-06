@@ -7,7 +7,7 @@ import {
 	initialize,
 	writeArticle,
 	modifyArticle,
-} from '../../modules/article/editor/articleEditorActions';
+} from '../../modules/editor/articleEditorActions';
 
 const EditorContainer = () => {
 	const navigate = useNavigate();

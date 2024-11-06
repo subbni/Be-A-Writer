@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ArticleViewer from '../../components/article/ArticleViewer';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	deleteArticle,
-	readArticle,
-	unloadArticle,
-} from '../../modules/article/articles/articlesActions';
+import { deleteArticle, readArticle, unloadArticle } from '../../modules/articles/articlesActions';
 import { useNavigate, useParams } from 'react-router-dom';
 import AskModal from '../../components/common/AskModal';
-import { setOriginalArticle } from '../../modules/article/editor/articleEditorActions';
+import { setOriginalArticle } from '../../modules/editor/articleEditorActions';
 
 const ArticleViewerContainer = () => {
 	const [modal, setModal] = useState(false);

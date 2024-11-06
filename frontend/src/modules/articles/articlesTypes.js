@@ -1,4 +1,4 @@
-import { createRequestActionTypes } from '../../../services/createRequestSaga';
+import { createRequestActionTypes } from '../../services/createRequestSaga';
 
 // 조회
 export const [READ_ARTICLE, READ_ARTICLE_SUCCESS, READ_ARTICLE_FAILURE] =

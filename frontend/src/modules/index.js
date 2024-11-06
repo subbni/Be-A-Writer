@@ -2,17 +2,17 @@ import { combineReducers } from 'redux';
 import auth, { authSaga } from './auth/auth';
 import loading from './loading';
 import { all } from 'redux-saga/effects';
-import articleEditor from './article/editor/articleEditorReducer';
-import { articleEditorSaga } from './article/editor/articleEditorSaga';
+import { articleEditorSaga } from './editor/articleEditorSaga';
+import { articlesSaga } from './articles/articlesSaga';
 import user, { userSaga } from './user/user';
-import { articlesSaga } from './article/articles/articlesSaga';
-import articles from './article/articles/articlesReducer';
 import calendar from './calendar/calendarReducer';
 import { calendarSaga } from './calendar/calendarSaga';
 import comments from './comment/commentReducer';
 import { commentSaga } from './comment/commentSaga';
 import { profileSaga } from './profile/profileSaga';
 import profile from './profile/profileReducer';
+import articleEditor from './editor/articleEditorReducer';
+import articles from './articles/articlesReducer';
 
 const rootReducer = combineReducers({
 	auth,

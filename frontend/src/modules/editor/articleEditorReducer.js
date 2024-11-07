@@ -8,7 +8,7 @@ import {
 	WRITE_ARTICLE,
 	WRITE_ARTICLE_FAILUER,
 	WRITE_ARTICLE_SUCCESS,
-} from './articleEditorTypes';
+} from './articleEditorActions';
 
 const initialState = {
 	title: '',

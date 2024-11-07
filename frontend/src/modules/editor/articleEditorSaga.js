@@ -1,5 +1,5 @@
 import { takeLatest } from 'redux-saga/effects';
-import { MODIFY_ARTICLE, WRITE_ARTICLE } from './articleEditorTypes';
+import { MODIFY_ARTICLE, WRITE_ARTICLE } from './articleEditorActions';
 import * as articleAPI from '../../services/api/articleAPI';
 import createRequestSaga from '../../services/createRequestSaga';
 

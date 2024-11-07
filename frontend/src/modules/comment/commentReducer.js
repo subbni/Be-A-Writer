@@ -10,7 +10,7 @@ import {
 	MODIFY_COMMENT_FAILURE,
 	DELETE_COMMENT_SUCCESS,
 	DELETE_COMMENT_FAILURE,
-} from './commentTypes';
+} from './commentActions';
 
 const initialState = {
 	comments: null,

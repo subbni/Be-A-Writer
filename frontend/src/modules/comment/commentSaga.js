@@ -5,7 +5,7 @@ import {
 	READ_COMMENTS,
 	READ_RECOMMENTS,
 	WRITE_COMMENT,
-} from './commentTypes';
+} from './commentActions';
 import * as commentAPI from '../../services/api/commentAPI';
 import { takeLatest } from 'redux-saga/effects';
 

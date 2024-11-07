@@ -19,7 +19,7 @@ export const getMyArticlesByDate = ({ year, month, day = null }) =>
 		: client.get(`${API_BASE}/my/by-date?year=${year}&month=${month}&day=${day}`);
 
 // 회원 작성 글 조회
-export const getUserArticles = ({ page, limit, memberId }) =>
+export const getMemberArticles = ({ page, limit, memberId }) =>
 	client.get(`${API_BASE}/member/${memberId}?is_public=true&page=${page}&limit=${limit}`);
 
 // 글 수정

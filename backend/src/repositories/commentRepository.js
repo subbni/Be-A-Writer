@@ -1,4 +1,4 @@
-import pool from '../config/psql.js';
+import pool from '../config/db.js';
 
 /**
  * (NOT NULL) article_id, member_id, content, recomment_count

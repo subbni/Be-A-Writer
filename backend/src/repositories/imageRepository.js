@@ -1,4 +1,4 @@
-import pool from '../config/psql.js';
+import pool from '../config/db.js';
 
 class ImageRepository {
 	static async create({ storedName, storedUrl }) {

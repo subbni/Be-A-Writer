@@ -1,0 +1,10 @@
+export const MAIN_PAGE = '/';
+export const FULL_ARTICLE_PAGE = '/articles';
+export const ARTICLE_WRITE_PAGE = '/article/write';
+export const CALENDAR_PAGE = '/my/calendar';
+export const PROFILE_SETTING_PAGE = '/my/profile';
+export const PASSWORD_SETTING_PAGE = '/my/password';
+export const MY_ARTICLES_PAGE = '/my/articles';
+export const PROFILE_PAGE = '/profile/';
+export const LOGIN_PAGE = '/login';
+export const REGISTER_PAGE = '/password';

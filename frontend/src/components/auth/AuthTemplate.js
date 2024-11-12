@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
+import { MAIN_PAGE } from '../../constants/pagePaths';
 
 const AuthTemplateBlock = styled.div`
 	position: absolute;
@@ -38,7 +39,7 @@ const AuthTemplate = ({ children }) => {
 		<AuthTemplateBlock>
 			<WhiteBox>
 				<div className="logo-area">
-					<Link to="/" className="logo">
+					<Link to={MAIN_PAGE} className="logo">
 						Be A Writer
 					</Link>
 					<div className="logo-message">누구나 작가가 될 수 있습니다</div>

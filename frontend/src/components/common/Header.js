@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Burger from '../../images/light/Burger.svg';
 import Left from '../../images/light/Left.svg';
 import DefaultProfile from '../../images/Profile.svg';
+import { LOGIN_PAGE, MAIN_PAGE } from '../../constants/pagePaths';
 
 const HeaderBlock = styled.div`
 	position: fixed;
@@ -75,7 +76,7 @@ const Header = ({ user, onLogout, onMenuBtnClick }) => {
 						<Menu>
 							<img className="btn menu-btn" src={Burger} alt="menu" onClick={onMenuBtnClick} />
 						</Menu>
-						<Link to="/" className="logo">
+						<Link to={MAIN_PAGE} className="logo">
 							Be A Writer
 						</Link>
 					</LeftWrapper>
@@ -85,7 +86,7 @@ const Header = ({ user, onLogout, onMenuBtnClick }) => {
 							<span onClick={onLogout}>END</span>
 						</div>
 					) : (
-						<Login to="/login" className="right">
+						<Login to={LOGIN_PAGE} className="right">
 							시작하기
 						</Login>
 					)}

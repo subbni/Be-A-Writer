@@ -141,7 +141,7 @@ const Editor = ({
 	title,
 	subtitle,
 	content,
-	is_public,
+	isPublic,
 	onChangeField,
 	onPublish,
 	originalArticle,
@@ -210,7 +210,7 @@ const Editor = ({
 	};
 
 	const onChangePublicity = (e) => {
-		onChangeField({ key: 'is_public', value: !is_public });
+		onChangeField({ key: 'isPublic', value: !isPublic });
 	};
 
 	const handlePublish = () => {
@@ -248,12 +248,12 @@ const Editor = ({
 					<PublishWrapper>
 						<StyledButton onClick={handlePublish}>저장</StyledButton>
 						<LockWrapper>
-							{is_public ? (
+							{isPublic ? (
 								<img className="lock" src={OpenLock} alt="open lock" onClick={onChangePublicity} />
 							) : (
 								<img className="lock" src={Lock} alt="lock" onClick={onChangePublicity} />
 							)}
-							<Tooltip>{is_public ? '공개로 발행됩니다.' : '비공개로 발행됩니다.'}</Tooltip>
+							<Tooltip>{isPublic ? '공개로 발행됩니다.' : '비공개로 발행됩니다.'}</Tooltip>
 						</LockWrapper>
 					</PublishWrapper>
 				</EditorHeader>

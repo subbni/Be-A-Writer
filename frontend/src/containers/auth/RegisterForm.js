@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initializeForm, register } from '../../modules/auth/auth';
+import { changeField, initializeForm, register } from '../../modules/auth/authActions';
 import AuthForm from '../../components/auth/AuthForm';
-import { check } from '../../modules/user/user';
+import { check } from '../../modules/user/userActions';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {

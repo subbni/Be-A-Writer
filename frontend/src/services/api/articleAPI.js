@@ -25,8 +25,7 @@ export const getMemberArticles = ({ page, limit, memberId }) =>
 	});
 
 // 글 수정
-export const modifyArticle = ({ articleId, ...body }) =>
-	client.patch(`${ARTICLE_API_BASE}/${articleId}`, { articleId, ...body });
+export const modifyArticle = (form) => client.patch(`${ARTICLE_API_BASE}/${form.articleId}`, form);
 
 // 글 삭제
 export const deleteArticle = (articleId) => client.delete(`${ARTICLE_API_BASE}/${articleId}`);

@@ -151,7 +151,7 @@ const CalendarSection = ({
 		if (articlesForMonth) {
 			const formattedDate = format(date, 'yyyy-MM-dd');
 			return articlesForMonth.some(
-				(article) => format(new Date(article.created_at), 'yyyy-MM-dd') === formattedDate,
+				(article) => format(new Date(article.createdAt), 'yyyy-MM-dd') === formattedDate,
 			);
 		}
 	};

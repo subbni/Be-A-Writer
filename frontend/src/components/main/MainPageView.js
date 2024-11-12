@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import styled from 'styled-components';
 import Responsive from '../common/Responsive';
 import { Link } from 'react-router-dom';
+import { ARTICLE_WRITE_PAGE, REGISTER_PAGE } from '../../constants/pagePaths';
 
 const MainPageBlock = styled(Responsive)`
 	padding: 10rem;
@@ -37,12 +38,12 @@ const MainPageView = ({ user }) => {
 					<>
 						<h1>{user.nickname}님, 좋은 하루입니다!</h1>
 						<h2>오늘은 어떤 생각을 하고 있나요? 지나갈 오늘에 대한 기록을 남겨보세요</h2>
-						<GoToEditor to="/write">바로 글쓰러 가기</GoToEditor>
+						<GoToEditor to={ARTICLE_WRITE_PAGE}>바로 글쓰러 가기</GoToEditor>
 					</>
 				) : (
 					<>
 						<h2>지나가는 매일에 대한 기록을 남겨보세요!</h2>
-						<GoToEditor to="/register">가입하러 가기</GoToEditor>
+						<GoToEditor to={REGISTER_PAGE}>가입하러 가기</GoToEditor>
 					</>
 				)}
 			</MainPageWrapper>

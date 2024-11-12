@@ -28,14 +28,14 @@ const RecommentsList = ({
 }) => {
 	return (
 		<RecommentWrapper>
-			{recomments[comment.comment_id]
-				?.filter((recomment) => recomment.parent_id === comment.comment_id)
+			{recomments[comment.commentId]
+				?.filter((recomment) => recomment.parentId === comment.commentId)
 				.map((recomment) => {
 					return (
 						<>
 							<CommentItem
-								className={`comment${recomment.comment_id}-item .recomment`}
-								key={`comment${recomment.comment_id}`}
+								className={`comment${recomment.commentId}-item .recomment`}
+								key={`comment${recomment.commentId}`}
 								comment={recomment}
 								isRecomment={true}
 								onRecommentWriteBtnClick={onRecommentWriteBtnClick}
@@ -44,8 +44,8 @@ const RecommentsList = ({
 								expandedCommentId={expandedCommentId}
 								onCommentSubmit={onCommentSubmit}
 								onRecommentCancleClick={onRecommentCancelClick}
-								isAuthor={currentUserId === recomment.member_id}
-								isEditing={editingCommentId === recomment.comment_id}
+								isAuthor={currentUserId === recomment.memberId}
+								isEditing={editingCommentId === recomment.commentId}
 								onDeleteClick={onDeleteClick}
 								onCommentModifyClick={onCommentModifyClick}
 								onCommentModifyCancelClick={onCommentModifyCancelClick}

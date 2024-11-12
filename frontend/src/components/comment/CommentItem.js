@@ -6,6 +6,7 @@ import Kebab from '../../images/Kebab.svg';
 import RecommentEditor from './RecommentEditor';
 import RecommentRectangle from '../../images/RecommentRectangle.svg';
 import { Link } from 'react-router-dom';
+import { PROFILE_PAGE } from '../../constants/pagePaths';
 
 const CommentItemStyled = styled.div`
 	position: relative;
@@ -203,23 +204,20 @@ const CommentItem = ({
 		<>
 			{isEditing ? (
 				<CommentItemStyled
-					className={`comment${comment.comment_id} editing`}
-					key={`comment${comment.comment_id}`}
+					className={`comment${comment.commentId} editing`}
+					key={`comment${comment.commentId}`}
 				>
 					<div className="left">
 						{isRecomment && <RecommentIcon src={RecommentRectangle} />}
 						<ProfileImageDiv>
-							<ProfileImage
-								src={comment.member_profile_url || DefaultProfile}
-								alt="profile image"
-							/>
+							<ProfileImage src={comment.memberProfileUrl || DefaultProfile} alt="profile image" />
 						</ProfileImageDiv>
 						<CommentData>
 							<div className="nickname">
-								{comment.member_nickname}
+								{comment.memberNickname}
 								<span className="date_info">
-									{getTimeAgo(comment.created_at)}
-									{comment.created_at !== comment.updated_at && `(수정됨)`}
+									{getTimeAgo(comment.createdAt)}
+									{comment.createdAt !== comment.updatedAt && `(수정됨)`}
 								</span>
 							</div>
 							<CommentModifyInput value={content} onChange={onContentChange} />
@@ -230,7 +228,7 @@ const CommentItem = ({
 								</CommentModifyStyledBtn>
 								<CommentModifyStyledBtn
 									onClick={() =>
-										onCommentModifyConfirmClick({ commentId: comment.comment_id, content: content })
+										onCommentModifyConfirmClick({ commentId: comment.commentId, content: content })
 									}
 								>
 									수정
@@ -241,28 +239,25 @@ const CommentItem = ({
 				</CommentItemStyled>
 			) : (
 				<CommentItemStyled
-					className={`comment${comment.comment_id}`}
-					key={`comment${comment.comment_id}`}
+					className={`comment${comment.commentId}`}
+					key={`comment${comment.commentId}`}
 				>
 					<div className="left">
 						{isRecomment && <RecommentIcon src={RecommentRectangle} />}
 						<ProfileImageDiv>
-							<ProfileImage
-								src={comment.member_profile_url || DefaultProfile}
-								alt="profile image"
-							/>
+							<ProfileImage src={comment.memberProfileUrl || DefaultProfile} alt="profile image" />
 						</ProfileImageDiv>
 						{comment.deleted ? (
 							<CommentData>
-								<div className="nickname">{comment.member_nickname}</div>
+								<div className="nickname">{comment.memberNickname}</div>
 								<div className="content deletedMsg">삭제된 댓글입니다.</div>
 								<div className="recomment_info">
-									<RecommentWriteBtn onClick={() => onRecommentWriteBtnClick(comment.comment_id)}>
-										{replyingCommentId === comment.comment_id ? '답글 다는 중' : '답글'}
+									<RecommentWriteBtn onClick={() => onRecommentWriteBtnClick(comment.commentId)}>
+										{replyingCommentId === comment.commentId ? '답글 다는 중' : '답글'}
 									</RecommentWriteBtn>
-									{comment.recomment_count > 0 && (
-										<RecommentShowBtn onClick={() => onRecommentShowBtnClick(comment.comment_id)}>
-											{isExpanded ? '닫기' : `	• 답글 ${comment.recomment_count}개`}
+									{comment.recommentCount > 0 && (
+										<RecommentShowBtn onClick={() => onRecommentShowBtnClick(comment.commentId)}>
+											{isExpanded ? '닫기' : `	• 답글 ${comment.recommentCount}개`}
 										</RecommentShowBtn>
 									)}
 								</div>
@@ -270,20 +265,20 @@ const CommentItem = ({
 						) : (
 							<CommentData>
 								<div className="nickname">
-									<Link to={`/${comment.member_id}`}>{comment.member_nickname}</Link>
+									<Link to={PROFILE_PAGE + `${comment.memberId}`}>{comment.memberNickname}</Link>
 									<span className="date_info">
-										{getTimeAgo(comment.created_at)}
-										{comment.created_at !== comment.updated_at && `(수정됨)`}
+										{getTimeAgo(comment.createdAt)}
+										{comment.createdAt !== comment.updatedAt && `(수정됨)`}
 									</span>
 								</div>
 								<div className="content">{comment.content}</div>
 								<div className="recomment_info">
-									<RecommentWriteBtn onClick={() => onRecommentWriteBtnClick(comment.comment_id)}>
-										{replyingCommentId === comment.comment_id ? '답글 다는 중' : '답글'}
+									<RecommentWriteBtn onClick={() => onRecommentWriteBtnClick(comment.commentId)}>
+										{replyingCommentId === comment.commentId ? '답글 다는 중' : '답글'}
 									</RecommentWriteBtn>
-									{comment.recomment_count > 0 && (
-										<RecommentShowBtn onClick={() => onRecommentShowBtnClick(comment.comment_id)}>
-											{isExpanded ? '닫기' : `	• 답글 ${comment.recomment_count}개`}
+									{comment.recommentCount > 0 && (
+										<RecommentShowBtn onClick={() => onRecommentShowBtnClick(comment.commentId)}>
+											{isExpanded ? '닫기' : `	• 답글 ${comment.recommentCount}개`}
 										</RecommentShowBtn>
 									)}
 								</div>
@@ -296,12 +291,12 @@ const CommentItem = ({
 								className="menu"
 								src={Kebab}
 								alt="menu"
-								onClick={() => onCommentMenuClick(comment.comment_id)}
+								onClick={() => onCommentMenuClick(comment.commentId)}
 							/>
-							<MenuDropdown className={`comment${comment.comment_id}_menu-dropdown`}>
+							<MenuDropdown className={`comment${comment.commentId}_menu-dropdown`}>
 								<MenuDropdownItem
 									className="modify"
-									onClick={() => onCommentModifyClick(comment.comment_id)}
+									onClick={() => onCommentModifyClick(comment.commentId)}
 								>
 									수정하기
 								</MenuDropdownItem>
@@ -313,12 +308,12 @@ const CommentItem = ({
 					)}
 				</CommentItemStyled>
 			)}
-			{replyingCommentId === comment.comment_id && (
+			{replyingCommentId === comment.commentId && (
 				<RecommentEditor
-					articleId={comment.article_id}
-					parentId={comment.parent_id || comment.comment_id}
-					mentionMemberId={comment.member_id}
-					mentionMemberNickname={comment.member_nickname}
+					articleId={comment.articleId}
+					parentId={comment.parentId || comment.commentId}
+					mentionMemberId={comment.memberId}
+					mentionMemberNickname={comment.memberNickname}
 					onCommentSubmit={onCommentSubmit}
 					onRecommentCancleClick={onRecommentCancleClick}
 				/>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import Or from '../common/Or';
 import SocialLogin from './SocialLogin';
+import { LOGIN_PAGE, REGISTER_PAGE } from '../../constants/pagePaths';
 
 // TODO : Button 컴포넌트화 하기
 const AuthFormBlock = styled.div`
@@ -135,12 +136,12 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
 				<StyledButton type="submit">확인</StyledButton>
 			</form>
 			<AuthFooter>
-				{type === 'register' && <Link to="/login">이미 계정이 있으신가요?</Link>}
+				{type === 'register' && <Link to={LOGIN_PAGE}>이미 계정이 있으신가요?</Link>}
 				{type === 'login' && (
 					<>
 						<Link to="/">비밀번호 찾기</Link>
 						<div>|</div>
-						<Link to="/register">회원가입</Link>
+						<Link to={REGISTER_PAGE}>회원가입</Link>
 					</>
 				)}
 			</AuthFooter>

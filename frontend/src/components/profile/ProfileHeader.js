@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import DefaultProfile from '../../images/Profile.svg';
 import { Link } from 'react-router-dom';
+import { PROFILE_SETTING_PAGE } from '../../constants/pagePaths';
 
 const ProfileHeaderWrapper = styled.div`
 	/* border: 1px solid black; */
@@ -66,7 +67,7 @@ const ProfileHeader = ({ profile, isCurrentUser }) => {
 				</AuthorInfo>
 				{isCurrentUser && (
 					<ProfileSettingBtn>
-						<Link to="/my/profile">수정</Link>
+						<Link to={PROFILE_SETTING_PAGE}>수정</Link>
 					</ProfileSettingBtn>
 				)}
 			</AuthorInfoWrapper>

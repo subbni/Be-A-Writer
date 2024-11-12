@@ -18,7 +18,7 @@ const CommentWrapper = styled.div`
 `;
 
 const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCommentModify }) => {
-	const currentUserId = useSelector((state) => state.user.user.member_id);
+	const currentUserId = useSelector((state) => state.user.user.memberId);
 	const comments = useSelector((state) => state.comments.comments);
 	const recomments = useSelector((state) => state.comments.recomments);
 	const [replyingCommentId, setReplyingCommentId] = useState(null);
@@ -102,8 +102,8 @@ const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCom
 				comments.data.map((comment) => {
 					return (
 						<CommentWrapper
-							className={`comment${comment.comment_id}-item`}
-							key={`comment${comment.comment_id}`}
+							className={`comment${comment.commentId}-item`}
+							key={`comment${comment.commentId}`}
 						>
 							<CommentItem
 								comment={comment}
@@ -118,11 +118,11 @@ const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCom
 								onDeleteClick={onDeleteClick}
 								onCommentModifyConfirmClick={onCommentModifyConfirmClick}
 								onCommentMenuClick={onCommentMenuClick}
-								isAuthor={currentUserId === comment.member_id}
-								isEditing={editingCommentId === comment.comment_id}
-								isExpanded={expandedCommentId.includes(comment.comment_id)}
+								isAuthor={currentUserId === comment.memberId}
+								isEditing={editingCommentId === comment.commentId}
+								isExpanded={expandedCommentId.includes(comment.commentId)}
 							/>
-							{expandedCommentId.length > 0 && expandedCommentId.includes(comment.comment_id) ? (
+							{expandedCommentId.length > 0 && expandedCommentId.includes(comment.commentId) ? (
 								<RecommentsList
 									comment={comment}
 									recomments={recomments}
@@ -139,8 +139,8 @@ const CommentsList = ({ onCommentSubmit, onRecommentShow, onCommentDelete, onCom
 									onDeleteClick={onDeleteClick}
 									onCommentModifyConfirmClick={onCommentModifyConfirmClick}
 									currentUserId={currentUserId}
-									isAuthor={currentUserId === comment.member_id}
-									isEditing={editingCommentId === comment.comment_id}
+									isAuthor={currentUserId === comment.memberId}
+									isEditing={editingCommentId === comment.commentId}
 								/>
 							) : null}
 						</CommentWrapper>

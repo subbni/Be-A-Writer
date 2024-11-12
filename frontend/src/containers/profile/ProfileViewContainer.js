@@ -5,8 +5,11 @@ import ProfileTab from '../../components/profile/ProfileTab';
 import ProfileTabContent from '../../components/profile/ProfileTabContent';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { initializeProfile, readProfile } from '../../modules/profile/profileActions';
-import { readUserArticles, unloadArticles } from '../../modules/article/articles/articlesActions';
+import {
+	initializeProfile,
+	readMemberArticles,
+	readProfile,
+} from '../../modules/profile/profileActions';
 import ProfileArticlesContent from '../../components/profile/ProfileArticlesContent';
 
 const ProfileViewContainer = () => {
@@ -14,8 +17,8 @@ const ProfileViewContainer = () => {
 	const dispatch = useDispatch();
 	const profile = useSelector((state) => state.profile.profile);
 	const currentUserId = useSelector((state) => state.user.user.member_id);
-	const articles = useSelector((state) => state.articles.articles);
-	const articlesLoading = useSelector((state) => state.loading['articles/READ_USER_ARTICLES']);
+	const articles = useSelector((state) => state.profile.articles);
+	const articlesLoading = useSelector((state) => state.loading['profile/READ_MEMBER_ARTICLES']);
 	const [clickedTab, setClickedTab] = useState(1);
 	const [page, setPage] = useState(1);
 
@@ -26,7 +29,6 @@ const ProfileViewContainer = () => {
 
 		return () => {
 			dispatch(initializeProfile());
-			dispatch(unloadArticles());
 		};
 	}, [dispatch, memberId]);
 
@@ -36,7 +38,7 @@ const ProfileViewContainer = () => {
 
 	useEffect(() => {
 		if (clickedTab === 1) {
-			dispatch(readUserArticles({ memberId, page, limit: 10 }));
+			dispatch(readMemberArticles({ memberId, page, limit: 10 }));
 		}
 	}, [clickedTab, page]);
 
@@ -55,9 +57,6 @@ const ProfileViewContainer = () => {
 					articlesLoading={articlesLoading}
 				/>
 			)}
-			{/* <ProfileTabContent>
-			{clickedTab === 1 && <ArticleList articles={articles} />}
-			</ProfileTabContent> */}
 		</ProfileView>
 	);
 };

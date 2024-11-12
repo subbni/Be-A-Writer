@@ -16,21 +16,21 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
 }));
 export const writeArticle = createAction(
 	WRITE_ARTICLE,
-	({ title, subtitle, content, is_public }) => ({
+	({ title, subtitle, content, isPublic }) => ({
 		title,
 		subtitle,
 		content,
-		is_public,
+		isPublic,
 	}),
 );
 export const setOriginalArticle = createAction(SET_ORIGINAL_ARTICLE, (article) => article);
 export const modifyArticle = createAction(
 	MODIFY_ARTICLE,
-	({ articleId, title, subtitle, content, is_public }) => ({
+	({ articleId, title, subtitle, content, isPublic }) => ({
 		articleId,
 		title,
 		subtitle,
 		content,
-		is_public,
+		isPublic,
 	}),
 );

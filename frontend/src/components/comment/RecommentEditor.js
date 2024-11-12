@@ -64,10 +64,10 @@ const RecommentEditor = ({
 	onRecommentCancleClick,
 }) => {
 	const [form, setForm] = useState({
-		article_id: articleId,
+		articleId: articleId,
 		content: '',
-		parent_id: parentId,
-		mention_member_id: mentionMemberId,
+		parentId: parentId,
+		mentionMemberId: mentionMemberId,
 	});
 
 	const onRecommentChange = (e) => {

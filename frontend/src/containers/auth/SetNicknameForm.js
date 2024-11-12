@@ -6,9 +6,9 @@ import {
 	getUserInfo,
 	initializeForm,
 	registerUserInfo,
-} from '../../modules/auth/auth';
+} from '../../modules/auth/authActions';
 import { useNavigate } from 'react-router-dom';
-import { check } from '../../modules/user/user';
+import { check } from '../../modules/user/userActions';
 
 const SetNicknameForm = () => {
 	const [error, setError] = useState('');

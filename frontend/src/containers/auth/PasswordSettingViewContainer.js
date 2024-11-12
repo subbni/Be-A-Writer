@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PasswordSettingView from '../../components/auth/PasswordSettingView';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { initializeForm, updatePassword } from '../../modules/auth/auth';
-import { logout } from '../../modules/user/user';
+import { initializeForm, updatePassword } from '../../modules/auth/authActions';
+import { logout } from '../../modules/user/userActions';
 
 const PasswordSettingViewContainer = () => {
 	const dispatch = useDispatch();

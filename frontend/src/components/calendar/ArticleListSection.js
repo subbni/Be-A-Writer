@@ -84,14 +84,14 @@ const ArticleListSection = ({ articles }) => {
 			</ArticleListHeader>
 			{articles && articles.length > 0
 				? articles.map((article, idx) => (
-						<ArticleItem key={`article${idx}`} to={`/article/${article.article_id}`}>
+						<ArticleItem key={`article${idx}`} to={`/article/${article.articleId}`}>
 							<h2 className="title">{article.title}</h2>
 							<div className="content">
 								{article.subtitle && <span className="subtitle">{article.subtitle}</span>}
 								{article.content.replace(/(<([^>]+)>)/gi, '')}
 							</div>
 							<div className="info">
-								<span>{formatDate(article.created_at)}</span>
+								<span>{formatDate(article.createdAt)}</span>
 								{!article.is_public && <img src={Lock} alt="private post" />}
 							</div>
 						</ArticleItem>

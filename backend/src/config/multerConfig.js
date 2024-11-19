@@ -3,8 +3,8 @@ import multerS3 from 'multer-s3';
 import path from 'path';
 import s3 from './s3Client.js';
 
-const upload = (directory = 'profiles') =>
-	multer({
+const upload = (directory = 'profiles') => {
+	return multer({
 		storage: multerS3({
 			s3: s3,
 			bucket: process.env.AWS_S3_BUCKET_NAME,
@@ -19,5 +19,6 @@ const upload = (directory = 'profiles') =>
 			contentType: multerS3.AUTO_CONTENT_TYPE,
 		}),
 	});
+};
 
 export default upload;

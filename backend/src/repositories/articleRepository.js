@@ -1,28 +1,43 @@
 import pool from '../config/db.js';
+import Article from '../models/Article.js';
 
 /**
  * article_id, title, subtitle, content, author_id, created_at, updated_at, is_public
  */
 
 class ArticleRepository {
-	static async create({ title, subtitle, content, is_public, authorId }) {
-		const result = await pool.query(
+	static async create(
+		{ memberId, title, subtitle, content, isPublic },
+		client = null,
+	) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			'INSERT INTO article (title, subtitle, content, is_public, author_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-			[title, subtitle, content, is_public, authorId],
+			[title, subtitle, content, isPublic, memberId],
 		);
-		return result.rows[0];
+		if (result.rows.length > 0) {
+			return Article.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
 	}
 
-	static async findByArticleId(articleId) {
-		const result = await pool.query(
+	static async findByArticleId(articleId, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			'SELECT * FROM article WHERE article_id = $1',
 			[articleId],
 		);
-		return result.rows[0];
+		if (result.rows.length > 0) {
+			return Article.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
 	}
 
-	static async findByAuthorId(authorId, params) {
-		const result = await pool.query(
+	static async findByAuthorId({ memberId, limit, offset }, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			`WITH article_count AS (
 					SELECT COUNT(*) as total_count 
 					FROM article 
@@ -33,19 +48,20 @@ class ArticleRepository {
 			WHERE author_id = $1 
 			ORDER BY article_id DESC 
 			LIMIT $2 OFFSET $3`,
-			[authorId, params.limit, params.offset],
+			[memberId, limit, offset],
 		);
 
 		return {
-			data: result.rows,
+			data: result.rows.map((row) => Article.fromDb(row)),
 			count: result.rows.length > 0 ? result.rows[0].total_count : 0,
 		};
 	}
 
 	static async findByAuthorIdAndCreatedAt(
-		authorId,
-		{ year, month, day = null },
+		{ memberId, year, month, day = null },
+		client = null,
 	) {
+		const queryRunner = client || pool;
 		const sql = `SELECT *
 			FROM article
 			WHERE author_id = $1
@@ -54,26 +70,19 @@ class ArticleRepository {
 			${day ? 'AND EXTRACT(DAY FROM created_at) = $4' : ''}
 			ORDER BY article_id `;
 
-		const params = day ? [authorId, year, month, day] : [authorId, year, month];
-		const result = await pool.query(sql, params);
+		const params = day ? [memberId, year, month, day] : [memberId, year, month];
+		const result = await queryRunner.query(sql, params);
 		return {
-			data: result.rows,
+			data: result.rows.map((row) => Article.fromDb(row)),
 			count: result.rows.length,
 		};
 	}
 
-	static async getTotalCountByAuthorIdAndIsPublic(authorId, isPublic) {
-		const sql = `
-    SELECT COUNT(*) AS total_count
-    FROM article
-    WHERE author_id = $1 AND is_public = $2
-  `;
-
-		const countResult = await pool.query(sql, [authorId, isPublic]);
-		return countResult.rows[0].total_count;
-	}
-
-	static async findByAuthorIdAndIsPublic(authorId, isPublic, params) {
+	static async findByAuthorIdAndIsPublic(
+		{ memberId, isPublic, limit, offset },
+		client = null,
+	) {
+		const queryRunner = client || pool;
 		const sql = `
     SELECT *
     FROM article
@@ -82,54 +91,22 @@ class ArticleRepository {
     LIMIT $3 OFFSET $4
   `;
 
-		const result = await pool.query(sql, [
-			authorId,
+		const result = await queryRunner.query(sql, [
+			memberId,
 			isPublic,
-			params.limit,
-			params.offset,
+			limit,
+			offset,
 		]);
 
 		return {
-			data: result.rows,
+			data: result.rows.map((row) => Article.fromDb(row)),
 			count: result.rows.length,
 		};
 	}
 
-	static async update({ articleId, title, subtitle, content, is_public }) {
-		const result = await pool.query(
-			`UPDATE article 
-			SET title = $1, subtitle = $2, content = $3, is_public = $4, updated_at = NOW() 
-			WHERE article_id = $5
-			RETURNING *`,
-			[title, subtitle, content, is_public, articleId],
-		);
-		return result.rows[0];
-	}
-
-	static async updateCommentCount({ articleId, amount }) {
-		const result = await pool.query(
-			`UPDATE article
-			SET comment_count = comment_count + $1
-			WHERE article_id = $2
-			RETURNING *
-			`,
-			[amount, articleId],
-		);
-		return result.rows[0];
-	}
-
-	static async delete(articleId) {
-		const result = await pool.query(
-			`DELETE FROM article
-			WHERE article_id = $1
-			RETURNING *`,
-			[articleId],
-		);
-		return result.rows[0];
-	}
-
-	static async findAll(params) {
-		const result = await pool.query(
+	static async findAll({ limit, offset }, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			`WITH article_count AS (
 					SELECT COUNT(*) as total_count 
 					FROM article 
@@ -141,16 +118,87 @@ class ArticleRepository {
 			WHERE a.is_public = true
 			ORDER BY a.article_id DESC 
 			LIMIT $1 OFFSET $2`,
-			[params.limit, params.offset],
+			[limit, offset],
 		);
 		return {
-			data: result.rows,
+			data: result.rows.map((row) => {
+				const article = Article.fromDb(row);
+				article.authorNickname = row.author_nickname;
+				return article;
+			}),
 			count: result.rows.length > 0 ? result.rows[0].total_count : 0,
 		};
 	}
 
-	static async getToTalCount() {
-		const result = await pool.query('SELECT count(*) FROM article');
+	static async update(
+		{ articleId, title, subtitle, content, isPublic },
+		client = null,
+	) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
+			`UPDATE article 
+			SET title = $1, subtitle = $2, content = $3, is_public = $4, updated_at = NOW() 
+			WHERE article_id = $5
+			RETURNING *`,
+			[title, subtitle, content, isPublic, articleId],
+		);
+		if (result.rows.length > 0) {
+			return Article.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
+	}
+
+	static async updateCommentCount({ articleId, amount }, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
+			`UPDATE article
+			SET comment_count = comment_count + $1
+			WHERE article_id = $2
+			RETURNING *
+			`,
+			[amount, articleId],
+		);
+		if (result.rows.length > 0) {
+			return Article.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
+	}
+
+	static async delete(articleId, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
+			`DELETE FROM article
+			WHERE article_id = $1
+			RETURNING *`,
+			[articleId],
+		);
+		if (result.rows.length > 0) {
+			return Article.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
+	}
+
+	static async getTotalCountByAuthorIdAndIsPublic(
+		{ memberId, isPublic },
+		client = null,
+	) {
+		const queryRunner = client || pool;
+		const sql = `
+    SELECT COUNT(*) AS total_count
+    FROM article
+    WHERE author_id = $1 AND is_public = $2
+  `;
+
+		const countResult = await queryRunner.query(sql, [memberId, isPublic]);
+		return countResult.rows[0].total_count;
+	}
+
+	static async getToTalCount(client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query('SELECT count(*) FROM article');
 		return result.rows[0].count;
 	}
 }

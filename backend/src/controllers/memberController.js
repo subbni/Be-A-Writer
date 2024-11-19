@@ -23,7 +23,7 @@ class MemberController {
 	 */
 	static async updateMemberProfile(req, res) {
 		const { memberId, nickname } = req.body;
-		const currentMemberId = req.state.member.member_id;
+		const currentMemberId = req.state.member.memberId;
 		if (memberId !== currentMemberId) {
 			return res.status(403).json({ message: '프로필 수정 권한이 없습니다.' });
 		}
@@ -49,9 +49,10 @@ class MemberController {
 		try {
 			if (req.file) {
 				// console.log(req.file);
+				const newImage = await ImageService.saveProfileImage(file);
 				const data = await MemberService.updateMemberProfileImage({
-					memberId: req.state.member.member_id,
-					file: req.file,
+					memberId: req.state.member.memberId,
+					newImage,
 				});
 				return res.status(200).json(data);
 			} else {

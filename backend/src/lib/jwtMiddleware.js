@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 const jwtMiddleware = async (req, res, next) => {
-	const token = req.cookies.access_token;
+	const token = req.cookies.accessToken;
 	req.state = req.state || {};
 
 	if (!token) {
@@ -13,7 +13,7 @@ const jwtMiddleware = async (req, res, next) => {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
 		req.state.member = {
-			member_id: decoded.member_id,
+			memberId: decoded.memberId,
 			email: decoded.email,
 			nickname: decoded.nickname,
 			profileImageUrl: decoded.profileImageUrl,

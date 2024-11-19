@@ -1,7 +1,7 @@
 import CommentService from '../services/commentService.js';
 
 const verifyCommentAuthor = async (req, res, next) => {
-	const memberId = req.state.member.member_id;
+	const memberId = req.state.member.memberId;
 	const { commentId } = req.params;
 	try {
 		const isAuthor = await CommentService.checkAuthor({ memberId, commentId });

@@ -5,13 +5,13 @@ class CommentController {
 	 * POST /api/comment
 	 */
 	static async writeComment(req, res) {
-		const member_id = req.state.member.member_id;
+		const memberId = req.state.member.memberId;
 		console.log(req.body);
 		try {
-			const result = await CommentService.writeComment(req.body, member_id);
+			const result = await CommentService.writeComment(req.body, memberId);
 			res.status(201).json(result);
 		} catch (e) {
-			console.log(e);
+			console.error(e);
 			return res.status(500).json(e.message);
 		}
 	}

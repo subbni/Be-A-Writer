@@ -4,7 +4,7 @@ class ArticleController {
 	/**
 	 * POST /api/article/write
 	 * {
-	 *  title, subtitle, content, is_public
+	 *  title, subtitle, content, isPublic
 	 * }
 	 */
 	static async writeArticle(req, res) {
@@ -19,7 +19,7 @@ class ArticleController {
 		try {
 			const data = await ArticleService.writeArticle({
 				...req.body,
-				authorId: req.state.member.member_id,
+				memberId: req.state.member.memberId,
 			});
 			return res.status(201).json(data);
 		} catch (e) {
@@ -54,6 +54,7 @@ class ArticleController {
 			return res.status(200).json(data);
 		} catch (e) {
 			console.log(e.message);
+			console.error(e);
 			return res.status(500).json({ message: 'Failed to retrieve articles' });
 		}
 	}
@@ -62,12 +63,12 @@ class ArticleController {
 	 * GET /api/article/my?page=1&limit=5
 	 */
 	static async showMemberOwnArticles(req, res) {
-		const member_id = req.state.member.member_id;
+		const memberId = req.state.member.memberId;
 		const page = parseInt(req.query.page, 10) || 1;
 		const limit = parseInt(req.query.limit, 10) || 10;
 		const offset = (page - 1) * limit;
 		try {
-			const data = await ArticleService.getMemberOwnArticles(member_id, {
+			const data = await ArticleService.getMemberOwnArticles(memberId, {
 				limit,
 				offset,
 			});
@@ -103,7 +104,7 @@ class ArticleController {
 	 * GET /api/article/my/by-date?year=2024&month=9&day=22
 	 */
 	static async showMemberArticlesByDate(req, res) {
-		const member_id = req.state.member.member_id;
+		const memberId = req.state.member.memberId;
 		const { year, month, day } = req.query;
 
 		if (!year || !month) {
@@ -111,7 +112,7 @@ class ArticleController {
 		}
 		console.log(year, month, day);
 		try {
-			const data = await ArticleService.getMemberArticlesByDate(member_id, {
+			const data = await ArticleService.getMemberArticlesByDate(memberId, {
 				year,
 				month,
 				day,
@@ -125,10 +126,11 @@ class ArticleController {
 
 	/**
 	 * PATCH /api/article/:articleId
-	 * { title, subtitle, content, is_public }
+	 * { title, subtitle, content, isPublic }
 	 */
 	static async updateArticle(req, res) {
 		try {
+			console.log(req.body);
 			const data = await ArticleService.updateArticle(req.body);
 			return res.status(200).json(data);
 		} catch (e) {

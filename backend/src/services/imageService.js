@@ -13,14 +13,14 @@ class ImageService {
 
 	static async getImageUrl(imageId) {
 		const result = await ImageRepository.findByImageId(imageId);
-		return result.stored_url;
+		return result.storedUrl;
 	}
 
 	static async deleteImage(imageId) {
 		const deletedImage = await ImageRepository.delete(imageId);
 		// s3에서 해당 이미지 삭제 처리
 		await deleteS3Image({
-			Key: deletedImage.stored_name,
+			Key: deletedImage.storedName,
 		});
 	}
 }

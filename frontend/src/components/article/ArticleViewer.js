@@ -6,6 +6,7 @@ import DefaultProfile from '../../images/Profile.svg';
 import Lock from '../../images/light/Lock.svg';
 import { formatDateTime } from '../../utils/dateUtils';
 import { Link } from 'react-router-dom';
+import { PROFILE_PAGE } from '../../constants/pagePaths';
 
 const ArticleViewerBlock = styled(Responsive)`
 	padding: 10rem;
@@ -123,7 +124,7 @@ const ArticleViewer = ({ article, error, loading, isAuthor, onDeleteClick, onMod
 		return null;
 	}
 
-	const { title, subtitle, created_at, content, is_public, author_id } = article;
+	const { title, subtitle, createdAt, content, isPublic, authorId } = article;
 	const { nickname, profileImageUrl } = article.author;
 
 	const onMenuClick = (e) => {
@@ -141,11 +142,11 @@ const ArticleViewer = ({ article, error, loading, isAuthor, onDeleteClick, onMod
 				<SubInfo>
 					<div className="left">
 						<img className="profile" src={profileImageUrl || DefaultProfile} alt="profile" />
-						<Link to={`/${author_id}`}>
+						<Link to={PROFILE_PAGE + `${authorId}`}>
 							<span className="author">{nickname}</span>
 						</Link>
-						<span>{formatDateTime(created_at)}</span>
-						{!is_public && (
+						<span>{formatDateTime(createdAt)}</span>
+						{!isPublic && (
 							<div className="private">
 								<img src={Lock} alt="private post" />
 								<span>비공개</span>

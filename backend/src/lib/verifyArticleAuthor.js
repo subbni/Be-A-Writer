@@ -1,8 +1,8 @@
 import ArticleService from '../services/articleService.js';
 
 const verifyArticleAuthor = async (req, res, next) => {
-	const memberId = req.state.member.member_id;
-	const { articleId } = req.params;
+	const memberId = req.state.member.memberId;
+	const articleId = req.params.articleId;
 	try {
 		const isAuthor = await ArticleService.checkAuthor({ memberId, articleId });
 		if (isAuthor) {

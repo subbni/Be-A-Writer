@@ -88,7 +88,7 @@ const ArticleList = ({ articles, lastItemRef }) => {
 		<ArticlesWrapper>
 			{articles &&
 				articles.data.map((article, idx) => (
-					<ArticleItem key={article.article_id} to={`/article/${article.article_id}`}>
+					<ArticleItem key={article.articleId} to={`/article/${article.articleId}`}>
 						{idx === articles.data.length - 1 && <div ref={lastItemRef}></div>}
 						<h2 className="title">{article.title}</h2>
 						<div className="content">
@@ -97,15 +97,15 @@ const ArticleList = ({ articles, lastItemRef }) => {
 						</div>
 						<div className="article-info">
 							<div className="info_left">
-								<span className="createdAt">{formatDate(article.created_at)}</span>
-								{article.author_nickname && (
-									<span className="author">by {article.author_nickname}</span>
+								<span className="createdAt">{formatDate(article.createdAt)}</span>
+								{article.authorNickname && (
+									<span className="author">by {article.authorNickname}</span>
 								)}
-								{!article.is_public && <img src={Lock} alt="private post" />}
+								{!article.isPublic && <img src={Lock} alt="private post" />}
 							</div>
 							<div className="info_right">
 								<img src={Comment} alt="comment" />
-								{article.comment_count}
+								{article.commentCount}
 							</div>
 						</div>
 					</ArticleItem>

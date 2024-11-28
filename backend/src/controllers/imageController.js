@@ -11,8 +11,8 @@ class ImageController {
 				console.log(req.file);
 				const ImagaData = await ImageService.saveProfileImage(req.file);
 				const data = await MemberService.updateMemberProfileImage({
-					memberId: req.state.member.member_id,
-					imageId: ImagaData.image_id,
+					memberId: req.state.member.memberId,
+					imageId: ImagaData.imageId,
 				});
 				return res.status(200).json(data);
 			} else {

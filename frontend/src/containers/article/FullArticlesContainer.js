@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FullArticlesView from '../../components/article/FullArticlesView';
 import PaginationBar from '../../components/pagination/PaginationBar';
-import { readAllArticles, unloadArticles } from '../../modules/article/articles/articlesActions';
+import { readAllArticles, unloadArticles } from '../../modules/articles/articlesActions';
 
 const FullArticlesContainer = () => {
 	const limit = 10;

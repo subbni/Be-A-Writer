@@ -1,6 +1,6 @@
 import './env.js';
 import express from 'express';
-import pool from './config/psql.js';
+import pool from './config/db.js';
 import authRouter from './routes/authRouter.js';
 import cookieParser from 'cookie-parser';
 import jwtMiddleware from './lib/jwtMiddleware.js';

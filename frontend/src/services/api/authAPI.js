@@ -1,23 +1,20 @@
-import client from './client';
+import client from '../client';
+
+const AUTH_API_BASE = '/api/auth';
 
 // 로그인
-export const login = ({ email, password }) => client.post('/api/auth/login', { email, password });
+export const login = ({ email, password }) =>
+	client.post(`${AUTH_API_BASE}/login`, { email, password });
 
 // 회원가입
 export const register = ({ email, nickname, password }) =>
-	client.post('/api/auth/register', { email, nickname, password });
+	client.post(`${AUTH_API_BASE}/register`, { email, nickname, password });
 
 // 로그인 상태 확인
-export const check = () => client.get('/api/auth/check');
+export const check = () => client.get(`${AUTH_API_BASE}/check`);
 
 // 로그아웃
-export const logout = () => client.post('/api/auth/logout');
-
-// userInfo 요청
-export const getUserInfo = () => client.get('/api/oauth/userinfo');
-
-// userInfo 등록 요청
-export const registerUserInfo = (userInfo) => client.post('/api/oauth/register', userInfo);
+export const logout = () => client.post(`${AUTH_API_BASE}/logout`);
 
 // 비밀번호 수정
-export const updatePassword = (form) => client.patch('/api/auth/password', form);
+export const updatePassword = (form) => client.patch(`${AUTH_API_BASE}/password`, form);

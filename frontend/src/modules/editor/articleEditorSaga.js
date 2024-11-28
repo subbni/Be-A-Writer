@@ -1,7 +1,7 @@
 import { takeLatest } from 'redux-saga/effects';
-import createRequestSaga from '../../../services/createRequestSaga';
-import { MODIFY_ARTICLE, WRITE_ARTICLE } from './articleEditorTypes';
-import * as articleAPI from '../../../services/api/articleAPI';
+import { MODIFY_ARTICLE, WRITE_ARTICLE } from './articleEditorActions';
+import * as articleAPI from '../../services/api/articleAPI';
+import createRequestSaga from '../../services/createRequestSaga';
 
 const writeArticleSaga = createRequestSaga(WRITE_ARTICLE, articleAPI.write);
 // 수정

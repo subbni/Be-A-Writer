@@ -17,7 +17,7 @@ export function generateToken(payload) {
  * @param {String} token - 설정할 JWT 토큰
  */
 export function setTokenCookie(res, token) {
-	res.cookie('access_token', token, {
+	res.cookie('accessToken', token, {
 		maxAge: 1000 * 60 * 60 * 24 * 7,
 		httpOnly: true,
 	});
@@ -29,7 +29,7 @@ export function setTokenCookie(res, token) {
  * @param {Object} res - Express 응답 객체
  */
 export function clearTokenCookie(req, res) {
-	res.clearCookie('access_token', req.cookies.access_token, {
+	res.clearCookie('accessToken', req.cookies.accessToken, {
 		httpOnly: true,
 	});
 }

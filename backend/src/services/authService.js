@@ -1,5 +1,6 @@
 import AuthErrorMessage from '../constants/error/authErrorMessage.js';
 import CustomError from '../constants/error/customError.js';
+import Member from '../models/Member.js';
 import MemberRepository from '../repositories/memberRepository.js';
 import * as passwordUtil from '../utils/passwordUtil.js';
 import ImageService from './imageService.js';
@@ -30,14 +31,10 @@ class AuthService {
 			throw new CustomError(AuthErrorMessage.EMAIL_NOT_FOUND);
 		}
 		await passwordUtil.verifyPassword(password, member.password);
-		const data = {
-			member_id: member.member_id,
-			email: member.email,
-			nickname: member.nickname,
-		};
-		if (member.profile_image_id) {
+		const data = Member.toJWTData(member);
+		if (member.profileImageId) {
 			const profileImageUrl = await ImageService.getImageUrl(
-				member.profile_image_id,
+				member.profileImageId,
 			);
 			data.profileImageUrl = profileImageUrl;
 		}
@@ -48,7 +45,7 @@ class AuthService {
 		const member = await MemberService.getMember(memberId);
 		await passwordUtil.verifyPassword(currentPassword, member.password);
 		const newHashedPassword = await passwordUtil.hashPassword(newPassword);
-		await MemberRepository.updatePassword(memberId, newHashedPassword);
+		await MemberRepository.updatePassword({ memberId, newHashedPassword });
 		return {
 			message: '비밀번호 변경 완료!',
 		};

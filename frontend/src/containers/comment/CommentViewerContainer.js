@@ -45,8 +45,8 @@ const CommentViewerContainer = () => {
 					limit,
 				}),
 			);
-			if (addedComment.data.parent_id !== null) {
-				dispatch(readRecomments(addedComment.data.parent_id));
+			if (addedComment.data.parentId !== null) {
+				dispatch(readRecomments(addedComment.data.parentId));
 			}
 		}
 	}, [addedComment, dispatch]);
@@ -60,8 +60,8 @@ const CommentViewerContainer = () => {
 					limit,
 				}),
 			);
-			if (deletedComment.data.parent_id !== null) {
-				dispatch(readRecomments(deletedComment.data.parent_id));
+			if (deletedComment.data.parentId !== null) {
+				dispatch(readRecomments(deletedComment.data.parentId));
 			}
 		}
 	}, [deletedComment, dispatch]);

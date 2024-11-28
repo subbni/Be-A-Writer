@@ -5,7 +5,7 @@ import {
 	GET_ARTICLES_FAILURE,
 	GET_ARTICLES_SUCCESS,
 	INITIALIZE,
-} from './calendarTypes';
+} from './calendarActions.js';
 
 const initialState = {
 	articles: {

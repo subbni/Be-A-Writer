@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeField, initializeForm, login } from '../../modules/auth/auth';
+import { changeField, initializeForm, login } from '../../modules/auth/authActions';
 import AuthForm from '../../components/auth/AuthForm';
 import { useNavigate } from 'react-router-dom';
-import { check } from '../../modules/user/user';
+import { check } from '../../modules/user/userActions';
 // const { form, auth, authError, user } = useSelector(({ auth, user }) => ({
 // 	form: auth.login,
 // 	auth: auth.auth,

@@ -8,13 +8,13 @@ import {
 	WRITE_ARTICLE,
 	WRITE_ARTICLE_FAILUER,
 	WRITE_ARTICLE_SUCCESS,
-} from './articleEditorTypes';
+} from './articleEditorActions';
 
 const initialState = {
 	title: '',
 	subtitle: '',
 	content: '',
-	is_public: true,
+	isPublic: true,
 	originalArticle: '',
 	article: null,
 	articleError: null,
@@ -45,7 +45,7 @@ const articleEditor = handleActions(
 			title: article.title,
 			subtitle: article.subtitle,
 			content: article.content,
-			is_public: article.is_public,
+			isPublic: article.isPublic,
 			originalArticle: article,
 		}),
 		[MODIFY_ARTICLE_SUCCESS]: (state, { payload: article }) => ({

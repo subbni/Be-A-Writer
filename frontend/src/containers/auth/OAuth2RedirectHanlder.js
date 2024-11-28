@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { check } from '../../modules/user/user';
+import { check } from '../../modules/user/userActions';
 
 const OAuth2RedirectHandler = () => {
 	const dispatch = useDispatch();

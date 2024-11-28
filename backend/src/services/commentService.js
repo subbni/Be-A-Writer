@@ -1,28 +1,33 @@
 import CommentErrorMessage from '../constants/error/commentErrorMessage.js';
 import CustomError from '../constants/error/customError.js';
+import ArticleRepository from '../repositories/articleRepository.js';
 import CommentRepository from '../repositories/commentRepository.js';
+import { transaction } from '../utils/dbUtil.js';
 import ArticleService from './articleService.js';
 
 class CommentService {
-	static async writeComment(form, member_id) {
-		const result = await CommentRepository.create(form, member_id);
-		if (result.parent_id !== null) {
-			await CommentRepository.updateRecommentCount(result.parent_id, 1);
+	static async writeComment(form, memberId) {
+		const result = await CommentRepository.create({ ...form, memberId });
+		if (result.parentId !== null) {
+			await CommentRepository.updateRecommentCount({
+				commentId: result.parentId,
+				amount: 1,
+			});
 		}
-		await ArticleService.updateCommentCount(result.article_id, 1);
+		await ArticleService.updateCommentCount(result.articleId, 1);
 		return { data: result };
 	}
 
 	static async getArticleComments(articleId, params) {
-		const data = await CommentRepository.findParentCommentByArticleId(
+		const data = await CommentRepository.findParentCommentByArticleId({
 			articleId,
-			params,
-		);
+			...params,
+		});
 		const totalCount = await CommentRepository.getCountByArticleId(articleId);
 		const parentCount =
 			await CommentRepository.getParentCommentCountByArticleId(articleId);
 
-		return { data, totalCount: totalCount, parentCount };
+		return { data, totalCount, parentCount };
 	}
 
 	static async getCountOfCommentsByArticle(articleId) {
@@ -44,25 +49,39 @@ class CommentService {
 	}
 
 	static async deleteComment(commentId) {
-		const comment = await CommentRepository.findByCommentId(commentId);
-		if (!comment) {
-			throw new CustomError(CommentErrorMessage.COMMENT_NOT_FOUND);
-		}
+		return await transaction(async (client) => {
+			const comment = await CommentRepository.findByCommentId(
+				commentId,
+				client,
+			);
+			if (!comment) {
+				throw new CustomError(CommentErrorMessage.COMMENT_NOT_FOUND);
+			}
 
-		const { parent_id, article_id, recomment_count } = comment;
+			const { parentId, articleId, recommentCount } = comment;
 
-		if (parent_id) {
-			CommentRepository.updateRecommentCount(comment.parent_id, -1);
-		}
+			if (parentId) {
+				await CommentRepository.updateRecommentCount(
+					{
+						commentId: comment.parentId,
+						amount: -1,
+					},
+					client,
+				);
+			}
 
-		await ArticleService.updateCommentCount(article_id, -1);
+			await ArticleRepository.updateCommentCount(
+				{ articleId, amount: -1 },
+				client,
+			);
 
-		const result =
-			recomment_count > 0
-				? await CommentRepository.updateDeleted(commentId)
-				: await CommentRepository.delete(commentId);
+			const result =
+				recommentCount > 0
+					? await CommentRepository.updateDeleted(commentId, client)
+					: await CommentRepository.delete(commentId, client);
 
-		return { data: result };
+			return { data: result };
+		});
 	}
 
 	static async checkAuthor({ memberId, commentId }) {
@@ -70,7 +89,7 @@ class CommentService {
 		if (!comment) {
 			throw new CustomError(CommentErrorMessage.COMMENT_NOT_FOUND);
 		}
-		const authorId = comment.member_id;
+		const authorId = comment.memberId;
 		return memberId.toString() === authorId.toString();
 	}
 }

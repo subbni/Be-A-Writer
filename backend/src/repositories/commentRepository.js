@@ -1,40 +1,54 @@
-import pool from '../config/psql.js';
+import pool from '../config/db.js';
+import Comment from '../models/Comment.js';
 
 /**
  * (NOT NULL) article_id, member_id, content, recomment_count
  * (NULLABLE) parent_id, mention_member_id
  * created_at, updated_at
  */
+
 class CommentRepository {
 	static async create(
-		{ article_id, content, parent_id, mention_member_id },
-		member_id,
+		{ articleId, content, parentId, mentionMemberId, memberId },
+		client = null,
 	) {
-		const result = await pool.query(
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			'INSERT INTO comment (article_id, member_id, content, parent_id, mention_member_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-			[article_id, member_id, content, parent_id, mention_member_id],
+			[articleId, memberId, content, parentId, mentionMemberId],
 		);
-		return result.rows[0];
+
+		if (result.rows.length > 0) {
+			return Comment.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
 	}
 
-	static async getCountByArticleId(article_id) {
-		const result = await pool.query(
+	static async getCountByArticleId(articleId, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			'SELECT count(*) FROM comment WHERE article_id = $1 AND deleted = false',
-			[article_id],
+			[articleId],
 		);
 		return result.rows[0];
 	}
 
-	static async getParentCommentCountByArticleId(article_id) {
-		const result = await pool.query(
+	static async getParentCommentCountByArticleId(articleId, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			'SELECT count(*) FROM comment WHERE article_id = $1 AND deleted = false AND parent_id IS NULL',
-			[article_id],
+			[articleId],
 		);
 		return result.rows[0];
 	}
 
-	static async findParentCommentByArticleId(article_id, { limit, offset }) {
-		const result = await pool.query(
+	static async findParentCommentByArticleId(
+		{ articleId, limit, offset },
+		client = null,
+	) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			`SELECT c.*, m.nickname AS member_nickname, m.member_id AS member_id, i.stored_url AS member_profile_url
 			FROM comment c
 			JOIN member m ON c.member_id = m.member_id
@@ -44,14 +58,20 @@ class CommentRepository {
 			ORDER BY c.created_at ASC
 			LIMIT $2 OFFSET $3;
 			`,
-			[article_id, limit, offset],
+			[articleId, limit, offset],
 		);
-
-		return result.rows;
+		return result.rows.map((row) => {
+			const comment = Comment.fromDb(row);
+			comment.memberNickname = row.member_nickname;
+			comment.memberId = row.member_id;
+			comment.memberProfileUrl = row.member_profile_url;
+			return comment;
+		});
 	}
 
-	static async findReplyCommentByParentId(parent_id) {
-		const result = await pool.query(
+	static async findReplyCommentByParentId(parentId, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			`SELECT c.*, m.nickname AS member_nickname, m.member_id AS member_id, i.stored_url AS member_profile_url
 			FROM comment c
 			JOIN member m ON c.member_id = m.member_id
@@ -59,62 +79,101 @@ class CommentRepository {
 			WHERE c.parent_id = $1
 			ORDER BY c.created_at ASC;
 			`,
-			[parent_id],
+			[parentId],
 		);
-		return result.rows;
+		return result.rows.map((row) => {
+			const comment = Comment.fromDb(row);
+			comment.memberNickname = row.member_nickname;
+			comment.memberId = row.member_id;
+			comment.memberProfileUrl = row.member_profile_url;
+			return comment;
+		});
 	}
 
-	static async findByCommentId(commentId) {
-		const result = await pool.query(
+	static async findByCommentId(commentId, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			'SELECT * FROM comment WHERE comment_id = $1',
 			[commentId],
 		);
-		return result.rows[0];
+		if (result.rows.length > 0) {
+			return Comment.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
 	}
 
-	static async updateRecommentCount(comment_id, amount) {
-		const result = await pool.query(
-			`UPDATE comment c
+	static async updateRecommentCount({ commentId, amount }, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
+			`UPDATE comment
 			SET recomment_count = recomment_count + $1
 			WHERE comment_id = $2`,
-			[amount, comment_id],
+			[amount, commentId],
 		);
-
 		return result.rows;
 	}
 
-	static async update({ commentId, content }) {
-		const result = await pool.query(
+	static async update({ commentId, content }, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			`UPDATE comment
 			SET content = $1, updated_at = NOW()
 			WHERE comment_id = $2
-			RETURNING *
-			`,
+			RETURNING *`,
 			[content, commentId],
 		);
-		return result.rows[0];
+		if (result.rows.length > 0) {
+			return Comment.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
 	}
 
-	static async delete(commentId) {
-		const result = await pool.query(
+	static async delete(commentId, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			`DELETE FROM comment
 			WHERE comment_id = $1
 			RETURNING *`,
 			[commentId],
 		);
-		return result.rows[0];
+		if (result.rows.length > 0) {
+			return Comment.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
 	}
 
-	static async updateDeleted(commentId) {
-		const result = await pool.query(
+	static async deleteByArticleId(articleId, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
+			`DELETE FROM comment
+			WHERE article_id = $1
+			RETURNING *`,
+			[articleId],
+		);
+		if (result.rows.length > 0) {
+			return Comment.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
+	}
+
+	static async updateDeleted(commentId, client = null) {
+		const queryRunner = client || pool;
+		const result = await queryRunner.query(
 			`UPDATE comment
 			SET deleted = true
 			WHERE comment_id = $1
-			RETURNING *
-			`,
+			RETURNING *`,
 			[commentId],
 		);
-		return result.rows[0];
+		if (result.rows.length > 0) {
+			return Comment.fromDb(result.rows[0]);
+		} else {
+			return null;
+		}
 	}
 }
 

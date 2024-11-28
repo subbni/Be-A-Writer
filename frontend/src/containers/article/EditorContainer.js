@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Editor from '../../components/article/Editor';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -7,7 +7,7 @@ import {
 	initialize,
 	writeArticle,
 	modifyArticle,
-} from '../../modules/article/editor/articleEditorActions';
+} from '../../modules/editor/articleEditorActions';
 
 const EditorContainer = () => {
 	const navigate = useNavigate();
@@ -15,7 +15,7 @@ const EditorContainer = () => {
 	const title = useSelector((state) => state.articleEditor.title);
 	const subtitle = useSelector((state) => state.articleEditor.subtitle);
 	const content = useSelector((state) => state.articleEditor.content);
-	const is_public = useSelector((state) => state.articleEditor.is_public);
+	const isPublic = useSelector((state) => state.articleEditor.isPublic);
 	const article = useSelector((state) => state.articleEditor.article);
 	const articleError = useSelector((state) => state.articleEditor.articleError);
 	const originalArticle = useSelector((state) => state.articleEditor.originalArticle);
@@ -27,11 +27,11 @@ const EditorContainer = () => {
 		if (originalArticle) {
 			dispatch(
 				modifyArticle({
-					articleId: originalArticle.article_id,
+					articleId: originalArticle.articleId,
 					title,
 					subtitle,
 					content,
-					is_public,
+					isPublic,
 				}),
 			);
 		} else {
@@ -40,7 +40,7 @@ const EditorContainer = () => {
 					title,
 					subtitle,
 					content,
-					is_public,
+					isPublic,
 				}),
 			);
 		}
@@ -60,9 +60,9 @@ const EditorContainer = () => {
 
 	useEffect(() => {
 		if (article) {
-			const { article_id } = article;
+			const { articleId } = article;
 			dispatch(initialize());
-			navigate(`/article/${article_id}`, { replace: true });
+			navigate(`/article/${articleId}`, { replace: true });
 		}
 		if (articleError) {
 			console.log(articleError);
@@ -74,7 +74,7 @@ const EditorContainer = () => {
 			title={title}
 			subtitle={subtitle}
 			content={content}
-			is_public={is_public}
+			isPublic={isPublic}
 			onChangeField={onChangeField}
 			onPublish={onPublish}
 			error={articleError}

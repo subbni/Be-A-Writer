@@ -1,18 +1,20 @@
 import { combineReducers } from 'redux';
-import auth, { authSaga } from './auth/auth';
 import loading from './loading';
 import { all } from 'redux-saga/effects';
-import articleEditor from './article/editor/articleEditorReducer';
-import { articleEditorSaga } from './article/editor/articleEditorSaga';
-import user, { userSaga } from './user/user';
-import { articlesSaga } from './article/articles/articlesSaga';
-import articles from './article/articles/articlesReducer';
+import auth from './auth/authReducer';
+import user from './user/userReducer';
 import calendar from './calendar/calendarReducer';
-import { calendarSaga } from './calendar/calendarSaga';
 import comments from './comment/commentReducer';
-import { commentSaga } from './comment/commentSaga';
-import { profileSaga } from './profile/profileSaga';
 import profile from './profile/profileReducer';
+import articleEditor from './editor/articleEditorReducer';
+import articles from './articles/articlesReducer';
+import { authSaga } from './auth/authSaga';
+import { userSaga } from './user/userSaga';
+import { profileSaga } from './profile/profileSaga';
+import { commentSaga } from './comment/commentSaga';
+import { calendarSaga } from './calendar/calendarSaga';
+import { articlesSaga } from './articles/articlesSaga';
+import { articleEditorSaga } from './editor/articleEditorSaga';
 
 const rootReducer = combineReducers({
 	auth,

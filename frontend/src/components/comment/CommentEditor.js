@@ -39,10 +39,10 @@ const CommentSubmitBtn = styled.button`
 
 const CommentEditor = ({ articleId, onCommentSubmit }) => {
 	const [form, setForm] = useState({
-		article_id: articleId,
+		articleId: articleId,
 		content: '',
-		parent_id: null,
-		mention_member_id: null,
+		parentId: null,
+		mentionMemberId: null,
 	});
 	const onCommentChange = (e) => {
 		setForm({

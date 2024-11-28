@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../components/common/Header';
 import Sidebar from '../../components/common/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../modules/user/user';
-import Responsive from '../../components/common/Responsive';
+import { logout } from '../../modules/user/userActions';
 import { Outlet } from 'react-router-dom';
 
 const Layout = () => {

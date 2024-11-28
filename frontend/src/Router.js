@@ -22,14 +22,14 @@ const Router = () => {
 			<Routes>
 				<Route element={<Layout />}>
 					<Route path="/" element={<MainPage />} />
-					<Route path="write" element={<WritePage />} />
 					<Route path="articles" element={<FullArticlesPage />} />
-					<Route path="my" element={<MyArticlesPage />} />
+					<Route path="article/write" element={<WritePage />} />
 					<Route path="article/:articleId" element={<ArticlePage />} />
-					<Route path="calendar" element={<CalendarPage />} />
-					<Route path="/:memberId" element={<ProfilePage />} />
-					<Route path="/my/profile" element={<ProfileSettingPage />} />
-					<Route path="/my/password" element={<PasswordSettingPage />} />
+					<Route path="profile/:memberId" element={<ProfilePage />} />
+					<Route path="my/calendar" element={<CalendarPage />} />
+					<Route path="my/articles" element={<MyArticlesPage />} />
+					<Route path="my/profile" element={<ProfileSettingPage />} />
+					<Route path="my/password" element={<PasswordSettingPage />} />
 				</Route>
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />

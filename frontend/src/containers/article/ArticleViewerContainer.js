@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ArticleViewer from '../../components/article/ArticleViewer';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	deleteArticle,
-	readArticle,
-	unloadArticle,
-} from '../../modules/article/articles/articlesActions';
+import { deleteArticle, readArticle, unloadArticle } from '../../modules/articles/articlesActions';
 import { useNavigate, useParams } from 'react-router-dom';
 import AskModal from '../../components/common/AskModal';
-import { setOriginalArticle } from '../../modules/article/editor/articleEditorActions';
+import { setOriginalArticle } from '../../modules/editor/articleEditorActions';
+import { ARTICLE_WRITE_PAGE } from '../../constants/pagePaths';
 
 const ArticleViewerContainer = () => {
 	const [modal, setModal] = useState(false);
@@ -36,7 +33,7 @@ const ArticleViewerContainer = () => {
 
 	const onDelete = async () => {
 		try {
-			dispatch(deleteArticle(article.article_id));
+			dispatch(deleteArticle(article.articleId));
 			navigate(-1);
 		} catch (e) {
 			console.log(e);
@@ -45,7 +42,7 @@ const ArticleViewerContainer = () => {
 
 	const onModify = () => {
 		dispatch(setOriginalArticle(article));
-		navigate('/write');
+		navigate(ARTICLE_WRITE_PAGE);
 	};
 
 	useEffect(() => {
@@ -61,7 +58,7 @@ const ArticleViewerContainer = () => {
 			navigate('/my');
 		}
 	}, [deleted, navigate]);
-	const isAuthor = (user && user.member_id) === (article && article.author_id);
+	const isAuthor = (user && user.memberId) === (article && article.authorId);
 
 	return (
 		<>

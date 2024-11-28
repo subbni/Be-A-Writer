@@ -1,7 +1,7 @@
 import { takeLatest } from 'redux-saga/effects';
 import * as articleAPI from '../../services/api/articleAPI.js';
 import createRequestSaga from '../../services/createRequestSaga.js';
-import { GET_ARTICLES, GET_ARTICLES_BY_DATE } from './calendarTypes.js';
+import { GET_ARTICLES, GET_ARTICLES_BY_DATE } from './calendarActions.js';
 
 export const getArticlesSaga = createRequestSaga(GET_ARTICLES, articleAPI.getMyArticlesByDate);
 export const getArticlesByDateSaga = createRequestSaga(

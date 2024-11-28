@@ -8,6 +8,13 @@ import Book from '../../images/light/Book.svg';
 import Setting from '../../images/Settings.svg';
 import DefaultProfile from '../../images/Profile.svg';
 import { Link } from 'react-router-dom';
+import {
+	ARTICLE_WRITE_PAGE,
+	CALENDAR_PAGE,
+	FULL_ARTICLE_PAGE,
+	MY_ARTICLES_PAGE,
+	PROFILE_PAGE,
+} from '../../constants/pagePaths';
 
 const SideBarBlock = styled.div`
 	position: fixed;
@@ -85,22 +92,22 @@ const Sidebar = ({ isSidebarClosed, onMenuBtnClick, user }) => {
 				<SideMenu>
 					<div className="top">
 						<SideMenuItem>
-							<Link to="/articles">
+							<Link to={FULL_ARTICLE_PAGE}>
 								<img className="btn" src={Home} alt="home" />
 							</Link>
 						</SideMenuItem>
 						<SideMenuItem>
-							<Link to="/calendar">
+							<Link to={CALENDAR_PAGE}>
 								<img className="btn" src={Calendar} alt="calendar" />
 							</Link>
 						</SideMenuItem>
 						<SideMenuItem>
-							<Link to="/write">
+							<Link to={ARTICLE_WRITE_PAGE}>
 								<img className="btn" src={Edit} alt="edit" />
 							</Link>
 						</SideMenuItem>
 						<SideMenuItem>
-							<Link to="/my">
+							<Link to={MY_ARTICLES_PAGE}>
 								<img className="btn" src={Book} alt="my articles" />
 							</Link>
 						</SideMenuItem>
@@ -108,7 +115,7 @@ const Sidebar = ({ isSidebarClosed, onMenuBtnClick, user }) => {
 					<div className="bottom">
 						{user && (
 							<SideMenuItem>
-								<Link to={`/${user.member_id}`}>
+								<Link to={PROFILE_PAGE + `${user.memberId}`}>
 									<img
 										className="btn profile"
 										src={user.profileImageUrl || DefaultProfile}

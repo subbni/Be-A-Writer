@@ -48,7 +48,6 @@ class CommentService {
 		return { data: result };
 	}
 
-	// TODO : 트랜잭션 도입 필요
 	static async deleteComment(commentId) {
 		return await transaction(async (client) => {
 			const comment = await CommentRepository.findByCommentId(
@@ -90,7 +89,7 @@ class CommentService {
 		if (!comment) {
 			throw new CustomError(CommentErrorMessage.COMMENT_NOT_FOUND);
 		}
-		const authorId = comment.member_id;
+		const authorId = comment.memberId;
 		return memberId.toString() === authorId.toString();
 	}
 }

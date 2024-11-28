@@ -14,7 +14,7 @@ class OAuthService {
 			if (member.auth_provider === userInfo.authProvider) {
 				// 2-1. 동일하다면 로그인 처리
 				return {
-					member_id: member.member_id,
+					member_id: member.memberId,
 					email: member.email,
 					nickname: member.nickname,
 				};
@@ -51,7 +51,7 @@ class OAuthService {
 			authProvider,
 		});
 		return {
-			member_id: member.member_id,
+			member_id: member.memberId,
 			email: member.email,
 			nickname: member.nickname,
 		};

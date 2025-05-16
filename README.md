@@ -10,6 +10,7 @@
 ### 회원가입 및 로그인
 - 기본 회원가입 및 로그인 지원
 - 소셜 로그인(Google 등)
+- [소셜 로그인 구현 포스팅 보러가기](https://subbni.tistory.com/61)
 <img width="1000" alt="Screenshot 2025-05-17 at 00 00 57" src="https://github.com/user-attachments/assets/af19193b-48f4-45ff-9854-dc1b46d20b62" />
 <img width="1000" alt="Screenshot 2025-05-17 at 00 17 03" src="https://github.com/user-attachments/assets/5c327930-e58a-4d45-84b5-c23053994f4d" />
 
